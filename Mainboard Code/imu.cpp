@@ -1,5 +1,5 @@
 /*
-Program: Screen Module
+Program: IMU Module
 
 Description:
 

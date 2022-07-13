@@ -10,6 +10,3 @@ Date Created:
 Authors: 
 */
 
-int test () {
-    printf("hello")
-}

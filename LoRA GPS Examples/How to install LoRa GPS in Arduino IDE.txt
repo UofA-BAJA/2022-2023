@@ -1,0 +1,11 @@
+How To Install LoRa GPS Board in Arduino IDE:
+
+
+Paste the following link into the ‘Additional Board Manager URLs’ box in preferences and then restart the IDE.
+
+https://github.com/HelTecAutomation/CubeCell-Arduino/releases/download/V1.4.0/package_CubeCell_index.json
+
+
+
+FULL DOCUMENTATION:
+https://heltec-automation-docs.readthedocs.io/en/latest/cubecell/index.html

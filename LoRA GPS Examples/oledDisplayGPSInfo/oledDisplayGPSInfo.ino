@@ -89,26 +89,26 @@ void loop()
     display.drawString(120, 0, "V");
   }
 
-  display.drawString(0, 16, "UofA BAJA Racing");
+  display.drawString(0, 12, "UofA BAJA Racing");
   
-  index = sprintf(str,"alt: %d.%d m",(int)GPS.altitude.meters(),fracPart(GPS.altitude.meters(),2));
+  index = sprintf(str,"alt: %d.%dm",(int)GPS.altitude.meters(),fracPart(GPS.altitude.meters(),2));
   str[index] = 0;
-  display.drawString(0, 32, str);
+  display.drawString(0, 24, str);
    
   index = sprintf(str,"sats: %d.%d",(int)GPS.satellites.value(), fracPart(GPS.location.lat(),0));
   str[index] = 0;
-  display.drawString(0, 48, str); 
+  display.drawString(0, 36, str); 
  
   index = sprintf(str,"lat :  %d.%d",(int)GPS.location.lat(),fracPart(GPS.location.lat(),4));
   str[index] = 0;
-  display.drawString(60, 32, str);   
+  display.drawString(60, 24, str);   
   
   index = sprintf(str,"lon:%d.%d",(int)GPS.location.lng(),fracPart(GPS.location.lng(),4));
   str[index] = 0;
-  display.drawString(60, 48, str);
+  display.drawString(60, 36, str);
 
   index = sprintf(str,"speed: %d.%d mph",(int)GPS.speed.mph(),fracPart(GPS.speed.mph(),3));
   str[index] = 0;
-  display.drawString(0, 64, str);
+  display.drawString(0, 48, str);
   display.display();
 }

@@ -41,11 +41,6 @@ void setup() {
   Serial.begin(115200);
   GPS.begin();
   
-  //display.setTextAlignment(TEXT_ALIGN_CENTER);
-  //display.setFont(ArialMT_Plain_16);
-  //display.drawString(64, 32-16/2, "GPS initing...");
-  //display.display();
-  
   int progress = 20;
   while (progress <= 100) {
     display.drawProgressBar(10, 32, 100, 10, progress);

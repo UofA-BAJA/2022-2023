@@ -1,14 +1,10 @@
 //the GPS module used is GPS.
 #include "Arduino.h"
-#include "GPS_Air530.h"
 #include "GPS_Air530Z.h"
 #include <Wire.h>  
 #include "HT_SSD1306Wire.h"
 
 SSD1306Wire  display(0x3c, 500000, SDA, SCL, GEOMETRY_128_64, GPIO10); // addr , freq , SDA, SCL, resolution , rst
-
-//if GPS module is Air530, use this
-//Air530Class GPS;
 
 //if GPS module is Air530Z, use this
 Air530ZClass GPS;
@@ -38,13 +34,27 @@ void setup() {
   display.clear();
   display.display();
   
-  display.setTextAlignment(TEXT_ALIGN_CENTER);
-  display.setFont(ArialMT_Plain_16);
-  display.drawString(64, 32-16/2, "GPS initing...");
+  display.drawString(0, 0, "Initializing");
+  display.drawProgressBar(10, 32, 100, 10, 10);
   display.display();
-  
+
   Serial.begin(115200);
   GPS.begin();
+  
+  //display.setTextAlignment(TEXT_ALIGN_CENTER);
+  //display.setFont(ArialMT_Plain_16);
+  //display.drawString(64, 32-16/2, "GPS initing...");
+  //display.display();
+  
+  int progress = 20;
+  while (progress <= 100) {
+    display.drawProgressBar(10, 32, 100, 10, progress);
+    display.display();
+    progress += 5;
+    delay(10);
+  }
+  
+  delay(100);
 }
 
 void loop()
@@ -78,25 +88,27 @@ void loop()
   {
     display.drawString(120, 0, "V");
   }
+
+  display.drawString(0, 16, "UofA BAJA Racing");
   
-  index = sprintf(str,"alt: %d.%d",(int)GPS.altitude.meters(),fracPart(GPS.altitude.meters(),2));
+  index = sprintf(str,"alt: %d.%d m",(int)GPS.altitude.meters(),fracPart(GPS.altitude.meters(),2));
   str[index] = 0;
-  display.drawString(0, 16, str);
+  display.drawString(0, 32, str);
    
-  index = sprintf(str,"hdop: %d.%d",(int)GPS.hdop.hdop(),fracPart(GPS.hdop.hdop(),2));
+  index = sprintf(str,"sats: %d.%d",(int)GPS.satellites.value(), fracPart(GPS.location.lat(),0));
   str[index] = 0;
-  display.drawString(0, 32, str); 
+  display.drawString(0, 48, str); 
  
   index = sprintf(str,"lat :  %d.%d",(int)GPS.location.lat(),fracPart(GPS.location.lat(),4));
   str[index] = 0;
-  display.drawString(60, 16, str);   
+  display.drawString(60, 32, str);   
   
   index = sprintf(str,"lon:%d.%d",(int)GPS.location.lng(),fracPart(GPS.location.lng(),4));
   str[index] = 0;
-  display.drawString(60, 32, str);
+  display.drawString(60, 48, str);
 
-  index = sprintf(str,"speed: %d.%d km/h",(int)GPS.speed.kmph(),fracPart(GPS.speed.kmph(),3));
+  index = sprintf(str,"speed: %d.%d mph",(int)GPS.speed.mph(),fracPart(GPS.speed.mph(),3));
   str[index] = 0;
-  display.drawString(0, 48, str);
+  display.drawString(0, 64, str);
   display.display();
 }

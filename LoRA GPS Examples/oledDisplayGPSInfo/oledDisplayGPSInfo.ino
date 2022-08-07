@@ -1,46 +1,52 @@
-//the GPS module used is GPS.
+// Importing Arduino Library
 #include "Arduino.h"
-#include "GPS_Air530Z.h"
+// Importing I2C Library
 #include <Wire.h>  
+// Importing GPS Library required for board
+#include "GPS_Air530Z.h"
+// Importing OLED Screen 128x64 Library
 #include "HT_SSD1306Wire.h"
 
+// Defining OLED Screen address, frequency, SDA, SCL, resolution and reset pin
 SSD1306Wire  display(0x3c, 500000, SDA, SCL, GEOMETRY_128_64, GPIO10); // addr , freq , SDA, SCL, resolution , rst
 
-//if GPS module is Air530Z, use this
+// Defining GPS
 Air530ZClass GPS;
 
-int fracPart(double val, int n)
-{
-  return (int)((val - (int)(val))*pow(10,n));
-}
-
-void VextON(void)
-{
-  pinMode(Vext,OUTPUT);
-  digitalWrite(Vext, LOW);
-}
-
-void VextOFF(void) //Vext default OFF
-{
-  pinMode(Vext,OUTPUT);
-  digitalWrite(Vext, HIGH);
-}
 
 void setup() {
+  /*
+  This function is run when the processor initializes and only runs once.
+  Use this function to initialize all of the sensors and communication methods.
+  Args:
+    None
+  Return Value:
+    None
+  */
+
+  // Run VextON Function; set Vext as output and set LOW
   VextON();
   delay(10);
   
+  // Begin OLED Screen Communication
   display.init();
-  display.clear();
-  display.display();
-  
+  display.clear(); 
+  display.display();  
   display.drawString(0, 0, "Initializing");
   display.drawProgressBar(10, 32, 100, 10, 10);
   display.display();
 
+  // Begin Serial Communication; 115200 BAUD Rate
   Serial.begin(115200);
+
+  // Begin GPS Communication
   GPS.begin();
-  
+
+  // Begin I2C Comunication; assign address 2
+  Wire.begin(2);
+  //Wire.onRequest(send_to_master);
+
+  // Progress Bar Animation
   int progress = 20;
   while (progress <= 100) {
     display.drawProgressBar(10, 32, 100, 10, progress);
@@ -52,11 +58,18 @@ void setup() {
   delay(100);
 }
 
-void loop()
-{
+
+void loop() {
+  /*
+  This function runs after the setup() function adn runs continuously.
+  Use this function to collect sensor data and send data over LoRa / I2C.
+  Args:
+    None
+  Return Value:
+    None
+  */
   uint32_t starttime = millis();
-  while( (millis()-starttime) < 1000 )
-  {
+  while ((millis()-starttime) < 1000) {
     while (GPS.available() > 0)
     {
       GPS.encode(GPS.read());
@@ -75,12 +88,9 @@ void loop()
   str[index] = 0;
   display.drawString(60, 0, str);
 
-  if( GPS.location.age() < 1000 )
-  {
+  if (GPS.location.age() < 1000) {
     display.drawString(120, 0, "A");
-  }
-  else
-  {
+  } else {
     display.drawString(120, 0, "V");
   }
 
@@ -106,4 +116,28 @@ void loop()
   str[index] = 0;
   display.drawString(0, 48, str);
   display.display();
+}
+
+
+void send_to_master() {
+  display.clear();
+  display.display();
+  display.drawString(0, 12, "Sending Data...");
+}
+
+
+int fracPart(double val, int n) {
+  return (int)((val - (int)(val))*pow(10,n));
+}
+
+
+void VextON(void) {
+  pinMode(Vext, OUTPUT);
+  digitalWrite(Vext, LOW);
+}
+
+//Vext default OFF
+void VextOFF(void) {
+  pinMode(Vext, OUTPUT);
+  digitalWrite(Vext, HIGH);
 }

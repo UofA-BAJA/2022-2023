@@ -7,6 +7,8 @@
 // Importing OLED Screen 128x64 Library
 #include "HT_SSD1306Wire.h"
 
+#define MASTER_ADDRESS 0x04
+
 // Defining OLED Screen address, frequency, SDA, SCL, resolution and reset pin
 SSD1306Wire  display(0x3c, 500000, SDA, SCL, GEOMETRY_128_64, GPIO10); // addr , freq , SDA, SCL, resolution , rst
 
@@ -24,7 +26,7 @@ void setup() {
     None
   */
 
-  // Run VextON Function; set Vext as output and set LOW
+  // Run VextON Function; enables Vext as output and set LOW
   VextON();
   delay(10);
   
@@ -43,8 +45,9 @@ void setup() {
   GPS.begin();
 
   // Begin I2C Comunication; assign address 2
-  Wire.begin(2);
-  //Wire.onRequest(send_to_master);
+  Wire.begin(MASTER_ADDRESS);
+  Wire.onReceive(receiveEvent);
+  //Wire.onRequest(requestEvent);
 
   // Progress Bar Animation
   int progress = 20;
@@ -68,6 +71,8 @@ void loop() {
   Return Value:
     None
   */
+
+  // Loop which take GPS readings every second
   uint32_t starttime = millis();
   while ((millis()-starttime) < 1000) {
     while (GPS.available() > 0)
@@ -76,6 +81,7 @@ void loop() {
     }
   }
   
+  // Display GPS Data on OLED Screen
   char str[30];
   display.clear();
   display.setFont(ArialMT_Plain_10);
@@ -119,25 +125,61 @@ void loop() {
 }
 
 
-void send_to_master() {
-  display.clear();
-  display.display();
-  display.drawString(0, 12, "Sending Data...");
+void receiveEvent(int bytes) {
+  Wire.read();
+}
+
+
+void requestEvent() {
+  /*
+  This function takes compiled GPS data and sends it over I2C.
+  When requested from the Master board, this function will execute.
+  Args:
+    data = structure representing compiles sensor data
+  Return Value:
+    None
+  */
+  Wire.write("TEST");
 }
 
 
 int fracPart(double val, int n) {
+  /*
+  This function...
+  Args:
+    val = 
+    n = 
+  Return Value:
+    value = integer representing...
+  */
   return (int)((val - (int)(val))*pow(10,n));
 }
 
 
 void VextON(void) {
+  /*
+  This function enables Vext as output and sets LOW
+  Use to turn Vext LOW
+  Args:
+    None
+  Return Value:
+    None
+  */
   pinMode(Vext, OUTPUT);
   digitalWrite(Vext, LOW);
 }
 
+
 //Vext default OFF
 void VextOFF(void) {
+  /*
+  This function enables Vext as output and sets HIGH
+  Use to turn Vext HIGH
+  Args:
+    None
+  Return Value:
+    None
+  */
   pinMode(Vext, OUTPUT);
   digitalWrite(Vext, HIGH);
 }

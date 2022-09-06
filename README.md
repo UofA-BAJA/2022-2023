@@ -7,6 +7,8 @@ Michael Byerly (Electrical Lead),
 Alex Rolo,
 Oliver Sjostrom,
 Alyssa Pomerleau,
+Alyssa Woods,
+Henry Overbeck,
 ...
 
 **Languages include:**

@@ -6,7 +6,7 @@ Quynn Bell (Webmaster),
 Michael Byerly (Electrical Lead),
 Alex Rolo,
 Oliver Sjostrom,
-Ahmad Eladawy,
+Alyssa Pomerleau,
 ...
 
 **Languages include:**

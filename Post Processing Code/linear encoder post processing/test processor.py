@@ -42,5 +42,5 @@ for i in range(1,5):
 ax1.legend()
 ax1.set_xlabel('Time (s)')  # Add an x-label to the axes.
 ax1.set_ylabel('Analog Value From Arduino')  # Add a y-label to the axes.
-ax1.set_title("Time vs Analog Value")
+fig.suptitle("Time vs Analog Value")
 plt.show()

@@ -49,6 +49,9 @@ class Widget(QtWidgets.QWidget):
             text = self.serial.readLine().data().decode()
             text = text.rstrip('\r\n')
 
+            self.serial_handler.input_data(text)
+            self.serial_handler.process()
+
             self.output_te.append(text)
 
             self.graph.plot(self.serial_handler.x,self.serial_handler.y)

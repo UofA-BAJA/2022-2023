@@ -8,3 +8,10 @@ class SerialHandler():
 
         self.x = [1,2,3,4]
         self.y = [1,2,3,4]
+
+    def input_data(self, input: str) -> None:
+
+        data = input.split(",")
+
+    def process(self) -> None:
+        pass

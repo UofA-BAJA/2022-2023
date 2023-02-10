@@ -4,6 +4,7 @@ import sys  # We need sys so that we can pass argv to QApplication
 import os
 from PyQt5 import QtCore, QtWidgets, QtSerialPort
 
+
 class MainWindow(QtWidgets.QMainWindow):
 
     def __init__(self, *args, **kwargs):

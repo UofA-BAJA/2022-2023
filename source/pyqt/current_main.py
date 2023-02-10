@@ -2,10 +2,21 @@ from PyQt5 import QtCore, QtWidgets, QtSerialPort
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 
+from serial_handler import SerialHandler
+
+serial_handler = SerialHandler()
+serial_handler.testing()
+
+
 class Widget(QtWidgets.QWidget):
     def __init__(self, parent=None):
+
         super(Widget, self).__init__(parent)
+
+        self.graph = pg.PlotWidget()
+
         self.message_le = QtWidgets.QLineEdit()
+
         self.send_btn = QtWidgets.QPushButton(
             text="Send",
             clicked=self.send
@@ -20,12 +31,12 @@ class Widget(QtWidgets.QWidget):
         hlay = QtWidgets.QHBoxLayout()
         hlay.addWidget(self.message_le)
         hlay.addWidget(self.send_btn)
+        hlay.addWidget(self.graph)
         lay.addLayout(hlay)
         lay.addWidget(self.output_te)
         lay.addWidget(self.button)
 
         
-
         self.serial = QtSerialPort.QSerialPort(
             'COM13',
             baudRate=QtSerialPort.QSerialPort.BaudRate.Baud115200,
@@ -37,7 +48,10 @@ class Widget(QtWidgets.QWidget):
         while self.serial.canReadLine():
             text = self.serial.readLine().data().decode()
             text = text.rstrip('\r\n')
+
             self.output_te.append(text)
+
+            self.graph.plot(serial_handler.x,serial_handler.y)
 
     @QtCore.pyqtSlot()
     def send(self):

@@ -5,15 +5,15 @@ import pyqtgraph as pg
 from serial_handler import SerialHandler
 
 
-
 class Widget(QtWidgets.QWidget):
     def __init__(self, parent=None):
 
         super(Widget, self).__init__(parent)
 
         self.graph = pg.PlotWidget()
-        self.serial_handler = SerialHandler()
-        self.serial_handler.testing()
+        self.serial_handler = SerialHandler(num_of_datapoints = 100)
+        self.data_line =  self.graph.plot(self.serial_handler.x, self.serial_handler.y)
+        #self.serial_handler.testing()
 
         self.message_le = QtWidgets.QLineEdit()
 
@@ -53,7 +53,7 @@ class Widget(QtWidgets.QWidget):
 
             self.output_te.append(text)
 
-            self.graph.plot(self.serial_handler.x,self.serial_handler.y)
+            self.data_line.setData(self.serial_handler.x,self.serial_handler.y)
 
     @QtCore.pyqtSlot()
     def send(self):

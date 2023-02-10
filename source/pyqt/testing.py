@@ -21,7 +21,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.serial = QtSerialPort.QSerialPort(
             'COM13',
             baudRate=QtSerialPort.QSerialPort.Baud115200,
-            readyRead=self.receive
+            readyRead=self.receivers
         )
 
 

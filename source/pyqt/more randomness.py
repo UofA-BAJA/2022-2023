@@ -1,4 +1,6 @@
 from PyQt5 import QtCore, QtWidgets, QtSerialPort
+from pyqtgraph import PlotWidget, plot
+import pyqtgraph as pg
 
 class Widget(QtWidgets.QWidget):
     def __init__(self, parent=None):
@@ -21,6 +23,8 @@ class Widget(QtWidgets.QWidget):
         lay.addLayout(hlay)
         lay.addWidget(self.output_te)
         lay.addWidget(self.button)
+
+        
 
         self.serial = QtSerialPort.QSerialPort(
             'COM13',

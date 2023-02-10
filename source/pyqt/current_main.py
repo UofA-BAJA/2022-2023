@@ -50,7 +50,6 @@ class Widget(QtWidgets.QWidget):
             text = text.rstrip('\r\n')
 
             self.serial_handler.input_data(text)
-            self.serial_handler.process()
 
             self.output_te.append(text)
 

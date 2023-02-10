@@ -11,7 +11,7 @@ class SerialHandler():
 
     def input_data(self, input: str) -> None:
 
-        data = input.split(",")
+        self.data = input.split(",")
+        print(self.data)
 
-    def process(self) -> None:
-        pass
+    

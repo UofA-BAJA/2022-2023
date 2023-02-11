@@ -44,11 +44,13 @@ void setup() {
   
   ADCSRA |= bit (ADPS0) | bit (ADPS1) | bit (ADPS2);   // 128
   // initialize serial communications at 9600 bps:
-  Serial.begin(9600);
+  Serial.begin(115200);
+  Serial2.begin(9600);
 }
 
 void loop() {
   // read the analog in value:
+  
   sensorValue1 = analogRead(analogInPin);
   sensorValue2 = analogRead(A5);
   sensorValue3 = analogRead(A6);
@@ -64,10 +66,17 @@ void loop() {
   Serial.print(sensorValue2);
   Serial.print(",");
   Serial.print(sensorValue3);
-Serial.print(",");
+  Serial.print(",");
   Serial.println(sensorValue4);
 
+  Serial2.print(sensorValue1);
+  Serial2.print(",");
+  Serial2.print(sensorValue2);
+  Serial2.print(",");
+  Serial2.print(sensorValue3);
+  Serial2.print(",");
+  Serial2.println(sensorValue4);
   // wait 2 milliseconds before the next loop for the analog-to-digital
   // converter to settle after the last reading:
-  delay(2);
+  delay(50);
 }

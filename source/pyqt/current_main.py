@@ -38,7 +38,7 @@ class Widget(QtWidgets.QWidget):
 
         
         self.serial = QtSerialPort.QSerialPort(
-            'COM13',
+            'COM14',
             baudRate=QtSerialPort.QSerialPort.BaudRate.Baud115200,
             readyRead=self.receive
         )

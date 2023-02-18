@@ -27,7 +27,3 @@ class SerialHandler():
         list1.pop(0)
         list1.append(newVal)
         return list1
-
-        
-
-    

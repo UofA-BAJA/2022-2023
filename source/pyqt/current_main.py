@@ -7,7 +7,7 @@ from serial_handler import SerialHandler
 
 class Widget(QtWidgets.QWidget):
     def __init__(self, parent=None):
-        #alex is stupid haha
+        #alex is stupid
         super(Widget, self).__init__(parent)
 
         self.graph = pg.PlotWidget()

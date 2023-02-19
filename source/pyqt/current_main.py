@@ -57,7 +57,7 @@ class Widget(QtWidgets.QWidget):
 
         
         self.serial = QtSerialPort.QSerialPort( #connect the arduino
-            'COM5',
+            'COM10',
             baudRate=QtSerialPort.QSerialPort.BaudRate.Baud115200,
             readyRead=self.receive
         )
@@ -73,6 +73,8 @@ class Widget(QtWidgets.QWidget):
             text = self.serial.readLine().data().decode()
             text = text.rstrip('\r\n')
 
+            self.output_te.append(text)
+            
             self.hertz_plot.two_times = self.hertz_plot.ShiftLeft_for_Hertz(self.hertz_plot.two_times, seconds)
             dif = self.hertz_plot.difference(self.hertz_plot.two_times)
             hrtz = self.hertz_plot.inverse(dif)
@@ -86,7 +88,7 @@ class Widget(QtWidgets.QWidget):
             self.serial_handler.y2 = self.serial_handler.ShiftLeft(self.serial_handler.y2, four_new_y_values[2])
             self.serial_handler.y3 = self.serial_handler.ShiftLeft(self.serial_handler.y3, four_new_y_values[3])
 
-            self.output_te.append(text)
+            
 
             self.data_line.setData(self.serial_handler.x,self.serial_handler.y)
             self.data_line_2.setData(self.serial_handler.x,self.serial_handler.y1)

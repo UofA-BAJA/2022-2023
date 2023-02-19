@@ -12,6 +12,7 @@ class SerialHandler():
         self.temp_old_y = [0 for i in range(num_of_datapoints)]
 
     def input_data(self, input: str) -> None:
+        print(input)
         str_data = input.split(",")
         raw_num_data = [float(x) for x in str_data]
         return raw_num_data

@@ -15,3 +15,5 @@ class SerialHandler:
 
     def connect_to_db(name: str = "Testing") -> bool:
         return False
+    
+   

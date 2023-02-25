@@ -37,11 +37,12 @@ class Database_Wrapper():
             except Error as e:
                 print(e)
         
-        database_path = r"C:\sqlite\db\pythonsqlite.db"
+     
+
         working_directory_path = os.path.abspath(os.getcwd())
 
         db_path = working_directory_path + f"\db\{table_name}.db"
-        print(db_path)
+        
 
         sql_create_projects_table = """ CREATE TABLE IF NOT EXISTS projects (
                                             id integer PRIMARY KEY,
@@ -53,7 +54,7 @@ class Database_Wrapper():
 
         '''
         # create a database connection
-        conn = create_connection(database)
+        conn = create_connection(db_path)
 
         # create tables
         if conn is not None:
@@ -64,4 +65,5 @@ class Database_Wrapper():
             create_table(conn, sql_create_tasks_table)
         else:
             print("Error! cannot create the database connection.")
-        '''
+            '''
+        

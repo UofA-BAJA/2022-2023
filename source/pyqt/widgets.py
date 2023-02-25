@@ -171,6 +171,8 @@ class DiagnosticsWidget(QtWidgets.QWidget):
 
         
 
+        
+
 class GraphWidget(pg.PlotWidget):
     all_graph_instances = []
     def __init__(self, parent=None):

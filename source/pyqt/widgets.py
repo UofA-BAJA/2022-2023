@@ -2,9 +2,14 @@ import sys
 from PyQt5 import QtCore, QtWidgets, QtSerialPort
 import pyqtgraph as pg
 
-SCREEN_WIDTH_PIXELS = 800
-SCREEN_HEIGHT_PIXELS = 480
-
+SCREEN_SCALAR = 2
+'''
+SCREEN SCALAR LETS YOU CHOOSE HOW BIG THE WINDOW IS WHILE DEVELOPING
+    width, height
+0 = 800, 480
+1 = 1600, 960
+2 = 2400, 1440
+'''
 # Creating the main window
 class App(QtWidgets.QMainWindow):
     def __init__(self):
@@ -12,15 +17,22 @@ class App(QtWidgets.QMainWindow):
         self.title = 'PyQt5 - QTabWidget'
         self.left = 0
         self.top = 0
-        self.width = SCREEN_WIDTH_PIXELS
-        self.height = SCREEN_HEIGHT_PIXELS
+    
         self.setWindowTitle(self.title)
-        self.setGeometry(self.left, self.top, self.width, self.height)
   
         self.tab_widget = MyTabWidget(self)
         self.setCentralWidget(self.tab_widget)
   
-        self.show()
+    def set_screen_size(self, screen_size):
+        screen_pixels = {
+            0: [800, 480],
+            1: [1600, 960],
+            2: [2400, 1440],
+            }
+        width = screen_pixels[screen_size][0]
+        height = screen_pixels[screen_size][1]
+        self.setGeometry(self.left, self.top, width, height)
+   
   
 # Creating tab widgets
 class MyTabWidget(QtWidgets.QWidget):
@@ -99,7 +111,7 @@ class SuspensionWidget(QtWidgets.QWidget):
         self.l.setText(f"This is the {self.tab_name} tab")
         self.layout.addWidget(self.l)
 
-class GPSWidget(QWidget):
+class GPSWidget(QtWidgets.QWidget):
     def __init__(self, parent):
         super(QtWidgets.QWidget, self).__init__(parent)
 
@@ -127,6 +139,8 @@ class DiagnosticsWidget(QtWidgets.QWidget):
         self.l.setText(f"This is the {self.tab_name} tab")
         self.layout.addWidget(self.l)
 
+        
+
         self.message_le = QtWidgets.QLineEdit()
    
         self.send_btn = QtWidgets.QPushButton(
@@ -141,13 +155,44 @@ class DiagnosticsWidget(QtWidgets.QWidget):
         )
 
         self.serial = QtSerialPort.QSerialPort( #connect the arduino
-            'COM3',
+            'COM6',
             baudRate=QtSerialPort.QSerialPort.BaudRate.Baud115200,
             readyRead=self.receive
         )
 
+        self.layout.addWidget(self.output_te)
+        self.layout.addWidget(self.button)
+        self.layout.addWidget(GraphWidget(self))
+
+    @QtCore.pyqtSlot()
+    def send(self):
+        self.serial.write(self.message_le.text().encode())
+
+    @QtCore.pyqtSlot(bool)
+    def on_toggled(self, checked):
+        self.button.setText("Disconnect" if checked else "Connect")
+        if checked:
+            if not self.serial.isOpen():
+                if not self.serial.open(QtCore.QIODevice.ReadWrite):
+                    self.button.setChecked(False)
+        else:
+            self.serial.close()
+
+    @QtCore.pyqtSlot()
+    def receive(self):
+            
+        text = self.serial.readLine().data().decode()
+        text = text.rstrip('\r\n')
+
+        self.output_te.append(f"newline read: {text}")
+
+class GraphWidget(pg.PlotWidget):
+    def __init__(self, parent=None):
+        super(GraphWidget, self).__init__(parent)
 
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     ex = App()
+    ex.set_screen_size(SCREEN_SCALAR)
+    ex.show()
     sys.exit(app.exec_())

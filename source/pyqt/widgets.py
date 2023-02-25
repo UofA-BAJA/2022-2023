@@ -2,6 +2,8 @@ import sys
 from PyQt5 import QtCore, QtWidgets, QtSerialPort
 import pyqtgraph as pg
 
+
+
 SCREEN_SCALAR = 2
 '''
 SCREEN SCALAR LETS YOU CHOOSE HOW BIG THE WINDOW IS WHILE DEVELOPING
@@ -20,7 +22,7 @@ class App(QtWidgets.QMainWindow):
     
         self.setWindowTitle(self.title)
   
-        self.tab_widget = MyTabWidget(self)
+        self.tab_widget = MyTabWidget()
         self.setCentralWidget(self.tab_widget)
   
     def set_screen_size(self, screen_size):
@@ -36,14 +38,14 @@ class App(QtWidgets.QMainWindow):
   
 # Creating tab widgets
 class MyTabWidget(QtWidgets.QTabWidget):
-    def __init__(self, parent):
-        super(QtWidgets.QWidget, self).__init__(parent)
+    def __init__(self):
+        super(QtWidgets.QWidget, self).__init__()
         
-        self.hometab = HomeWidget(self)
-        self.rpmstab = RPMWidget(self)
-        self.suspensiontab = SuspensionWidget(self)
-        self.gpstab = GPSWidget(self)
-        self.diagnosticstab = DiagnosticsWidget(self)
+        self.hometab = HomeWidget()
+        self.rpmstab = RPMWidget()
+        self.suspensiontab = SuspensionWidget()
+        self.gpstab = GPSWidget()
+        self.diagnosticstab = DiagnosticsWidget()
 
         all_tabs = [self.hometab, self.rpmstab, self.suspensiontab, self.gpstab, self.diagnosticstab]
 
@@ -52,8 +54,8 @@ class MyTabWidget(QtWidgets.QTabWidget):
   
      
 class HomeWidget(QtWidgets.QWidget):
-    def __init__(self, parent):
-        super(QtWidgets.QWidget, self).__init__(parent)
+    def __init__(self):
+        super(QtWidgets.QWidget, self).__init__()
 
         self.layout = QtWidgets.QVBoxLayout(self)
         self.setLayout(self.layout)
@@ -67,8 +69,8 @@ class HomeWidget(QtWidgets.QWidget):
         
 
 class RPMWidget(QtWidgets.QWidget):
-    def __init__(self, parent):
-        super(QtWidgets.QWidget, self).__init__(parent)
+    def __init__(self):
+        super(QtWidgets.QWidget, self).__init__()
 
         self.layout = QtWidgets.QVBoxLayout(self)
         self.setLayout(self.layout)
@@ -80,8 +82,8 @@ class RPMWidget(QtWidgets.QWidget):
         self.layout.addWidget(self.l)
 
 class SuspensionWidget(QtWidgets.QWidget):
-    def __init__(self, parent):
-        super(QtWidgets.QWidget, self).__init__(parent)
+    def __init__(self):
+        super(QtWidgets.QWidget, self).__init__()
 
         self.layout = QtWidgets.QVBoxLayout(self)
         self.setLayout(self.layout)
@@ -93,8 +95,8 @@ class SuspensionWidget(QtWidgets.QWidget):
         self.layout.addWidget(self.l)
 
 class GPSWidget(QtWidgets.QWidget):
-    def __init__(self, parent):
-        super(QtWidgets.QWidget, self).__init__(parent)
+    def __init__(self):
+        super(QtWidgets.QWidget, self).__init__()
 
         self.layout = QtWidgets.QVBoxLayout(self)
         self.setLayout(self.layout)
@@ -108,8 +110,8 @@ class GPSWidget(QtWidgets.QWidget):
         self.suspension_graph = pg.PlotWidget()
 
 class DiagnosticsWidget(QtWidgets.QWidget):
-    def __init__(self, parent):
-        super(QtWidgets.QWidget, self).__init__(parent)
+    def __init__(self):
+        super(QtWidgets.QWidget, self).__init__()
 
         self.layout = QtWidgets.QVBoxLayout(self)
         self.setLayout(self.layout)
@@ -120,7 +122,7 @@ class DiagnosticsWidget(QtWidgets.QWidget):
         self.l.setText(f"This is the {self.tab_name} tab")
         self.layout.addWidget(self.l)
 
-        
+        self.hertz_graph = GraphWidget(self)
 
         self.message_le = QtWidgets.QLineEdit()
    
@@ -143,7 +145,7 @@ class DiagnosticsWidget(QtWidgets.QWidget):
 
         self.layout.addWidget(self.output_te)
         self.layout.addWidget(self.button)
-        self.layout.addWidget(GraphWidget(self))
+        self.layout.addWidget(self.hertz_graph)
 
     @QtCore.pyqtSlot()
     def send(self):
@@ -177,12 +179,10 @@ class GraphWidget(pg.PlotWidget):
         self.updated = False
 
 
-
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     ex = App()
     ex.set_screen_size(SCREEN_SCALAR)
-    print(GraphWidget.all_graph_instances)
     ex.show()
     
     sys.exit(app.exec_())

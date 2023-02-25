@@ -35,16 +35,10 @@ class App(QtWidgets.QMainWindow):
    
   
 # Creating tab widgets
-class MyTabWidget(QtWidgets.QWidget):
+class MyTabWidget(QtWidgets.QTabWidget):
     def __init__(self, parent):
         super(QtWidgets.QWidget, self).__init__(parent)
-        self.layout = QtWidgets.QVBoxLayout(self)
-  
-        # Initialize tab screen
-        self.tabs = QtWidgets.QTabWidget()
-        self.tab1 = QtWidgets.QWidget()
-        self.tab2 = QtWidgets.QWidget()
-        self.tab3 = QtWidgets.QWidget()
+        
         self.hometab = HomeWidget(self)
         self.rpmstab = RPMWidget(self)
         self.suspensiontab = SuspensionWidget(self)
@@ -52,24 +46,11 @@ class MyTabWidget(QtWidgets.QWidget):
         self.diagnosticstab = DiagnosticsWidget(self)
 
         all_tabs = [self.hometab, self.rpmstab, self.suspensiontab, self.gpstab, self.diagnosticstab]
-        #self.tabs.resize(300, 200)
-  
-      
 
         for tab in all_tabs:
-            self.tabs.addTab(tab, tab.tab_name)
+            self.addTab(tab, tab.tab_name)
   
-        # Create first tab
-        self.tab1.layout = QtWidgets.QVBoxLayout(self)
-        self.l = QtWidgets.QLabel()
-        self.l.setText("This is the first tab")
-        self.tab1.layout.addWidget(self.l)
-        self.tab1.setLayout(self.tab1.layout)
-  
-        # Add tabs to widget
-        self.layout.addWidget(self.tabs)
-        self.setLayout(self.layout)
-
+     
 class HomeWidget(QtWidgets.QWidget):
     def __init__(self, parent):
         super(QtWidgets.QWidget, self).__init__(parent)
@@ -187,12 +168,21 @@ class DiagnosticsWidget(QtWidgets.QWidget):
         self.output_te.append(f"newline read: {text}")
 
 class GraphWidget(pg.PlotWidget):
+    all_graph_instances = []
     def __init__(self, parent=None):
         super(GraphWidget, self).__init__(parent)
+
+        self.__class__.all_graph_instances.append(self)
+
+        self.updated = False
+
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     ex = App()
     ex.set_screen_size(SCREEN_SCALAR)
+    print(GraphWidget.all_graph_instances)
     ex.show()
+    
     sys.exit(app.exec_())

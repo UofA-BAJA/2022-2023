@@ -169,6 +169,8 @@ class DiagnosticsWidget(QtWidgets.QWidget):
 
         self.output_te.append(f"newline read: {text}")
 
+        
+
 class GraphWidget(pg.PlotWidget):
     all_graph_instances = []
     def __init__(self, parent=None):

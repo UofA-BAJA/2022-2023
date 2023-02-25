@@ -78,8 +78,6 @@ class Widget(QtWidgets.QWidget):
         text = self.serial.readLine().data().decode()
         text = text.rstrip('\r\n')
 
-        process(text)
-
         self.output_te.append(f"newline read: {text}")
         
         # self.hertz_plot.two_times = self.hertz_plot.ShiftLeft_for_Hertz(self.hertz_plot.two_times, start)

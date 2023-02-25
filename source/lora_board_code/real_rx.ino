@@ -11,8 +11,6 @@
 #include "LoRaWan_APP.h"
 #include "Arduino.h"
 
-
-// Set up a new SoftwareSerial object
 /*
  * set LoraWan_RGB to 1,the RGB active in loraWan
  * RGB red means sending;
@@ -41,7 +39,7 @@
 #define LORA_IQ_INVERSION_ON                        false
 
 
-#define RX_TIMEOUT_VALUE                            10
+#define RX_TIMEOUT_VALUE                            1000
 #define BUFFER_SIZE                                 100 // Define the payload size here
 
 char txpacket[BUFFER_SIZE];
@@ -55,14 +53,8 @@ int16_t rssi,rxSize;
 
 bool lora_idle = true;
 
-#define TIMEOUT 10//time in ms
-
-uint8_t serialBuffer[256];
-int size;
-
 void setup() {
     Serial.begin(115200);
-    Serial1.begin(9600);
 
     txNumber=0;
     rssi=0;
@@ -76,31 +68,19 @@ void setup() {
                                    LORA_SYMBOL_TIMEOUT, LORA_FIX_LENGTH_PAYLOAD_ON,
                                    0, true, 0, 0, LORA_IQ_INVERSION_ON, true );
 
-
-
    }
 
 
 
 void loop()
 {
-  size = Serial1.read(serialBuffer,TIMEOUT);
-  if(size)
-  {
-    Serial1.printf("rev data size %d : ",size);
-    Serial1.write(serialBuffer,size);
-  }
-
-    /*
   if(lora_idle)
   {
-    
-    turnOffRGB();
+  	turnOffRGB();
     lora_idle = false;
-    Serial.println("into RX mode");
+    //Serial.println("into RX mode");
     Radio.Rx(0);
   }
-  */
 }
 
 void OnRxDone( uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr )

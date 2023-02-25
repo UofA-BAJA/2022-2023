@@ -2,11 +2,12 @@ from PyQt5 import QtCore, QtWidgets, QtSerialPort
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 from datetime import datetime as dt
-
+from timeit import default_timer
+import time
 from serial_handler import SerialHandler
 from hertz_rate import Hertz
 
-
+oldtime = 0
 class Widget(QtWidgets.QWidget):
     def __init__(self, parent=None):
         #alex is stupid
@@ -29,6 +30,8 @@ class Widget(QtWidgets.QWidget):
         self.grpah_hz_Monitor.setTitle("Hertz Stream Monitor")
         self.hertz_plot = Hertz(num_of_datapoints = 100)
         self.hertz_data = self.grpah_hz_Monitor.plot(self.hertz_plot.x, self.hertz_plot.y, pen = pen)
+
+        self.ot = 0
 
 
         self.message_le = QtWidgets.QLineEdit()
@@ -57,43 +60,49 @@ class Widget(QtWidgets.QWidget):
 
         
         self.serial = QtSerialPort.QSerialPort( #connect the arduino
-            'COM10',
+            'COM3',
             baudRate=QtSerialPort.QSerialPort.BaudRate.Baud115200,
             readyRead=self.receive
         )
 
     @QtCore.pyqtSlot()
     def receive(self):
-        while self.serial.canReadLine():
-            now = dt.now()
-            current_time_min = int(now.strftime("%M"))
-            current_time_sec = int(now.strftime("%S")) + (current_time_min * 60)
-            current_time_mil = int(now.strftime("%f")) + (current_time_sec * 10**6)
-            seconds = current_time_mil * (10**-6)
-            text = self.serial.readLine().data().decode()
-            text = text.rstrip('\r\n')
-
-            self.output_te.append(text)
+        global oldtime
+        #while self.serial.canReadLine():
+        now = dt.now()
+        current_time_min = int(now.strftime("%M"))
+        current_time_sec = int(now.strftime("%S")) + (current_time_min * 60)
+        current_time_mil = int(now.strftime("%f")) + (current_time_sec * 10**6)
+        seconds = current_time_mil * (10**-6)
             
-            self.hertz_plot.two_times = self.hertz_plot.ShiftLeft_for_Hertz(self.hertz_plot.two_times, seconds)
-            dif = self.hertz_plot.difference(self.hertz_plot.two_times)
-            hrtz = self.hertz_plot.inverse(dif)
+        text = self.serial.readLine().data().decode()
+        text = text.rstrip('\r\n')
 
-            self.hertz_plot.y = self.hertz_plot.ShiftLeft_for_Hertz(self.hertz_plot.y, hrtz)
-            self.hertz_data.setData(self.hertz_plot.x, self.hertz_plot.y)
+        process(text)
+
+        self.output_te.append(f"newline read: {text}")
+        
+        # self.hertz_plot.two_times = self.hertz_plot.ShiftLeft_for_Hertz(self.hertz_plot.two_times, start)
+        dif = seconds - self.ot
+        self.ot = seconds
+        print(f"new = {seconds}, old = {self.ot}, diff = {dif}") #self.hertz_plot.difference(self.hertz_plot.two_times)
+        hrtz = self.hertz_plot.inverse(dif)
+
+        self.hertz_plot.y = self.hertz_plot.ShiftLeft_for_Hertz(self.hertz_plot.y, hrtz)
+        self.hertz_data.setData(self.hertz_plot.x, self.hertz_plot.y)
+        
+        four_new_y_values = self.serial_handler.input_data(text)
+        self.serial_handler.y = self.serial_handler.ShiftLeft(self.serial_handler.y, four_new_y_values[0])
+        self.serial_handler.y1 = self.serial_handler.ShiftLeft(self.serial_handler.y1, four_new_y_values[1])
+        self.serial_handler.y2 = self.serial_handler.ShiftLeft(self.serial_handler.y2, four_new_y_values[2])
+        self.serial_handler.y3 = self.serial_handler.ShiftLeft(self.serial_handler.y3, four_new_y_values[3])
+
+        self.data_line.setData(self.serial_handler.x,self.serial_handler.y)
+        self.data_line_2.setData(self.serial_handler.x,self.serial_handler.y1)
+        self.data_line_3.setData(self.serial_handler.x,self.serial_handler.y2)
+        self.data_line_4.setData(self.serial_handler.x,self.serial_handler.y3)
+
             
-            four_new_y_values = self.serial_handler.input_data(text)
-            self.serial_handler.y = self.serial_handler.ShiftLeft(self.serial_handler.y, four_new_y_values[0])
-            self.serial_handler.y1 = self.serial_handler.ShiftLeft(self.serial_handler.y1, four_new_y_values[1])
-            self.serial_handler.y2 = self.serial_handler.ShiftLeft(self.serial_handler.y2, four_new_y_values[2])
-            self.serial_handler.y3 = self.serial_handler.ShiftLeft(self.serial_handler.y3, four_new_y_values[3])
-
-            
-
-            self.data_line.setData(self.serial_handler.x,self.serial_handler.y)
-            self.data_line_2.setData(self.serial_handler.x,self.serial_handler.y1)
-            self.data_line_3.setData(self.serial_handler.x,self.serial_handler.y2)
-            self.data_line_4.setData(self.serial_handler.x,self.serial_handler.y3)
 
     @QtCore.pyqtSlot()
     def send(self):

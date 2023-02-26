@@ -28,7 +28,11 @@ def main():
 
     c.set_screen_size(SCREEN_SCALAR)
 
+    c.set_serial_port_obj(s.serial_port)
+
     c.showUI()
+
+    s.
 
     c.findgraphs()
 

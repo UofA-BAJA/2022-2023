@@ -3,6 +3,7 @@ from PyQt5 import QtCore, QtWidgets, QtSerialPort
 
 from widgets.mainwidgets import App
 from DataPackager import DataPackager
+from SerialHandler import SerialHandler
 
 class UIController():
     def __init__(self) -> None:
@@ -19,8 +20,9 @@ class UIController():
         height = screen_pixels[option][1]
         self.ex.setGeometry(0, 0, width, height)
 
-    def set_serial_port_obj(self, port: QtSerialPort.QSerialPort) -> None:
-        pass
+    def set_serial_port_obj(self, port: SerialHandler) -> None:
+        self.serialhandler_obj = port
+        self.ex.tab_widget.diagnosticstab.serial = port.serial_port
 
     def showUI(self) -> None:
         self.ex.show()
@@ -34,3 +36,7 @@ class UIController():
 
         #self.ex.tab_widget.diagnosticstab.hertz_graph.
         pass
+
+    @property
+    def newSerialInput(self):
+        self.serialhandler_obj.

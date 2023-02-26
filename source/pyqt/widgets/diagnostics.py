@@ -18,10 +18,7 @@ class DiagnosticsWidget(QtWidgets.QWidget):
 
         self.message_le = QtWidgets.QLineEdit()
    
-        self.send_btn = QtWidgets.QPushButton(
-            text="Send",
-            clicked=self.send
-        )
+       
         self.output_te = QtWidgets.QTextEdit(readOnly=True)
         self.button = QtWidgets.QPushButton(
             text="Connect", 
@@ -29,19 +26,10 @@ class DiagnosticsWidget(QtWidgets.QWidget):
             toggled=self.on_toggled
         )
 
-        self.serial = QtSerialPort.QSerialPort( #connect the arduino
-            'COM6',
-            baudRate=QtSerialPort.QSerialPort.BaudRate.Baud115200,
-            readyRead=self.receive
-        )
+        self.serial = None
 
         self.layout.addWidget(self.output_te)
-        self.layout.addWidget(self.button)
         self.layout.addWidget(self.hertz_graph)
-
-    @QtCore.pyqtSlot()
-    def send(self):
-        self.serial.write(self.message_le.text().encode())
 
     @QtCore.pyqtSlot(bool)
     def on_toggled(self, checked):
@@ -53,10 +41,5 @@ class DiagnosticsWidget(QtWidgets.QWidget):
         else:
             self.serial.close()
 
-    @QtCore.pyqtSlot()
-    def receive(self):
-        
-        text = self.serial.readLine().data().decode()
-        text = text.rstrip('\r\n')
-
-        self.output_te.append(f"newline read: {text}")
+    def update_serial_monitor(self, input_text: str) -> None:
+        self.output_te.append(input_text)

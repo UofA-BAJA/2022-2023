@@ -68,10 +68,11 @@ class Database_Wrapper():
         if conn is not None:
             # create projects table
             self.__create_table(conn, sql_create_data_table)
-
+            
+            self.conn = conn
         else:
             print("Error! cannot create the database connection.")
         
-        
+
             
         

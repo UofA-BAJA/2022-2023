@@ -40,7 +40,7 @@ class Database_Wrapper():
         working_directory_path = os.path.abspath(os.getcwd())
 
         db_path = working_directory_path + f"\source\pyqt\db\{table_name}.db"
-        print(db_path)
+        #print(db_path)
 
         sql_create_data_table = """ CREATE TABLE IF NOT EXISTS projects (
                                             timestamp text NOT NULL,

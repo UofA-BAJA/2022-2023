@@ -1,6 +1,8 @@
-from controller import UIController
+from UIController import UIController
 from database_wrapper_class import Database_Wrapper
 from SerialHandler import SerialHandler
+
+
 SCREEN_SCALAR = 1
 '''
 SCREEN SCALAR LETS YOU CHOOSE HOW BIG THE WINDOW IS WHILE DEVELOPING

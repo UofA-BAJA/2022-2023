@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets, QtCore, QtSerialPort
-from graph import GraphWidget
+from widgets.graph import GraphWidget
 
 class DiagnosticsWidget(QtWidgets.QWidget):
     def __init__(self):

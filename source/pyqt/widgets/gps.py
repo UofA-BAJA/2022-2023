@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets
 
-from graph import GraphWidget
+from widgets.graph import GraphWidget
 
 class GPSWidget(QtWidgets.QWidget):
     def __init__(self):
@@ -14,3 +14,5 @@ class GPSWidget(QtWidgets.QWidget):
         self.l = QtWidgets.QLabel()
         self.l.setText(f"This is the {self.tab_name} tab")
         self.layout.addWidget(self.l)
+
+    

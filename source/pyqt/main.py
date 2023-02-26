@@ -1,6 +1,6 @@
 from controller import UIController
 from database_wrapper_class import Database_Wrapper
-SCREEN_SCALAR = 2
+SCREEN_SCALAR = 1
 '''
 SCREEN SCALAR LETS YOU CHOOSE HOW BIG THE WINDOW IS WHILE DEVELOPING
     width, height
@@ -13,7 +13,7 @@ def main():
     d = Database_Wrapper()
 
     d.create_table_if_not_exists()
-    
+
     c = UIController()
 
     c.set_screen_size(SCREEN_SCALAR)
@@ -24,3 +24,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    

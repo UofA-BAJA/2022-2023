@@ -13,6 +13,7 @@ def main():
     d = Database_Wrapper()
 
     d.create_table_if_not_exists()
+    
     c = UIController()
 
     c.set_screen_size(SCREEN_SCALAR)

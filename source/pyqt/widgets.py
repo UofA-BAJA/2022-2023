@@ -163,13 +163,13 @@ class DiagnosticsWidget(QtWidgets.QWidget):
 
     @QtCore.pyqtSlot()
     def receive(self):
-            
+        
         text = self.serial.readLine().data().decode()
         text = text.rstrip('\r\n')
 
         self.output_te.append(f"newline read: {text}")
 
-        
+
 
         
 

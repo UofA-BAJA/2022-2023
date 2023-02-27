@@ -9,7 +9,7 @@ class SerialHandler:
     def __init__(self, serial_port_address_name) -> None:
         self.address = serial_port_address_name
         
-        self.dv = DataValidator()
+        self.buff = Buffer()
         #self.setupPort(serial_port_address_name)
 
     def setupPort(self) -> None:
@@ -35,12 +35,13 @@ class SerialHandler:
         
         self.c.newSerialInput =  self.raw_input
 
-        self.dv.raw_input = self.raw_input
-        for data in self.dv.datapackets:
+        self.buff.raw_input = self.raw_input
+
+        for data in self.buff.datapackets:
             self.c.newDataPacket = data
 
 
-class DataValidator():
+class Buffer():
 
     def __init__(self) -> None:
         self._raw_input = ""

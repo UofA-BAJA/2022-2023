@@ -47,8 +47,6 @@ class DataValidator():
 
         self._buffer = ""
 
-        self.full_message = ""
-
         self.start_char = "<"
 
         self.end_char = ">"

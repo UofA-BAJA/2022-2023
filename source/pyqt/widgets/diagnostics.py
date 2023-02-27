@@ -9,17 +9,19 @@ class DiagnosticsWidget(QtWidgets.QWidget):
         self.setLayout(self.layout)
 
         self.tab_name = "DIAGNOSTICS"
-        
-        self.l = QtWidgets.QLabel()
-        self.l.setText(f"This is the {self.tab_name} tab")
-        self.layout.addWidget(self.l)
 
         self.hertz_graph = GraphWidget(self)
 
         self.message_le = QtWidgets.QLineEdit()
    
-       
-        self.output_te = QtWidgets.QTextEdit(readOnly=True)
+        self.raw_serial_monitor = QtWidgets.QTextEdit(readOnly=True)
+        raw_serial_monitor_l = QtWidgets.QLabel()
+        raw_serial_monitor_l.setText(f"Serial Monitor")
+
+        self.data_monitor = QtWidgets.QTextEdit(readOnly=True)
+        data_monitor_l = QtWidgets.QLabel()
+        data_monitor_l.setText(f"Data Packet Monitor")
+
         self.button = QtWidgets.QPushButton(
             text="Connect", 
             checkable=True,
@@ -28,7 +30,9 @@ class DiagnosticsWidget(QtWidgets.QWidget):
 
         self.serial = None
 
-        self.layout.addWidget(self.output_te)
+        self.layout.addWidget(self.raw_serial_monitor)
+        self.layout.addWidget(self.data_monitor)
+        self.layout.addWidget(self.button)
         self.layout.addWidget(self.hertz_graph)
 
     @QtCore.pyqtSlot(bool)

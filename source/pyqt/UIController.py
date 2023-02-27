@@ -8,7 +8,10 @@ from SerialHandler import SerialHandler
 class UIController():
     def __init__(self) -> None:
         self.app = QtWidgets.QApplication(sys.argv)
-        self.ex = App() 
+        self.ex = App()
+
+        self._newserialinput = ""
+        self._newDataPacket = ""
 
     def set_screen_size(self, option: int = 0) -> None:
         screen_pixels = {
@@ -19,24 +22,44 @@ class UIController():
         width = screen_pixels[option][0]
         height = screen_pixels[option][1]
         self.ex.setGeometry(0, 0, width, height)
-
-    def set_serial_port_obj(self, port: SerialHandler) -> None:
-        self.serialhandler_obj = port
-        self.ex.tab_widget.diagnosticstab.serial = port.serial_port
+        
 
     def showUI(self) -> None:
         self.ex.show()
         sys.exit(self.app.exec_())
 
-    def updategraphs(self) -> None:
+    def _updategraphs(self) -> None:
         self.ex.tab_widget.diagnosticstab.hertz_graph
 
-    def updatenumbers(self) -> None:
+    def _updatenumbers(self) -> None:
         #DataPackager.get_gps(x)
 
         #self.ex.tab_widget.diagnosticstab.hertz_graph.
         pass
 
+    def setSerial(self, serial: SerialHandler) -> None:
+        serial.setupPort()
+        self.ex.tab_widget.diagnosticstab.serial = serial.serial_port
+
+
     @property
     def newSerialInput(self):
-        self.serialhandler_obj.
+        #print("setting")
+        return self._newserialinput
+    
+    @newSerialInput.setter
+    def newSerialInput(self, newInput):
+      self._newserialinput = newInput
+
+      self.ex.tab_widget.diagnosticstab.raw_serial_monitor.append(self.newSerialInput)
+
+    @property
+    def newDataPacket(self):
+        #print("setting")
+        return self._newDataPacket
+    
+    @newDataPacket.setter
+    def newDataPacket(self, newInput):
+      self._newDataPacket = newInput
+
+      self.ex.tab_widget.diagnosticstab.data_monitor.append(self.newDataPacket)

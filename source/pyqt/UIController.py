@@ -1,5 +1,5 @@
 import sys
-from PyQt5 import QtCore, QtWidgets, QtSerialPort
+from PyQt5 import QtCore, QtWidgets, QtSerialPort, QtGui
 
 from widgets.mainwidgets import App
 from DataPackager import DataPackager
@@ -21,7 +21,24 @@ class UIController():
             }
         width = screen_pixels[option][0]
         height = screen_pixels[option][1]
+
         self.ex.setGeometry(0, 0, width, height)
+
+
+
+        tab_dimensions = f"height: {int(height/6)}px; width: {int(width/len(self.ex.tab_widget.all_tabs))}px;"
+        
+        co = "{"
+        cc = "}"
+        tab_style_sheet = f'''QTabBar::tab {co}{tab_dimensions}{cc} \n QTabWidget::tab-bar {{ alignment: center;}}'''
+
+        fontsize = 4
+        if option == 1 or option == 2:
+            fontsize = 10
+
+        self.ex.tab_widget.setFont(QtGui.QFont('Arial', fontsize))
+        self.ex.tab_widget.setStyleSheet(tab_style_sheet)
+        print(tab_style_sheet)
         
 
     def showUI(self) -> None:

@@ -23,14 +23,12 @@ class App(QtWidgets.QMainWindow):
        
     
         self.setWindowTitle(self.title)
-  
-        self.tab_widget = MyTabWidget()
-        self.setCentralWidget(self.tab_widget)
-  
- 
+
         
-   
+        self.tab_widget = MyTabWidget()
+        self.setCentralWidget(self.tab_widget) 
   
+
 # Creating tab widgets
 class MyTabWidget(QtWidgets.QTabWidget):
     def __init__(self):
@@ -42,10 +40,12 @@ class MyTabWidget(QtWidgets.QTabWidget):
         self.gpstab = GPSWidget()
         self.diagnosticstab = DiagnosticsWidget()
 
-        all_tabs = [self.hometab, self.rpmstab, self.suspensiontab, self.gpstab, self.diagnosticstab]
+        self.all_tabs = [self.hometab, self.rpmstab, self.suspensiontab, self.gpstab, self.diagnosticstab]
 
-        for tab in all_tabs:
+        for tab in self.all_tabs:
             self.addTab(tab, tab.tab_name)
+
+       
 
 
 

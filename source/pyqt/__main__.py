@@ -1,5 +1,4 @@
 
-from UIController import UIController
 from database_wrapper_class import Database_Wrapper
 from serial.port import Port
 from widgets.mainwidgets import setupApp, showapp
@@ -21,23 +20,9 @@ def main():
 
     d.create_table_if_not_exists()
 
-    # s = Port(SERIAL_ADDRESS)
-
-    # c = UIController()
-
-    # c.setSerial(s)
-
-    # s.setUIController(c)
-
-    # c.set_screen_size(SCREEN_SCALAR)
-
-    # c.showUI()
-
-    # c.findgraphs()
     
     ex, app = setupApp()
 
-    #ex.setupSerial(SERIAL_ADDRESS)
 
     showapp(ex, app)
 

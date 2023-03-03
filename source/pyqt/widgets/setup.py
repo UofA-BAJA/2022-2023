@@ -62,5 +62,5 @@ class SetupWidget(GeneralTab):
         self.layout.addLayout(self.config_layout)
 
 
-    def updateData(self, ) -> None:
+    def updateData(self) -> None:
         self.raw_serial_monitor.append("a")

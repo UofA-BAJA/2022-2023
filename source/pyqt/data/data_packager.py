@@ -2,8 +2,6 @@ from data.general_data_class import GeneralData, SuspensionData, GPSData, RPMDat
 
 import re
 
-import time
-
 class DataPackager():
     "GETS A SINGLE LINE FROM BUFFER AND THEN MAKES IT EASY FOR THE PROGRAMMER TO GET IT"
     def __init__(self) -> None:
@@ -17,16 +15,18 @@ class DataPackager():
 
         self.data_classes = [self.suspension, self.gps, self.rpm]
 
-        self.diff = time.time()
+        self.complete_new_packet_flag = False
+
 
     def parse_packets(self, newpacket: list):
         new_packet_size = len(newpacket)
 
         if new_packet_size == 0:
+            self.complete_new_packet_flag = False
             return
-        else: 
-            self.diff = time.time() - self.diff
-            print(self.diff)       
+        else:
+            self.complete_new_packet_flag = True
+    
         #print(f"NEW PACKET: {newpacket}")
 
         for packet in newpacket:

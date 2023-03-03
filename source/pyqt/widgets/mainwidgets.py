@@ -1,6 +1,7 @@
 import sys
 
 from PyQt5 import QtCore, QtWidgets, QtSerialPort
+import time
 
 from widgets.tab import GeneralTab
 from widgets.setup import SetupWidget
@@ -34,6 +35,8 @@ class App(QtWidgets.QMainWindow):
 
         self.tab_widget.setuptab.serial_attempt.connect(self.setupSerial)
 
+        self.timer = time.time()
+
         
     def setupSerial(self):
         #print(self.tab_widget.setuptab.cbox.currentText())
@@ -49,7 +52,7 @@ class App(QtWidgets.QMainWindow):
             for i in range(1,len(self.tab_widget.all_tabs)):
                 self.tab_widget.setTabEnabled(i, True)
             
-            serial.readyRead.connect(self.main_updating_function)
+            serial.readyRead.connect(self.buffering)
         else:
             serial.close()
 
@@ -57,7 +60,7 @@ class App(QtWidgets.QMainWindow):
         # for each_tab in self.tab_widget.all_tabs:
         #     self.tab_widget.setupSerial(each_tab, self.serial_port)
 
-    def main_updating_function(self):
+    def buffering(self):
         
         raw_text = self.serial.readAll().data().decode()
 
@@ -65,14 +68,19 @@ class App(QtWidgets.QMainWindow):
 
         self.buffer.raw_input = raw_text
 
+        for d in self.buffer.datapackets:
+            self.tab_widget.setuptab.data_monitor.append(d)
 
         self.data_package.parse_packets(self.buffer.datapackets)
+        
+        if (self.data_package.complete_new_packet_flag):
+            self.updating()
+            
 
-        for dataclass in self.data_package.data_classes:
-            #print(dataclass.data_list)
-            pass
+    def updating(self):
+        '''this is where you updating everything'''
 
-        print(self.data_package.diff)
+        self.timer = time.time() - self.timer
 
 
 

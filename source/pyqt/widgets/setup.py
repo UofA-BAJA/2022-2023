@@ -16,7 +16,8 @@ class SetupWidget(GeneralTab):
 
         self.tab_name = "SETUP"
 
-        self.hertz_graph = GraphWidget(self)
+        self.hertz_graph = GraphWidget(1)
+        self.hertz_graph.setup()
    
 
         self.setup_serial_configure()

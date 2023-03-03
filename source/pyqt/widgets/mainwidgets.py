@@ -82,6 +82,11 @@ class App(QtWidgets.QMainWindow):
 
         self.timer = time.time() - self.timer
 
+        hz = 1 / self.timer
+
+        self.tab_widget.setuptab.hertz_graph.appendY(hz)
+
+        self.tab_widget.setuptab.hertz_graph.update()
 
 
 

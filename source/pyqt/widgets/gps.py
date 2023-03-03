@@ -1,10 +1,11 @@
 from PyQt5 import QtWidgets
 
 from widgets.graph import GraphWidget
+from widgets.tab import GeneralTab
 
-class GPSWidget(QtWidgets.QWidget):
+class GPSWidget(GeneralTab):
     def __init__(self):
-        super(QtWidgets.QWidget, self).__init__()
+        super().__init__()
 
         self.layout = QtWidgets.QVBoxLayout(self)
         self.setLayout(self.layout)

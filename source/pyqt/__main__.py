@@ -1,8 +1,10 @@
+
 from UIController import UIController
 from database_wrapper_class import Database_Wrapper
 from serial.port import Port
+from widgets.mainwidgets import setupApp, showapp
 
-SCREEN_SCALAR = 2
+SCREEN_SCALAR = 0
 '''
 SCREEN SCALAR LETS YOU CHOOSE HOW BIG THE WINDOW IS WHILE DEVELOPING
     width, height
@@ -19,19 +21,26 @@ def main():
 
     d.create_table_if_not_exists()
 
-    s = Port(SERIAL_ADDRESS)
+    # s = Port(SERIAL_ADDRESS)
 
-    c = UIController()
+    # c = UIController()
 
-    c.setSerial(s)
+    # c.setSerial(s)
 
-    s.setUIController(c)
+    # s.setUIController(c)
 
-    c.set_screen_size(SCREEN_SCALAR)
+    # c.set_screen_size(SCREEN_SCALAR)
 
-    c.showUI()
+    # c.showUI()
 
-    c.findgraphs()
+    # c.findgraphs()
+    
+    ex, app = setupApp()
+
+    #ex.setupSerial(SERIAL_ADDRESS)
+
+    showapp(ex, app)
+
 
 if __name__ == '__main__':
     main()

@@ -1,8 +1,10 @@
 from PyQt5 import QtWidgets
 
-class SuspensionWidget(QtWidgets.QWidget):
+from widgets.tab import GeneralTab
+
+class SuspensionWidget(GeneralTab):
     def __init__(self):
-        super(QtWidgets.QWidget, self).__init__()
+        super().__init__()
 
         self.layout = QtWidgets.QVBoxLayout(self)
         self.setLayout(self.layout)

@@ -1,45 +1,5 @@
-from PyQt5 import QtWidgets, QtSerialPort, QtCore
 import re
-
-class SerialHandler:
-    '''this class is responsible for 
-    starting the serial port
-    giving the serial port data to the ui controller
-    '''
-    def __init__(self, serial_port_address_name) -> None:
-        self.address = serial_port_address_name
-        
-        self.buff = Buffer()
-        #self.setupPort(serial_port_address_name)
-
-    def setupPort(self) -> None:
-        self.serial_port = QtSerialPort.QSerialPort( #connect the arduino
-            self.address,
-            baudRate = QtSerialPort.QSerialPort.BaudRate.Baud115200,         
-        )
-
-        self.serial_port.readyRead.connect(self.readPort)
-
-
-    def readPort(self) -> None:
-        
-        self.raw_input = self.serial_port.readAll().data().decode()
-        
-        self.update()
-        #print(self.dv._raw_input)
-    
-    def setUIController(self, c) -> None:
-        self.c = c
-
-    def update(self) -> None:
-        
-        self.c.newSerialInput =  self.raw_input
-
-        self.buff.raw_input = self.raw_input
-
-        for data in self.buff.datapackets:
-            self.c.newDataPacket = data
-
+from data.data_packager import DataPackager
 
 class Buffer():
 
@@ -54,6 +14,7 @@ class Buffer():
 
         self.datapackets = []
 
+        self.dp = DataPackager()
 
     @property
     def raw_input(self): 
@@ -91,7 +52,9 @@ class Buffer():
             #print(f"PROCEESSED BUFFER :{self._buffer}")
 
         
-        else: print(f"NO DATAPACKETS FOUND: {self._buffer}")
+        else: 
+            #print(f"NO DATAPACKETS FOUND: {self._buffer}")
+            pass
 
     def clear_buffer(self) -> None:
 
@@ -105,10 +68,6 @@ class Buffer():
 
         for data in dp:
             temp = self.start_char + self._buffer[data.start(): data.end()] + self.end_char
+            
             self.datapackets.append(temp)
             #print(f"DATA IS: {self._buffer[data.start(): data.end()]}")
-
-
-    
-
-   

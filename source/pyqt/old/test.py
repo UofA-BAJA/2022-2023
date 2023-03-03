@@ -32,8 +32,14 @@ string=s
 
 datapackets_flag = re.search(pattern=pattern, string=string)
 
-print(datapackets_flag)
+#print(datapackets_flag)
 
 datapackets = re.finditer(pattern=pattern, string=string)
 
-print([i.start() for i in datapackets])
+#print([i.start() for i in datapackets])
+
+p = "<S390,355,456,461SR749.42,737.30,583.78RG6167.16113281,3703.69995117G>"
+
+k = re.search(f"(?<=S)(.*)(?=S)", p)
+x = re.split(",", k.group())
+print([int(i) for i in x ])

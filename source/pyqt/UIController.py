@@ -2,8 +2,6 @@ import sys
 from PyQt5 import QtCore, QtWidgets, QtSerialPort, QtGui
 
 from widgets.mainwidgets import App
-from DataPackager import DataPackager
-from SerialHandler import SerialHandler
 
 class UIController():
     def __init__(self) -> None:
@@ -12,6 +10,8 @@ class UIController():
 
         self._newserialinput = ""
         self._newDataPacket = ""
+
+        self._serial_connected = False
 
     def set_screen_size(self, option: int = 0) -> None:
         screen_pixels = {
@@ -54,10 +54,6 @@ class UIController():
         #self.ex.tab_widget.diagnosticstab.hertz_graph.
         pass
 
-    def setSerial(self, serial: SerialHandler) -> None:
-        serial.setupPort()
-        self.ex.tab_widget.diagnosticstab.serial = serial.serial_port
-
 
     @property
     def newSerialInput(self):
@@ -80,3 +76,8 @@ class UIController():
       self._newDataPacket = newInput
 
       self.ex.tab_widget.diagnosticstab.data_monitor.append(self.newDataPacket)
+
+    @property
+    def serialConnected(self):
+        return self._serial_connected
+    

@@ -1,17 +1,14 @@
 from PyQt5 import QtCore, QtWidgets, QtSerialPort
-from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 from datetime import datetime as dt
-from timeit import default_timer
-import time
 from serial_handler import SerialHandler
 from hertz_rate import Hertz
 
 oldtime = 0
-class Widget(QtWidgets.QWidget):
+class Main(QtWidgets.QWidget):
     def __init__(self, parent=None):
         #alex is stupid
-        super(Widget, self).__init__(parent)
+        super(Main, self).__init__(parent)
 
         self.graph = pg.PlotWidget()
         self.graph.setTitle("Josh Loves penis")
@@ -46,7 +43,19 @@ class Widget(QtWidgets.QWidget):
             checkable=True,
             toggled=self.on_toggled
         )
+
         lay = QtWidgets.QVBoxLayout(self)
+        lay.setContentsMargins(0,0,0,0)
+        lay.setSpacing(0)        
+        self.tab_widget = TabContainerWidget(self)
+       
+
+        lay.addWidget(self.tab_widget)
+
+        '''
+        lay = QtWidgets.QVBoxLayout(self)
+
+
         hlay = QtWidgets.QHBoxLayout()
         #hlay.addWidget(self.message_le)
         #hlay.addWidget(self.send_btn)
@@ -56,6 +65,7 @@ class Widget(QtWidgets.QWidget):
         lay.addLayout(hlay)
         lay.addWidget(self.output_te)
         lay.addWidget(self.button)
+        '''
 
 
         
@@ -116,9 +126,38 @@ class Widget(QtWidgets.QWidget):
         else:
             self.serial.close()
 
+class TabContainerWidget(QtWidgets.QWidget):
+    def __init__(self, parent) -> None:
+        super(QtWidgets.QWidget, self).__init__(parent)
+
+        self.layout = QtWidgets.QVBoxLayout(self)
+  
+        # Initialize tab screen
+        self.tabs = QtWidgets.QTabWidget()
+        self.tab1 = QtWidgets.QWidget()
+        self.tab2 = QtWidgets.QWidget()
+        self.tab3 = QtWidgets.QWidget()
+        
+  
+        # Add tabs
+        self.tabs.addTab(self.tab1, "Geeks")
+        self.tabs.addTab(self.tab2, "For")
+        self.tabs.addTab(self.tab3, "Geeks")
+  
+        # Create first tab
+        self.tab1.layout = QtWidgets.QVBoxLayout(self)
+        self.l = QtWidgets.QLabel()
+        self.l.setText("This is the first tab")
+        self.tab1.layout.addWidget(self.l)
+        self.tab1.setLayout(self.tab1.layout)
+  
+        # Add tabs to widget
+        self.layout.addWidget(self.tabs)
+        
+
 if __name__ == '__main__':
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    w = Widget()
+    w = Main()
     w.show()
     sys.exit(app.exec_())

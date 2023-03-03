@@ -69,13 +69,15 @@ void loop() {
   Serial.print(",");
   Serial.println(sensorValue4);
 
+  Serial2.print("<");
   Serial2.print(sensorValue1);
   Serial2.print(",");
   Serial2.print(sensorValue2);
   Serial2.print(",");
   Serial2.print(sensorValue3);
   Serial2.print(",");
-  Serial2.println(sensorValue4);
+  Serial2.print(sensorValue4);
+  Serial2.println(">");
   // wait 2 milliseconds before the next loop for the analog-to-digital
   // converter to settle after the last reading:
   delay(50);

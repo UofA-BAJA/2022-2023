@@ -1,4 +1,4 @@
-from PyQt5 import QtCore, QtWidgets, QtSerialPort
+from pyqt import QtCore, QtWidgets, QtSerialPort
 import pyqtgraph as pg
 from datetime import datetime as dt
 from serial_handler import SerialHandler

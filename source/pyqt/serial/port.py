@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets, QtSerialPort, QtCore
+from pyqt import QtWidgets, QtSerialPort, QtCore
 
 from serial.buffer import Buffer
 

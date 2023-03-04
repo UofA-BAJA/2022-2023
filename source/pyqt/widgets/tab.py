@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets
+from pyqt import QtWidgets
 
 
 from serial.port import Port

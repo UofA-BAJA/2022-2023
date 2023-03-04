@@ -1,6 +1,7 @@
 import sys
 
 from PyQt5 import QtCore, QtWidgets, QtSerialPort
+import time
 
 from widgets.tab import GeneralTab
 from widgets.setup import SetupWidget
@@ -34,6 +35,8 @@ class App(QtWidgets.QMainWindow):
 
         self.tab_widget.setuptab.serial_attempt.connect(self.setupSerial)
 
+        self.new_time = time.time()
+
         
     def setupSerial(self):
         #print(self.tab_widget.setuptab.cbox.currentText())
@@ -43,13 +46,13 @@ class App(QtWidgets.QMainWindow):
 
         if serial.open(QtCore.QIODevice.ReadWrite):
            
-            print("Successfully connected")
+            print(f"Successfully connected to serial port {self.tab_widget.setuptab.cbox.currentText()}")
             self.serial = serial
 
             for i in range(1,len(self.tab_widget.all_tabs)):
                 self.tab_widget.setTabEnabled(i, True)
             
-            serial.readyRead.connect(self.main_updating_function)
+            serial.readyRead.connect(self.buffering)
         else:
             serial.close()
 
@@ -57,24 +60,39 @@ class App(QtWidgets.QMainWindow):
         # for each_tab in self.tab_widget.all_tabs:
         #     self.tab_widget.setupSerial(each_tab, self.serial_port)
 
-    def main_updating_function(self):
-        
+    def buffering(self):
+        #print("readyRead Called")
+
         raw_text = self.serial.readAll().data().decode()
 
         self.tab_widget.setuptab.raw_serial_monitor.append(raw_text)
 
         self.buffer.raw_input = raw_text
 
+        for d in self.buffer.datapackets:
+            self.tab_widget.setuptab.data_monitor.append(d)
 
         self.data_package.parse_packets(self.buffer.datapackets)
 
-        for dataclass in self.data_package.data_classes:
-            #print(dataclass.data_list)
+        
+        if (self.data_package.complete_new_packet_flag):
+            self.updating()
+        else: 
+            #print(f"NOT READY: {self.data_package}")
             pass
+            
 
-        print(self.data_package.diff)
+    def updating(self):
+        '''this is where you update everything'''
+        n = time.time()
+        diff = n - self.new_time
+
+        self.new_time = n
 
 
+        #print(f"READY: {self.data_package}")
+        #print(1 / diff)
+        self.tab_widget.setuptab.hertz_data.update(1/diff)
 
 
 

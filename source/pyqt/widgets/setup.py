@@ -16,9 +16,10 @@ class SetupWidget(GeneralTab):
 
         self.tab_name = "SETUP"
 
-        dataline = DataLine("Hertz")
+        self.hertz_data = DataLine("Hertz")
         self.hertz_graph = GraphWidget()
-        self.hertz_graph.add_dataline(dataline)
+        self.hertz_graph.add_dataline(self.hertz_data)
+        self.hertz_graph.setup()
 
         self.setup_serial_configure()
         self.setup_text_monitors()

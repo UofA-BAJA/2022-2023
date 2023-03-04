@@ -1,8 +1,8 @@
 import sys
 import random
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget
-from PyQt5.QtChart import QChart, QLineSeries, QValueAxis
-from PyQt5.QtCore import Qt
+from pyqt.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget
+from pyqt.QtChart import QChart, QLineSeries, QValueAxis
+from pyqt.QtCore import Qt
 
 app = QApplication(sys.argv)
 window = QMainWindow()

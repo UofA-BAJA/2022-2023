@@ -45,22 +45,26 @@ void loop() {
     }
   Serial.print("R");
 
-  //GPS DATA
-  Serial.print("G");
-  int rlat = random(1000, 9999);
-  int rlon = random(1000, 9999);
-  double rlat_dec = rlat + (rlat / 1000.00);
-  double rlon_dec = rlon + (rlon / 1000.00);
-  Serial.print(rlat_dec, 8);
+  Serial.print(sensorValue1);
   Serial.print(",");
-  Serial.print(rlon_dec, 8);
-  Serial.print("G");
-  
-  //END MESSAGE
-  Serial.print(">");
-  Serial.print("\n");
-  
-  delay(10);        // delay in between reads for stability
+  Serial.print(sensorValue2);
+  Serial.print(",");
+  Serial.print(sensorValue3);
+  Serial.print(",");
+  Serial.println(sensorValue4);
+
+  Serial2.print("<");
+  Serial2.print(sensorValue1);
+  Serial2.print(",");
+  Serial2.print(sensorValue2);
+  Serial2.print(",");
+  Serial2.print(sensorValue3);
+  Serial2.print(",");
+  Serial2.print(sensorValue4);
+  Serial2.println(">");
+  // wait 2 milliseconds before the next loop for the analog-to-digital
+  // converter to settle after the last reading:
+  delay(50);
 }
 /*
   AnalogReadSerial

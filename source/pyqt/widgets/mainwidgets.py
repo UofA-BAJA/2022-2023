@@ -1,6 +1,6 @@
 import sys
 
-from pyqt import QtCore, QtWidgets, QtSerialPort
+from PyQt5 import QtCore, QtWidgets, QtSerialPort
 import time
 
 from widgets.tab import GeneralTab
@@ -22,7 +22,7 @@ class App(QtWidgets.QMainWindow):
     
     def __init__(self):
         super().__init__()
-        self.title = 'pyqt - QTabWidget'
+        self.title = 'PyQt5 - QTabWidget'
     
         self.setWindowTitle(self.title)
 

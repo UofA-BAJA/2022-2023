@@ -1,5 +1,4 @@
-from pyqt import QtWidgets
-
+from PyQt5 import QtWidgets, QtGui
 from widgets.graph import GraphWidget
 from widgets.tab import GeneralTab
 
@@ -15,5 +14,15 @@ class GPSWidget(GeneralTab):
         self.l = QtWidgets.QLabel()
         self.l.setText(f"This is the {self.tab_name} tab")
         self.layout.addWidget(self.l)
+
+        p = QtGui.QPainter()
+
+        x = QtGui.QPixmap('/Users/man/Downloads/TheUofAmap.png')
+
+        y = p.drawPixmap(self.rect(), x)
+
+        self.layout.addWidget(y)
+
+        
 
     

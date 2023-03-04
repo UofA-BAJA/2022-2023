@@ -43,3 +43,33 @@ p = "<S390,355,456,461SR749.42,737.30,583.78RG6167.16113281,3703.69995117G>"
 k = re.search(f"(?<=S)(.*)(?=S)", p)
 x = re.split(",", k.group())
 print([int(i) for i in x ])
+
+class poop():
+
+    def __init__(self) -> None:
+        self.load = 1
+
+    def on_josh(self):
+        print("i pooped on josh")
+
+class bacteria(poop):
+
+    def __init__(self) -> None:
+        super().__init__()
+
+
+
+ipoop = poop()
+
+ipoop.on_josh()
+
+print(ipoop.load)
+
+ipoop.load = 2
+
+print(ipoop.load)
+
+b = bacteria()
+
+b.load
+

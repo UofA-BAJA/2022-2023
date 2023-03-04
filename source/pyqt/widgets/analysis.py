@@ -1,3 +1,4 @@
+
 from PyQt5 import QtWidgets
 
 from widgets.tab import GeneralTab

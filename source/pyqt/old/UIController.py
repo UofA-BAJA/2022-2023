@@ -1,5 +1,5 @@
 import sys
-from pyqt import QtCore, QtWidgets, QtSerialPort, QtGui
+from PyQt5 import QtCore, QtWidgets, QtSerialPort, QtGui
 
 from widgets.mainwidgets import App
 

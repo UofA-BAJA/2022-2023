@@ -1,5 +1,5 @@
-from pyqt import QtCore, QtWidgets, QtSerialPort
-import pyqtgraph as pg
+from PyQt5 import QtCore, QtWidgets, QtSerialPort
+import PyQt5graph as pg
 from datetime import datetime as dt
 from serial_handler import SerialHandler
 from hertz_rate import Hertz
@@ -75,7 +75,7 @@ class Main(QtWidgets.QWidget):
             readyRead=self.receive
         )
 
-    @QtCore.pyqtSlot()
+    @QtCore.PyQt5Slot()
     def receive(self):
         global oldtime
         #while self.serial.canReadLine():
@@ -112,11 +112,11 @@ class Main(QtWidgets.QWidget):
 
             
 
-    @QtCore.pyqtSlot()
+    @QtCore.PyQt5Slot()
     def send(self):
         self.serial.write(self.message_le.text().encode())
 
-    @QtCore.pyqtSlot(bool)
+    @QtCore.PyQt5Slot(bool)
     def on_toggled(self, checked):
         self.button.setText("Disconnect" if checked else "Connect")
         if checked:

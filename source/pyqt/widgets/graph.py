@@ -1,4 +1,4 @@
-from pyqt import QtWidgets
+from PyQt5 import QtWidgets
 import pyqtgraph as pg
 
 class DataLine():

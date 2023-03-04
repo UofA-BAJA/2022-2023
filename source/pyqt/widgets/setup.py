@@ -1,4 +1,4 @@
-from pyqt import QtWidgets, QtCore, QtSerialPort
+from PyQt5 import QtWidgets, QtCore, QtSerialPort
 
 from widgets.graph import GraphWidget, DataLine
 from widgets.tab import GeneralTab

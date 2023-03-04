@@ -1,7 +1,7 @@
 # Import libraries
 from numpy import *
-from pyqtgraph.Qt import QtGui, QtCore
-import pyqtgraph as pg
+from PyQt5graph.Qt import QtGui, QtCore
+import PyQt5graph as pg
 import serial
 
 # Create object serial port

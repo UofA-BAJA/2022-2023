@@ -1,65 +1,49 @@
 /*
-  Analog input, analog output, serial output
+  AnalogReadSerial
 
-  Reads an analog input pin, maps the result to a range from 0 to 255 and uses
-  the result to set the pulse width modulation (PWM) of an output pin.
-  Also prints the results to the Serial Monitor.
-
-  The circuit:
-  - potentiometer connected to analog pin 0.
-    Center pin of the potentiometer goes to the analog pin.
-    side pins of the potentiometer go to +5V and ground
-  - LED connected from digital pin 9 to ground through 220 ohm resistor
-
-  created 29 Dec. 2008
-  modified 9 Apr 2012
-  by Tom Igoe
+  Reads an analog input on pin 0, prints the result to the Serial Monitor.
+  Graphical representation is available using Serial Plotter (Tools > Serial Plotter menu).
+  Attach the center pin of a potentiometer to pin A0, and the outside pins to +5V and ground.
 
   This example code is in the public domain.
 
-  https://www.arduino.cc/en/Tutorial/BuiltInExamples/AnalogInOutSerial
+  https://www.arduino.cc/en/Tutorial/BuiltInExamples/AnalogReadSerial
 */
 
-// These constants won't change. They're used to give names to the pins used:
-const int analogInPin = A4;  // Analog input pin that the potentiometer is attached to
-const int analogOutPin = 9;  // Analog output pin that the LED is attached to
-
-int sensorValue1 = 0;
-int sensorValue2 = 0;
-int sensorValue3 = 0; 
-int sensorValue4 = 0; // value read from the pot
-
-
+long randNumber[4];
+// the setup routine runs once when you press reset:
 void setup() {
-  ADCSRA &= ~(bit (ADPS0) | bit (ADPS1) | bit (ADPS2)); // clear prescaler bits
-  
-  // uncomment as required
-  
-//  ADCSRA |= bit (ADPS0);                               //   2  
-//  ADCSRA |= bit (ADPS1);                               //   4  
-//  ADCSRA |= bit (ADPS0) | bit (ADPS1);                 //   8  
-//  ADCSRA |= bit (ADPS2);                               //  16 
-//  ADCSRA |= bit (ADPS0) | bit (ADPS2);                 //  32 
-//  ADCSRA |= bit (ADPS1) | bit (ADPS2);                 //  64 
-  
-  ADCSRA |= bit (ADPS0) | bit (ADPS1) | bit (ADPS2);   // 128
-  // initialize serial communications at 9600 bps:
+  // initialize serial communication at 9600 bits per second:
   Serial.begin(115200);
-  Serial2.begin(9600);
+
+  randomSeed(analogRead(0));
 }
 
+// the loop routine runs over and over again forever:
 void loop() {
-  // read the analog in value:
   
-  sensorValue1 = analogRead(analogInPin);
-  sensorValue2 = analogRead(A5);
-  sensorValue3 = analogRead(A6);
-  sensorValue4 = analogRead(A7);
-  // map it to the range of the analog out:
-  
+  //START MESSAGE
+  Serial.print("<");
   
 
-  // print the results to the Serial Monitor:
+  //SUSPENSION DATA
+  Serial.print("S");
+  for (int i = 0; i < 4; ++i) {
+    Serial.print(random(300, 700));
+    if (i != 3) { Serial.print(","); }
+    }
+  Serial.print("S");
+
+  //RPM DATA
+  Serial.print("R");
+  for (int i = 0; i < 3; ++i) {
+    int rnum = random(100, 999);
+    double dec = rnum / 100.00;
+    Serial.print(rnum + dec);
+    
+    if (i != 2) { Serial.print(","); }
+    }
+  Serial.print("R");
 
   Serial.print(sensorValue1);
   Serial.print(",");

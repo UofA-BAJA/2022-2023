@@ -75,7 +75,7 @@ class Main(QtWidgets.QWidget):
             readyRead=self.receive
         )
 
-    @QtCore.pyqtSlot()
+    @QtCore.PyQt5Slot()
     def receive(self):
         global oldtime
         #while self.serial.canReadLine():
@@ -112,11 +112,11 @@ class Main(QtWidgets.QWidget):
 
             
 
-    @QtCore.pyqtSlot()
+    @QtCore.PyQt5Slot()
     def send(self):
         self.serial.write(self.message_le.text().encode())
 
-    @QtCore.pyqtSlot(bool)
+    @QtCore.PyQt5Slot(bool)
     def on_toggled(self, checked):
         self.button.setText("Disconnect" if checked else "Connect")
         if checked:

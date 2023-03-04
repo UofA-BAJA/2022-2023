@@ -13,9 +13,9 @@ class GeneralTab(QtWidgets.QWidget):
     def updateData(self) -> None:
         pass
 
-    def set_serial(self, serial_port: Port) -> None:
+    def set_serial(self, serial_port) -> None:
         self.serial_port = serial_port
+
+   
         
-
-
     

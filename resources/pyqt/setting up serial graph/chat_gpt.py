@@ -1,12 +1,12 @@
 import sys
 import random
-from pyqt.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget
-from pyqt.QtChart import QChart, QLineSeries, QValueAxis
-from pyqt.QtCore import Qt
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget
+from PyQt5.QtChart import QChart, QLineSeries, QValueAxis
+from PyQt5.QtCore import Qt
 
 app = QApplication(sys.argv)
 window = QMainWindow()
-window.setWindowTitle("PyQt Window with Graphs and Buttons")
+window.setWindowTitle("PyQt5 Window with Graphs and Buttons")
 
 central_widget = QWidget()
 layout = QVBoxLayout()

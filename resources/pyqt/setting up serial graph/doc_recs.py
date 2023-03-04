@@ -1,8 +1,8 @@
-from pyqtgraph import PlotWidget, plot
-import pyqtgraph as pg
+from PyQt5graph import PlotWidget, plot
+import PyQt5graph as pg
 import sys  # We need sys so that we can pass argv to QApplication
 import os
-from pyqt import QtCore, QtWidgets, QtSerialPort
+from PyQt5 import QtCore, QtWidgets, QtSerialPort
 
 
 class MainWindow(QtWidgets.QMainWindow):

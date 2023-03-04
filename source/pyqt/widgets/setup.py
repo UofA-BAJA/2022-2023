@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets, QtCore, QtSerialPort
 
-from widgets.graph import GraphWidget
+from widgets.graph import GraphWidget, DataLine
 from widgets.tab import GeneralTab
 
 
@@ -16,9 +16,9 @@ class SetupWidget(GeneralTab):
 
         self.tab_name = "SETUP"
 
-        self.hertz_graph = GraphWidget(1)
-        self.hertz_graph.setup()
-   
+        dataline = DataLine("Hertz")
+        self.hertz_graph = GraphWidget()
+        self.hertz_graph.add_dataline(dataline)
 
         self.setup_serial_configure()
         self.setup_text_monitors()

@@ -3,33 +3,24 @@ import pyqtgraph as pg
 
 class GraphWidget(pg.PlotWidget):
     num_of_datapoints = 100
-    def __init__(self, y_plots):
+    def __init__(self):
         super(GraphWidget, self).__init__()
 
-        self.x = [0 for x in range(self.num_of_datapoints)]
+        self.datalines = []
 
-        self.y = []
-        for i in range(y_plots):
-            self.y.append([0 for x in range(self.num_of_datapoints)])
-        
+    def add_dataline(self, d):
+        self.datalines.append(d)
+    
 
-    def setup(self):
-        self.curves = []
-        for i in range(len(self.y)):
-            self.curves.append(self.plot(self.x, self.y[i]))
+class DataLine():
 
-        print(self.curves)
-        
-    def appendY(self, datapoint):
+    def __init__(self, name) -> None:
+        self.dataline_name = name
 
-        for i in range(len(self.y)):
-            self.y[i] = self.y[i][1:]
-            self.y[i].append(datapoint)
+        self.x = [0 for x in range(100)]
 
-    def update(self):
-        for curve in self.curves:
-            self.update_data_line(curve)
+        self.y = [0 for x in range(100)]
 
-    def update_data_line(self, curve: pg.PlotDataItem) -> None:
+    def append(self) -> None:
+        pass
 
-        curve.setData(self.x, self.y[0])

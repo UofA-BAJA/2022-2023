@@ -19,10 +19,13 @@ class SuspensionWidget(GeneralTab):
     def configbox(self):
         self.config_tab = QtWidgets.QTabWidget()
 
-        layout = QtWidgets.QVBoxLayout(self)
+        layout = QtWidgets.QGridLayout()
+
+        layout.addWidget(self.config_tab)
+        
 
 
-        self.layout.addWidget(self.config_tab)
+        self.layout.addLayout(layout)
 
 
     def setup_graph(self):

@@ -96,7 +96,6 @@ class App(QtWidgets.QMainWindow):
 
 
 
-
   
 
 # Creating tab widgets

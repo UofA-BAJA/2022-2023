@@ -23,6 +23,10 @@ class DataPackager():
 
         if new_packet_size == 0:
             self.complete_new_packet_flag = False
+
+            for dataclass in self.data_classes:
+                dataclass.clear()
+                
             return
         else:
             self.complete_new_packet_flag = True
@@ -33,7 +37,7 @@ class DataPackager():
 
            for dataclass in self.data_classes:
                
-               self.match_dataclass(dataclass, packet)
+                self.match_dataclass(dataclass, packet)
 
     def match_dataclass(self, dc: GeneralData, packet: str) -> None:
 
@@ -45,3 +49,10 @@ class DataPackager():
             dc.organize_split(individual_nums_as_str)
 
         else: dc.empty = True
+
+    def __repr__(self) -> str:
+        s = ""
+        for dc in self.data_classes:
+            s += str(dc.data_list)
+
+        return s

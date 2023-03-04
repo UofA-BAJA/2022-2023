@@ -35,7 +35,7 @@ class App(QtWidgets.QMainWindow):
 
         self.tab_widget.setuptab.serial_attempt.connect(self.setupSerial)
 
-        self.timer = time.time()
+        self.new_time = time.time()
 
         
     def setupSerial(self):
@@ -46,7 +46,7 @@ class App(QtWidgets.QMainWindow):
 
         if serial.open(QtCore.QIODevice.ReadWrite):
            
-            print("Successfully connected")
+            print(f"Successfully connected to serial port {self.tab_widget.setuptab.cbox.currentText()}")
             self.serial = serial
 
             for i in range(1,len(self.tab_widget.all_tabs)):
@@ -61,7 +61,8 @@ class App(QtWidgets.QMainWindow):
         #     self.tab_widget.setupSerial(each_tab, self.serial_port)
 
     def buffering(self):
-        
+        #print("readyRead Called")
+
         raw_text = self.serial.readAll().data().decode()
 
         self.tab_widget.setuptab.raw_serial_monitor.append(raw_text)
@@ -72,19 +73,26 @@ class App(QtWidgets.QMainWindow):
             self.tab_widget.setuptab.data_monitor.append(d)
 
         self.data_package.parse_packets(self.buffer.datapackets)
+
         
         if (self.data_package.complete_new_packet_flag):
             self.updating()
+        else: 
+            #print(f"NOT READY: {self.data_package}")
+            pass
             
 
     def updating(self):
-        '''this is where you updating everything'''
+        '''this is where you update everything'''
+        n = time.time()
+        diff = n - self.new_time
 
-        self.timer = time.time() - self.timer
+        self.new_time = n
 
-        hz = 1 / self.timer
 
-        self.tab_widget.setuptab.hertz_data.update(hz)
+        #print(f"READY: {self.data_package}")
+        #print(1 / diff)
+        self.tab_widget.setuptab.hertz_data.update(1/diff)
 
 
 

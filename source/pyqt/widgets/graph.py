@@ -6,7 +6,7 @@ class DataLine():
     def __init__(self, name) -> None:
         self.dataline_name = name
 
-        self.x = [0 for x in range(100)]
+        self.x = [x for x in range(100)]
 
         self.y = [0 for x in range(100)]
 
@@ -15,12 +15,13 @@ class DataLine():
         pass
 
     def update(self, value):
-
         self.y = self.y[1:]
 
         self.y.append(value)
-        
+
         self.curve_pbj.setData(self.x, self.y)
+        #print(f"x is {self.x} \ny is {self.y}")
+
 
 
 

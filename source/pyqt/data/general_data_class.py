@@ -13,6 +13,10 @@ class GeneralData():
     def update_regex(self):
         self.regex_match = f"(?<={self.delimiting_letter})(.*)(?={self.delimiting_letter})"
 
+    def clear(self):
+        for item in self.data_list:
+            self.data_list[item] = -1
+
 
 class SuspensionData(GeneralData):
 

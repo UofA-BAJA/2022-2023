@@ -8,6 +8,7 @@ from widgets.tab import GeneralTab
 class SetupWidget(GeneralTab):
     serial_attempt = QtCore.pyqtSignal()
 
+    max_textbox_length = 10000
     def __init__(self):
         super(QtWidgets.QWidget, self).__init__()
 
@@ -30,7 +31,10 @@ class SetupWidget(GeneralTab):
 
         self.text_tab = QtWidgets.QTabWidget()
 
-        self.raw_serial_monitor = QtWidgets.QTextEdit(readOnly=True)
+        self.raw_serial_monitor = QtWidgets.QTextEdit(
+            readOnly=True
+            )
+        self.raw_serial_monitor.textChanged.connect(self.check_rawserial_box_length)
 
         self.data_monitor = QtWidgets.QTextEdit(readOnly=True)
 
@@ -62,6 +66,19 @@ class SetupWidget(GeneralTab):
 
 
         self.layout.addLayout(self.config_layout)
+
+    @QtCore.pyqtSlot()
+    def check_rawserial_box_length(self):
+        
+        if self.check_max_length(self.raw_serial_monitor.toPlainText()):
+            self.raw_serial_monitor.clear()
+            print("serial cleared")
+
+    def check_max_length(self, text: str) -> bool:
+        if len(text) > self.max_textbox_length:
+            return True
+        else:
+            return False
 
 
     def updateData(self) -> None:

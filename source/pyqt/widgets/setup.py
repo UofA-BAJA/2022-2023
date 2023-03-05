@@ -72,7 +72,7 @@ class SetupWidget(GeneralTab):
         
         if self.check_max_length(self.raw_serial_monitor.toPlainText()):
             self.raw_serial_monitor.clear()
-            print("serial cleared")
+            print("Serial Cleared")
 
     def check_max_length(self, text: str) -> bool:
         if len(text) > self.max_textbox_length:

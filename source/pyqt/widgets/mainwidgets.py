@@ -91,7 +91,9 @@ class App(QtWidgets.QMainWindow):
 
         #print(f"READY: {self.data_package}")
         #print(1 / diff)
-        self.tab_widget.setuptab.hertz_data.update(1/diff)
+        self.tab_widget.setuptab.updateData(diff)
+        self.tab_widget.suspensiontab.updateData(self.data_package)
+        self.tab_widget.rpmstab.updateData(self.data_package)
 
         
 

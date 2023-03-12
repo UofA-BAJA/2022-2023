@@ -21,12 +21,44 @@ void setup() {
 
 // the loop routine runs over and over again forever:
 void loop() {
-  // read the input on analog pin 0:
-  // print out the value you read:
+  
+  //START MESSAGE
+  Serial.print("<");
+  
+
+  //SUSPENSION DATA
+  Serial.print("S");
   for (int i = 0; i < 4; ++i) {
     Serial.print(random(300, 700));
-    if (i == 3) { Serial.print("\n"); }
-    else { Serial.print(","); }
+    if (i != 3) { Serial.print(","); }
     }
+  Serial.print("S");
+
+  //RPM DATA
+  Serial.print("R");
+  for (int i = 0; i < 3; ++i) {
+    int rnum = random(100, 999);
+    double dec = rnum / 100.00;
+    Serial.print(rnum + dec);
+    
+    if (i != 2) { Serial.print(","); }
+    }
+  Serial.print("R");
+
+  //GPS DATA
+  Serial.print("G");
+  int rlat = random(1000, 9999);
+  int rlon = random(1000, 9999);
+  double rlat_dec = rlat + (rlat / 1000.00);
+  double rlon_dec = rlon + (rlon / 1000.00);
+  Serial.print(rlat_dec, 8);
+  Serial.print(",");
+  Serial.print(rlon_dec, 8);
+  Serial.print("G");
+  
+  //END MESSAGE
+  Serial.print(">");
+  Serial.print("\n");
+  
   delay(100);        // delay in between reads for stability
 }

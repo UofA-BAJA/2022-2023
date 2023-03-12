@@ -18,6 +18,7 @@ class SetupWidget(GeneralTab):
         self.tab_name = "SETUP"
 
         self.hertz_data = DataLine("Hertz")
+        self.hertz_data.setPenColor()
         self.hertz_graph = GraphWidget()
         self.hertz_graph.add_dataline(self.hertz_data)
         self.hertz_graph.setup()
@@ -81,5 +82,6 @@ class SetupWidget(GeneralTab):
             return False
 
 
-    def updateData(self) -> None:
+    def updateData(self, difference) -> None:
         self.raw_serial_monitor.append("a")
+        self.hertz_data.update(1/difference)

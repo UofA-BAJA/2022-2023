@@ -1,103 +1,73 @@
-//asdasdasd
+#include <TinyGPS++.h>
+#include <SoftwareSerial.h>
 
-int c = 0;
-<<<<<<< HEAD
-int char_index = 0;
-=======
+// Choose two Arduino pins to use for software serial
+int RXPin = 2;
+int TXPin = 3;
 
->>>>>>> Main
-void setup() {
-  // put your setup code here, to run once:
+int GPSBaud = 9600;
+
+// Create a TinyGPS++ object
+TinyGPSPlus gps;
+
+// Create a software serial port called "gpsSerial"
+SoftwareSerial gpsSerial(RXPin, TXPin);
+
+struct gps_struct {
+  uint32_t latitude;
+  uint32_t longitude;
+  };
+
+void setup()
+{
+  // Start the Arduino hardware serial port at 9600 baud
   Serial.begin(115200);
+
+  // Start the software serial port at the GPS's default baud
+  gpsSerial.begin(GPSBaud);
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
+void loop()
+{
+  // This sketch displays information every time a new sentence is correctly encoded.
+  while (gpsSerial.available() > 0)
+    if (gps.encode(gpsSerial.read()))
+      displayInfo();
 
-  char temp[100];
-<<<<<<< HEAD
-
-  c == 0;
-  while (Serial.available()) 
+  // If 5000 milliseconds pass and there are no characters coming in
+  // over the software serial port, show a "No GPS detected" error
+  if (millis() > 5000 && gps.charsProcessed() < 10)
   {
-    byte b = Serial.read();//Forward what Serial received to Software Serial Port
-    //Serial.println(b);
-    if (b == '<') {
-      
-      c++;
-      //Serial.println("Start of message");
-      }
-=======
-  int char_index = 0;
-  while (Serial.available()) 
+    Serial.println("No GPS detected");
+    while(true);
+  }
+}
+
+void displayInfo()
+{
+  if (gps.location.isValid())
   {
-    char b = Serial.read();//Forward what Serial received to Software Serial Port
-
-    if (b == "<") {
-      
-      c++;
-      }
-    
-
->>>>>>> Main
-      
-    if (c == 2) {
-      
-      temp[char_index] = b;
-      char_index++;
-
-<<<<<<< HEAD
-      if (b == '>') {
-=======
-      if (b == ">") {
->>>>>>> Main
-        break;
-        }
-      }
+    Serial.print("Latitude: ");
+    Serial.println(gps.location.lat(), 6);
+    Serial.print("Longitude: ");
+    Serial.println(gps.location.lng(), 6);
+    Serial.print("Altitude: ");
+    Serial.println(gps.altitude.meters());
+  }
+  else
+  {
+    Serial.println("Location: Not Available");
   }
 
-  if (char_index > 0) {
-
-<<<<<<< HEAD
-    temp [char_index + 1] = '/0';
-
-    //char new_temp[200];
-    
-    //sprintf(new_temp, "%s", temp);
-    
-
-    //int first_number = atoi(temp[1]) * 10 + atoi(temp[2]);
-    //int first_number = 2;
-=======
-    char new_temp[200];
-    
-    sprintf(new_temp, "\n%s\n", temp);
-    
-
-    //int first_number = atoi(temp[1]) * 10 + atoi(temp[2]);
-    int first_number = 2;
->>>>>>> Main
-
-
-    //sprintf(new_temp + strlen(new_temp), "\nFIRST NUMBER IS: %d \n", char_index);
-
-<<<<<<< HEAD
-    char_index = 0;
-
-    Serial.print(temp[0]);
-  }
-
+  if (gps.satellites.isValid()) {
+    Serial.println(gps.satellites.value());
+    }
+  else {
+    Serial.println("Satellites: Not Available");
+    }
   
 
-  
-=======
-    
-
-    Serial.print(new_temp);
-  }
-
-  
->>>>>>> Main
- 
-  
+  Serial.println();
+  Serial.println();
+  delay(200);
 }

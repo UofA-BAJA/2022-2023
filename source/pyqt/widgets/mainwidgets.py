@@ -89,11 +89,11 @@ class App(QtWidgets.QMainWindow):
 
         self.new_time = n
 
-        print(self.data_package.rpm.back)
-
         #print(f"READY: {self.data_package}")
         #print(1 / diff)
         self.tab_widget.setuptab.hertz_data.update(1/diff)
+
+        
 
 
 

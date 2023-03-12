@@ -47,8 +47,8 @@
 #define LORA_IQ_INVERSION_ON                        false
 
 
-#define RX_TIMEOUT_VALUE                            10000
-#define BUFFER_SIZE                                 200 // Define the payload size here
+#define RX_TIMEOUT_VALUE                            1000
+#define BUFFER_SIZE                                 30 // Define the payload size here
 
 char txpacket[BUFFER_SIZE];
 char rxpacket[BUFFER_SIZE];
@@ -70,8 +70,29 @@ States_t state;
 bool sleepMode = false;
 int16_t Rssi,rxSize;
 
+//SERIAL COMMUNICATIONS
+#define startMarker 250
+#define endMarker 251
+#define specialByte 252
+#define maxMessage 200
+
+byte bytesRecvd = 0;
+byte dataRecvCount = 0;
+
+byte dataRecvd[maxMessage]; 
+byte tempBuffer[maxMessage];
+
+boolean allReceived = false;
+boolean inProgress = false;
+//---------------------
+
+void recvBytesWithStartEndMarkers();
 
 void setup() {
+    Serial1.begin(57600);//serial port
+    pinMode(7, OUTPUT);
+    digitalWrite(7, HIGH);
+    
     Serial.begin(115200);
 
     txNumber=0;
@@ -92,7 +113,7 @@ void setup() {
                                    LORA_CODINGRATE, 0, LORA_PREAMBLE_LENGTH,
                                    LORA_SYMBOL_TIMEOUT, LORA_FIX_LENGTH_PAYLOAD_ON,
                                    0, true, 0, 0, LORA_IQ_INVERSION_ON, true );
-    state=RX;
+    state=TX;
 }
 
 
@@ -102,18 +123,25 @@ void loop()
   switch(state)
   {
     case TX:
+      turnOnRGB(COLOR_SEND,0);
       delay(1);
-      sprintf(txpacket,"GOOD");
       
+      bytesRecvd = 0;
+      digitalWrite(7, LOW); 
+      while (bytesRecvd <= 9) {
+        Serial.printf("\r\nentering serial function");
+        recvBytesWithStartEndMarkers();
+        }
+      Serial.printf("\r\nread in %d bytes", bytesRecvd);
       turnOnRGB(COLOR_SEND,0);
 
-      //Serial.printf("\r\nsending packet \"%s\" , length %d\r\n",txpacket, strlen(txpacket));
+      Serial.printf("\r\nsending packet");
 
-      Radio.Send( (uint8_t *)txpacket, strlen(txpacket) );
+      Radio.Send(tempBuffer, bytesRecvd);
       state=LOWPOWER;
       break;
     case RX:
-      //Serial.println("into RX mode");
+      Serial.println("into RX mode");
         Radio.Rx( 0 );
         state=LOWPOWER;
         break;
@@ -128,7 +156,7 @@ void loop()
 
 void OnTxDone( void )
 {
-  //Serial.print("TX done......");
+  Serial.print("TX done......");
   turnOnRGB(0,0);
   state=RX;
 }
@@ -136,7 +164,7 @@ void OnTxDone( void )
 void OnTxTimeout( void )
 {
     Radio.Sleep( );
-    //Serial.print("TX Timeout......");
+    Serial.print("TX Timeout......");
     state=TX;
 }
 void OnRxDone( uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr )
@@ -148,7 +176,48 @@ void OnRxDone( uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr )
     turnOnRGB(COLOR_RECEIVED,0);
     Radio.Sleep( );
 
-    Serial.printf("%s",rxpacket);
+    Serial.printf("\r\nreceived packet \"%s\" with Rssi %d , length %d\r\n",rxpacket,Rssi,rxSize);
+    Serial.println("wait to send next packet");
 
     state=TX;
 }
+
+void recvBytesWithStartEndMarkers() {
+  
+  
+  
+  //Serial.println("start recieving");
+  allReceived = false;
+  
+  
+  while(allReceived == false) {
+    if (Serial1.available() > 0) {
+    //Serial.println("reading message");
+    byte x = Serial1.read();
+    if (x == startMarker) {
+      //Serial.println("message start"); 
+      bytesRecvd = 0; 
+      inProgress = true;
+      // blinkLED(2);
+      // debugToPC("start received");
+      }
+      
+    if(inProgress) {
+      //Serial.println("reading message");
+      tempBuffer[bytesRecvd] = x;
+      bytesRecvd ++;
+      }
+
+    if (x == endMarker) {
+      //Serial.println("message end"); 
+      
+      inProgress = false;
+      allReceived = true;
+      
+        // save the number of bytes that were sent  
+     
+      }
+     }
+    }
+  digitalWrite(7, HIGH);
+} 

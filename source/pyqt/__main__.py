@@ -20,9 +20,7 @@ def main():
 
     d.create_table_if_not_exists()
 
-    
     ex, app = setupApp()
-
 
     showapp(ex, app)
 

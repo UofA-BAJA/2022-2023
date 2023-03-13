@@ -20,20 +20,24 @@ class GPSWidget(GeneralTab):
 
         self.num_of_points = 30
         self.master = []
+
         for index, cords in enumerate(range(self.num_of_points)):
             c = []
             if index == 0:
-                for i in range(4):
-                    c.append(random.randint(0,400))
+                c.append(random.randint(0,self.width()))
+                c.append(random.randint(0,self.height()))
+                c.append(random.randint(0,self.width()))
+                c.append(random.randint(0,self.height()))
 
             else:
                 c.append(self.master[index-1][2])
                 c.append(self.master[index-1][3])
-                c.append(random.randint(0,400))
-                c.append(random.randint(0,400))
+                c.append(random.randint(0,self.width()))
+                c.append(random.randint(0,self.height()))
             
             self.master.append(c)
         
+       
     
     
     def paintEvent(self, event):
@@ -41,7 +45,7 @@ class GPSWidget(GeneralTab):
         
     
     def updateData(self) -> None:
-        print("fvfvv")
+     
         self.painter = QtGui.QPainter(self)
         self.painter.drawPixmap(self.rect(), self.image)
 
@@ -50,7 +54,7 @@ class GPSWidget(GeneralTab):
         pen.setWidth(5)
 
         self.painter.setPen(pen)
-        
+       
             
         for i in self.master:
             if self.master.index(i) > self.counter:

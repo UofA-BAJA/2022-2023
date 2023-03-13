@@ -6,18 +6,16 @@ from widgets.tab import GeneralTab
 class GPSWidget(GeneralTab):
     def __init__(self):
         super().__init__()
-
-        image_path = r"/Users/man/Downloads/TheUofAmap.png"
-        self.image = QtGui.QPixmap(image_path)
-        
         
         self.layout = QtWidgets.QVBoxLayout(self)
         self.setLayout(self.layout)
 
         self.tab_name = "GPS"
+        self.setup_GPS()
 
-        self.l = QtWidgets.QLabel()
-        self.layout.addWidget(self.l)
+    def setup_GPS(self):
+        image_path = r"C:\Users\doria\Downloads\BAJA-MAP.png"
+        self.image = QtGui.QPixmap(image_path)
 
     def paintEvent(self, event):
         

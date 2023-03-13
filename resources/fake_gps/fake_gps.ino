@@ -30,7 +30,7 @@ double array[ 5 ] [ 2 ] = { {45.825866,16.043631},{45.825589,16.042489},{45.8250
 
 void setup() {
   // start serial port at 9600 bps:
-  Serial.begin(9600);
+  Serial.begin(115200);
   while (!Serial) {
     ;  // wait for serial port to connect. Needed for native USB port only
   }
@@ -41,11 +41,15 @@ void setup() {
 
 void loop() {
   for (int i = 0; i < 5; i++) {
+    Serial.print("<<T");//latitude 
     Serial.print(array[i][0], 6);
-    Serial.print(",");
+    Serial.print("G>>");//longtitude
     Serial.print(array[i][1], 6);
-    Serial.print("\n");
+    Serial.println();
+    delay(1000);
   }
+
+  
 
   
 }

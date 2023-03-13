@@ -1,5 +1,6 @@
-import sys
 import random
+import os
+
 from PyQt5 import QtWidgets, QtGui, QtCore
 from widgets.graph import GraphWidget
 from widgets.tab import GeneralTab
@@ -12,20 +13,27 @@ class GPSWidget(GeneralTab):
         self.setLayout(self.layout)
         self.counter = 0
         self.tab_name = "GPS"
-        self.setup_GPS()
+        
+        
+        self.image_path = os.path.abspath(os.getcwd()) + r"\resources\gps\empty_Map.jpg"
+        self.image = QtGui.QPixmap(self.image_path)
 
+        self.num_of_points = 30
         self.master = []
-        for cords in range(10):
+        for index, cords in enumerate(range(self.num_of_points)):
             c = []
-            for i in range(4):
+            if index == 0:
+                for i in range(4):
+                    c.append(random.randint(0,400))
+
+            else:
+                c.append(self.master[index-1][2])
+                c.append(self.master[index-1][3])
+                c.append(random.randint(0,400))
                 c.append(random.randint(0,400))
             
             self.master.append(c)
-    
-    def setup_GPS(self):
-        #image_path = r"C:\Users\doria\Downloads\BAJA-MAP.png"
-        self.image_path = r"/Users/man/Downloads/TheUofAmap.png"
-        self.image = QtGui.QPixmap(self.image_path)
+        
     
     
     def paintEvent(self, event):
@@ -62,12 +70,6 @@ class GPSWidget(GeneralTab):
         #data = r"/Users/man/Downloads/GPS-visualization-Python-main/data.csv"
         #return super().updateData()
         self.counter += .1
-
-def main():
-    app = QtWidgets.QApplication(sys.argv)
-    gpswidget = GPSWidget()
-    gpswidget.show()
-    sys.exit(app.exec_())
 
    
 

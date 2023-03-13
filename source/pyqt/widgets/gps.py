@@ -14,18 +14,11 @@ class GPSWidget(GeneralTab):
         self.layout = QtWidgets.QVBoxLayout(self)
         self.setLayout(self.layout)
 
-        
-
-        
         self.tab_name = "GPS"
 
         self.l = QtWidgets.QLabel()
         self.layout.addWidget(self.l)
 
-        
-
-
-       
     def paintEvent(self, event):
         
         painter = QtGui.QPainter(self)

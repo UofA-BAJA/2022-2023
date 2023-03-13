@@ -94,6 +94,7 @@ class App(QtWidgets.QMainWindow):
         self.tab_widget.setuptab.updateData(diff)
         self.tab_widget.suspensiontab.updateData(self.data_package)
         self.tab_widget.rpmstab.updateData(self.data_package)
+        self.tab_widget.gpstab.update()
 
         
 

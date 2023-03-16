@@ -19,6 +19,15 @@ class SuspensionWidget(GeneralTab):
         self.setup_graph()
 
     def configbox(self):
+
+        def make_nice_textbox(title) -> QtWidgets.QTextEdit:
+            t =  QtWidgets.QTextEdit()
+            t.setText(title)
+            t.setReadOnly(True)
+            t.setAlignment(QtCore.Qt.AlignmentFlag.AlignHCenter)
+
+            return t
+        
         layout = QtWidgets.QHBoxLayout()
 
         summary_box = QtWidgets.QGridLayout()
@@ -29,12 +38,19 @@ class SuspensionWidget(GeneralTab):
                        "BACK LEFT"]
 
         for index, title in enumerate(title_boxes):
-            t =  QtWidgets.QTextEdit()
-            t.setText(title)
-            t.setReadOnly(True)
-            t.setAlignment(QtCore.Qt.AlignmentFlag.AlignHCenter)
+            t = make_nice_textbox(title)
 
-            summary_box.addWidget(t, 0, index, alignment=QtCore.Qt.AlignmentFlag.AlignVCenter)
+            summary_box.addWidget(t, 0, (index + 1) * 2, alignment=QtCore.Qt.AlignmentFlag.AlignVCenter)
+
+        max = make_nice_textbox("MAX")
+        min = make_nice_textbox("MIN")
+        avg = make_nice_textbox("AVG")
+
+        summary_box.addWidget(max, 1, 0, alignment=QtCore.Qt.AlignmentFlag.AlignVCenter)
+        summary_box.addWidget(min, 2, 0, alignment=QtCore.Qt.AlignmentFlag.AlignVCenter)
+        summary_box.addWidget(avg, 3, 0, alignment=QtCore.Qt.AlignmentFlag.AlignVCenter)
+
+        
 
 
         

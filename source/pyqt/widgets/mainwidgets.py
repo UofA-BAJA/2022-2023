@@ -49,8 +49,6 @@ class App(QtWidgets.QMainWindow):
             print(f"Successfully connected to serial port {self.tab_widget.setuptab.cbox.currentText()}")
             self.serial = serial
 
-            for i in range(1,len(self.tab_widget.all_tabs)):
-                self.tab_widget.setTabEnabled(i, True)
             
             serial.readyRead.connect(self.buffering)
         else:
@@ -118,8 +116,7 @@ class MyTabWidget(QtWidgets.QTabWidget):
         for tab_number, tab in enumerate(self.all_tabs):
             self.addTab(tab, tab.tab_name)
 
-            if tab.tab_name != "SETUP":
-                self.setTabEnabled(tab_number, False)
+            
        
     def setupSerial(self, tab: GeneralTab, serial_port: Port) -> None:
 

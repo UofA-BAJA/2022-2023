@@ -29,6 +29,8 @@ class App(QtWidgets.QMainWindow):
         self.tab_widget = MyTabWidget()
         self.setCentralWidget(self.tab_widget)
 
+        
+
         self.buffer = Buffer()
 
         self.data_package = DataPackager()
@@ -126,10 +128,14 @@ class MyTabWidget(QtWidgets.QTabWidget):
 
         tab.updateData(datapackage)
                 
-
-def setupApp() -> App:
+screen_scalar = {0 : [800, 480],
+                1 : [1600, 960],
+                2 : [2400, 1440]}
+def setupApp(screen_scalar_select) -> App:
     app = QtWidgets.QApplication(sys.argv)
     ex = App()
+    ex.setFixedWidth(screen_scalar[screen_scalar_select][0])
+    ex.setFixedWidth(screen_scalar[screen_scalar_select][1])
 
     return ex, app
 

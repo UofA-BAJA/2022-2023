@@ -25,6 +25,7 @@ class SuspensionWidget(GeneralTab):
             t.setText(title)
             t.setReadOnly(True)
             t.setAlignment(QtCore.Qt.AlignmentFlag.AlignHCenter)
+            t.setFixedWidth(round(self.width() / 10))
 
             return t
         
@@ -40,7 +41,7 @@ class SuspensionWidget(GeneralTab):
         for index, title in enumerate(title_boxes):
             t = make_nice_textbox(title)
 
-            summary_box.addWidget(t, 0, (index + 1) * 2, alignment=QtCore.Qt.AlignmentFlag.AlignVCenter)
+            summary_box.addWidget(t, 0, (index + 1) * 2, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
 
         max = make_nice_textbox("MAX")
         min = make_nice_textbox("MIN")
@@ -50,6 +51,7 @@ class SuspensionWidget(GeneralTab):
         summary_box.addWidget(min, 2, 0, alignment=QtCore.Qt.AlignmentFlag.AlignVCenter)
         summary_box.addWidget(avg, 3, 0, alignment=QtCore.Qt.AlignmentFlag.AlignVCenter)
 
+        
         
 
 

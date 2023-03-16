@@ -3,12 +3,12 @@ from PyQt5 import QtWidgets, QtCore, QtSerialPort
 from widgets.graph import GraphWidget, DataLine
 from widgets.tab import GeneralTab
 
-
+MAX_SERIAL_TEXTBOX__CHAR_LENGTH = 10000
 
 class SetupWidget(GeneralTab):
     serial_attempt = QtCore.pyqtSignal()
 
-    max_textbox_length = 10000
+    max_textbox_length = MAX_SERIAL_TEXTBOX__CHAR_LENGTH
     def __init__(self):
         super(QtWidgets.QWidget, self).__init__()
 

@@ -1,8 +1,10 @@
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtCore
 
 from widgets.tab import GeneralTab
 
 from widgets.graph import GraphWidget, DataLine
+
+from data import data_packager
 
 
 class SuspensionWidget(GeneralTab):
@@ -17,12 +19,38 @@ class SuspensionWidget(GeneralTab):
         self.setup_graph()
 
     def configbox(self):
-        self.config_tab = QtWidgets.QTabWidget()
+        layout = QtWidgets.QHBoxLayout()
 
-        layout = QtWidgets.QGridLayout()
+        summary_box = QtWidgets.QGridLayout()
 
-        layout.addWidget(self.config_tab)
+        title_boxes = ["FRONT RIGHT", 
+                       "FRONT LEFT", 
+                       "BACK RIGHT", 
+                       "BACK LEFT"]
+
+        for index, title in enumerate(title_boxes):
+            t =  QtWidgets.QTextEdit()
+            t.setText(title)
+            t.setReadOnly(True)
+            t.setAlignment(QtCore.Qt.AlignmentFlag.AlignHCenter)
+
+            summary_box.addWidget(t, 0, index, alignment=QtCore.Qt.AlignmentFlag.AlignVCenter)
+
+
         
+
+        spacer_height = 20
+        spacer_width = round(self.width() / 3)
+
+        verticalSpacerTop = QtWidgets.QSpacerItem(spacer_width, spacer_height)
+
+        verticalSpacerBottom = QtWidgets.QSpacerItem(spacer_width, spacer_height)
+
+        layout.addLayout(summary_box)
+        #layout.addSpacerItem(verticalSpacerTop)
+        
+        #layout.addSpacerItem(verticalSpacerBottom)
+
         self.layout.addLayout(layout)
 
 
@@ -49,7 +77,7 @@ class SuspensionWidget(GeneralTab):
 
         self.layout.addWidget(self.suspension_graph)
 
-    def updateData(self, data):
+    def updateData(self, data: data_packager):
         self.front_right.update(data.suspension.front_right)
         self.front_left.update(data.suspension.front_left)
         self.back_right.update(data.suspension.back_right)

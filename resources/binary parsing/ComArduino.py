@@ -86,7 +86,7 @@ def recvFromArduino():
   
   # wait for the start character
   while  ord(x) != startMarker:
-    #print("found start marker")
+    print("found start marker")
     x = ser.read()
   
   # save data until the end marker is found
@@ -97,7 +97,7 @@ def recvFromArduino():
 
 
 
-  #print("found end marker")
+  print("found end marker")
 
 
   #ck.append(x)
@@ -114,11 +114,10 @@ def decodeHighBytes(ck: list):
   global specialByte, byteCount
   special_shift = bytes([165])
   
-  next_byte = special_shift
+  specialByteFlag = False
   x = []
   for byteIndex, byte in enumerate(ck):
     
-
     if ord(byte) == startMarker or ord(byte) == endMarker:
       continue
      
@@ -128,10 +127,17 @@ def decodeHighBytes(ck: list):
      
       x.append(temp)
       #print(temp)
+      specialByteFlag = True
+      continue
+
+    if specialByteFlag:
+      specialByteFlag = False
+      continue
 
 
     x.append(byte)
 
+  print(x)
   better_print_message(x)
 
 def printmessage(x: list):
@@ -156,7 +162,7 @@ def better_print_message(x: list):
   frr = make_int(x[10], x[11])
   flr = make_int(x[12], x[13])
 
- 
+  make_int_float(x[14], x[15], x[16], x[17])
 
 
 
@@ -179,7 +185,7 @@ import serial
 import datetime
 
 # NOTE the user must ensure that the next line refers to the correct comm port
-ser = serial.Serial("COM9", 115200)
+ser = serial.Serial("COM10", 115200)
 
 byteCount = 0
 startMarker = 250

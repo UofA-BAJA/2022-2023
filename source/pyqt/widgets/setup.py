@@ -9,6 +9,7 @@ class SetupWidget(GeneralTab):
     serial_attempt = QtCore.pyqtSignal()
 
     max_textbox_length = MAX_SERIAL_TEXTBOX__CHAR_LENGTH
+    
     def __init__(self):
         super(QtWidgets.QWidget, self).__init__()
 

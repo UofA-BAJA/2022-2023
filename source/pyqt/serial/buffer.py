@@ -1,12 +1,16 @@
 import re
 from data.data_packager import DataPackager
+from PyQt5 import QtSerialPort
 
 class Buffer():
+    startMarker = 250
+    endMarker = 251
+    specialByte = 252
 
     def __init__(self) -> None:
         self._raw_input = ""
 
-        self._buffer = ""
+        self._buffer = []
 
         self.start_char = "<"
 
@@ -14,7 +18,18 @@ class Buffer():
 
         self.datapackets = []
 
-        self.dp = DataPackager()
+        self.raw_bytes_rcvd = 0
+
+        self.complete_message_flag = False
+
+    def fill(self) -> None:
+        x = "z"
+
+        print(self.serial.readAll())
+             
+
+    def set_serial(self, serial: QtSerialPort) -> None:
+        self.serial = serial
 
     @property
     def raw_input(self): 

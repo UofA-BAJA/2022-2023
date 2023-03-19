@@ -63,11 +63,16 @@ class App(QtWidgets.QMainWindow):
     def buffering(self):
         #print("readyRead Called")
 
-        raw_text = self.serial.readAll().data().decode()
+        self.buffer.set_serial(self.serial)
 
-        self.tab_widget.setuptab.raw_serial_monitor.append(raw_text)
+        self.buffer.raw_input = self.serial.readAll()
 
-        self.buffer.raw_input = raw_text
+       
+        print("done")
+
+        #self.tab_widget.setuptab.raw_serial_monitor.append(raw_text)
+
+        #self.buffer.raw_input = raw_text
 
         for d in self.buffer.datapackets:
             self.tab_widget.setuptab.data_monitor.append(d)

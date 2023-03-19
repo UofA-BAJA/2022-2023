@@ -3,12 +3,12 @@ from PyQt5 import QtWidgets, QtCore, QtSerialPort
 from widgets.graph import GraphWidget, DataLine
 from widgets.tab import GeneralTab
 
-
+MAX_SERIAL_TEXTBOX__CHAR_LENGTH = 10000
 
 class SetupWidget(GeneralTab):
     serial_attempt = QtCore.pyqtSignal()
 
-    max_textbox_length = 10000
+    max_textbox_length = MAX_SERIAL_TEXTBOX__CHAR_LENGTH
     def __init__(self):
         super(QtWidgets.QWidget, self).__init__()
 
@@ -18,6 +18,7 @@ class SetupWidget(GeneralTab):
         self.tab_name = "SETUP"
 
         self.hertz_data = DataLine("Hertz")
+        self.hertz_data.setPenColor()
         self.hertz_graph = GraphWidget()
         self.hertz_graph.add_dataline(self.hertz_data)
         self.hertz_graph.setup()
@@ -72,7 +73,7 @@ class SetupWidget(GeneralTab):
         
         if self.check_max_length(self.raw_serial_monitor.toPlainText()):
             self.raw_serial_monitor.clear()
-            print("serial cleared")
+            print("Serial Cleared")
 
     def check_max_length(self, text: str) -> bool:
         if len(text) > self.max_textbox_length:
@@ -81,5 +82,6 @@ class SetupWidget(GeneralTab):
             return False
 
 
-    def updateData(self) -> None:
+    def updateData(self, difference) -> None:
         self.raw_serial_monitor.append("a")
+        self.hertz_data.update(1/difference)

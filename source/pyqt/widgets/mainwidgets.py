@@ -29,6 +29,8 @@ class App(QtWidgets.QMainWindow):
         self.tab_widget = MyTabWidget()
         self.setCentralWidget(self.tab_widget)
 
+        
+
         self.buffer = Buffer()
 
         self.data_package = DataPackager()
@@ -49,8 +51,6 @@ class App(QtWidgets.QMainWindow):
             print(f"Successfully connected to serial port {self.tab_widget.setuptab.cbox.currentText()}")
             self.serial = serial
 
-            for i in range(1,len(self.tab_widget.all_tabs)):
-                self.tab_widget.setTabEnabled(i, True)
             
             serial.readyRead.connect(self.buffering)
         else:
@@ -89,11 +89,14 @@ class App(QtWidgets.QMainWindow):
 
         self.new_time = n
 
-        print(self.data_package.rpm.back)
-
         #print(f"READY: {self.data_package}")
         #print(1 / diff)
-        self.tab_widget.setuptab.hertz_data.update(1/diff)
+        self.tab_widget.setuptab.updateData(diff)
+        self.tab_widget.suspensiontab.updateData(self.data_package)
+        self.tab_widget.rpmstab.updateData(self.data_package)
+        self.tab_widget.gpstab.update()
+
+        
 
 
 
@@ -115,8 +118,7 @@ class MyTabWidget(QtWidgets.QTabWidget):
         for tab_number, tab in enumerate(self.all_tabs):
             self.addTab(tab, tab.tab_name)
 
-            if tab.tab_name != "SETUP":
-                self.setTabEnabled(tab_number, False)
+            
        
     def setupSerial(self, tab: GeneralTab, serial_port: Port) -> None:
 
@@ -126,10 +128,14 @@ class MyTabWidget(QtWidgets.QTabWidget):
 
         tab.updateData(datapackage)
                 
-
-def setupApp() -> App:
+screen_scalar = {0 : [800, 480],
+                1 : [1600, 960],
+                2 : [2400, 1440]}
+def setupApp(screen_scalar_select) -> App:
     app = QtWidgets.QApplication(sys.argv)
     ex = App()
+    ex.setFixedWidth(screen_scalar[screen_scalar_select][0])
+    ex.setFixedWidth(screen_scalar[screen_scalar_select][1])
 
     return ex, app
 

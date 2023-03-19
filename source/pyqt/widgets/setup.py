@@ -1,3 +1,5 @@
+import os
+
 from PyQt5 import QtWidgets, QtCore, QtSerialPort
 
 from widgets.graph import GraphWidget, DataLine
@@ -25,9 +27,16 @@ class SetupWidget(GeneralTab):
         self.hertz_graph.add_dataline(self.hertz_data)
         self.hertz_graph.setup()
 
+        top_tab = QtWidgets.QTabWidget()
         self.setup_serial_configure()
+        self.setup_open_file()
+        top_tab.addTab(self.serial_select_tab, "SERIAL")
+        top_tab.addTab(self.file_select_tab, "FILE")
+        self.layout.addWidget(top_tab)
+
         self.setup_text_monitors()
 
+        
         self.layout.addWidget(self.hertz_graph)
 
     def setup_text_monitors(self) -> None:
@@ -78,8 +87,21 @@ class SetupWidget(GeneralTab):
         self.file_select_layout = QtWidgets.QHBoxLayout()
 
         self.open_file_button = QtWidgets.QPushButton(
-            text="Connect", 
+            text="Open File", 
         )
+
+        self.open_file_button.clicked.connect(self.open_file_attempt)
+
+        self.file_cbox = QtWidgets.QComboBox()
+
+        csv_path = os.path.abspath(os.getcwd()) + "\source\pyqt\simulator\csvs"
+        for csv in os.listdir(csv_path):
+            self.file_cbox.addItem(csv)
+
+        self.file_select_layout.addWidget(self.open_file_button)
+        self.file_select_layout.addWidget(self.file_cbox)
+
+        self.file_select_tab.setLayout(self.file_select_layout)
 
 
 

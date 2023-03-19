@@ -15,6 +15,8 @@ from serial.buffer import Buffer
 
 from data.data_packager import DataPackager
 
+from simulator.csv_parser import CSVParser
+
 SCREEN_SCALAR = 2
 
 # Creating the main window
@@ -37,11 +39,10 @@ class App(QtWidgets.QMainWindow):
 
         self.tab_widget.setuptab.serial_attempt.connect(self.setupSerial)
 
-        
+        self.tab_widget.setuptab.open_file_attempt.connect(self.fake_serial)
 
         self.new_time = time.time()
 
-        
     def setupSerial(self):
         #print(self.tab_widget.setuptab.cbox.currentText())
         print("entered setupserial func")
@@ -61,6 +62,11 @@ class App(QtWidgets.QMainWindow):
         
         # for each_tab in self.tab_widget.all_tabs:
         #     self.tab_widget.setupSerial(each_tab, self.serial_port)
+
+    def fake_serial(self):
+        parser = CSVParser()
+
+        parser.open_file(self.tab_widget.setuptab.file_cbox.currentText())
 
     def buffering(self):
         #print("readyRead Called")

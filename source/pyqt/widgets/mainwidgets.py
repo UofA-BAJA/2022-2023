@@ -68,6 +68,8 @@ class App(QtWidgets.QMainWindow):
 
         parser.open_file(self.tab_widget.setuptab.file_cbox.currentText())
 
+        parser.encode_content()
+
     def buffering(self):
         #print("readyRead Called")
 

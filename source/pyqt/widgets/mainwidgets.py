@@ -31,11 +31,12 @@ class App(QtWidgets.QMainWindow):
         self.tab_widget = MyTabWidget()
         self.setCentralWidget(self.tab_widget)
 
-        
-
         self.buffer = Buffer()
 
         self.data_packager = DataPackager()
+
+        self.parser = CSVParser()
+
 
         self.tab_widget.setuptab.serial_attempt.connect(self.setupSerial)
 
@@ -65,11 +66,10 @@ class App(QtWidgets.QMainWindow):
         #     self.tab_widget.setupSerial(each_tab, self.serial_port)
 
     def fake_serial(self):
-        parser = CSVParser()
 
-        parser.open_file(self.tab_widget.setuptab.file_cbox.currentText())
+        self.parser.open_file(self.tab_widget.setuptab.file_cbox.currentText())
 
-        parser.encode_content()
+        self.parser.encode_content()
 
     def serial_buffering(self):
         #print("readyRead Called")

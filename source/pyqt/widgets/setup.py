@@ -7,6 +7,7 @@ MAX_SERIAL_TEXTBOX__CHAR_LENGTH = 10000
 
 class SetupWidget(GeneralTab):
     serial_attempt = QtCore.pyqtSignal()
+    open_file_attempt = QtCore.pyqtSignal()
 
     max_textbox_length = MAX_SERIAL_TEXTBOX__CHAR_LENGTH
     
@@ -49,7 +50,9 @@ class SetupWidget(GeneralTab):
 
     def setup_serial_configure(self) -> None:
 
-        self.config_layout = QtWidgets.QHBoxLayout()
+        self.serial_select_tab = QtWidgets.QWidget()
+
+        self.serial_select_layout = QtWidgets.QHBoxLayout()
 
         self.button = QtWidgets.QPushButton(
             text="Connect", 
@@ -63,11 +66,22 @@ class SetupWidget(GeneralTab):
         for s in QtSerialPort.QSerialPortInfo().availablePorts():
             self.cbox.addItem(s.portName())
 
-        self.config_layout.addWidget(self.button)
-        self.config_layout.addWidget(self.cbox)
+        self.serial_select_layout.addWidget(self.button)
+        self.serial_select_layout.addWidget(self.cbox)
+
+        self.serial_select_tab.setLayout(self.serial_select_layout)
+
+    def setup_open_file(self) -> None:
+
+        self.file_select_tab = QtWidgets.QWidget()
+
+        self.file_select_layout = QtWidgets.QHBoxLayout()
+
+        self.open_file_button = QtWidgets.QPushButton(
+            text="Connect", 
+        )
 
 
-        self.layout.addLayout(self.config_layout)
 
     @QtCore.pyqtSlot()
     def check_rawserial_box_length(self):

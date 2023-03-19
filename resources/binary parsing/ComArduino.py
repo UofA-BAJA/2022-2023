@@ -86,7 +86,7 @@ def recvFromArduino():
   
   # wait for the start character
   while  ord(x) != startMarker:
-    print("waiting for start marker")
+    #print("waiting for start marker")
     
     x = ser.read()    
   
@@ -186,7 +186,7 @@ import serial
 import datetime
 
 # NOTE the user must ensure that the next line refers to the correct comm port
-ser = serial.Serial("COM9", 115200)
+ser = serial.Serial("COM10", 115200)
 
 byteCount = 0
 startMarker = 250

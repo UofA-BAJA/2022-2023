@@ -25,7 +25,7 @@ class SuspensionData(GeneralData):
         
         self.delimiting_letter = "S"
 
-        self.data_list = {
+        self.data_map = {
             "front_right" : 0,
             "front_left" : 0,
             "back_right" : 0,
@@ -115,4 +115,15 @@ class RPMData(GeneralData):
     def back(self):
         return self.data_list["back"]
 
-    
+class ByteMap:
+
+    def __init__(self) -> None:
+        self.h = {}
+
+    def add_datatype(self, datatype: str) -> None:
+
+        self.h[datatype] = []
+
+    def set_bytes_for_datatype(self, datatype: str, byte_indices: list) -> None:
+        
+        self.h[datatype] = byte_indices

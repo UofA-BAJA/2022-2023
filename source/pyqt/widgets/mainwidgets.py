@@ -33,9 +33,11 @@ class App(QtWidgets.QMainWindow):
 
         self.buffer = Buffer()
 
-        self.data_package = DataPackager()
+        self.data_packager = DataPackager()
 
         self.tab_widget.setuptab.serial_attempt.connect(self.setupSerial)
+
+        
 
         self.new_time = time.time()
 
@@ -65,27 +67,19 @@ class App(QtWidgets.QMainWindow):
 
         self.buffer.set_serial(self.serial)
 
-        self.buffer.raw_input = self.serial.readAll()
+        raw_text = self.serial.readAll()
 
-       
-        print("done")
+        self.buffer.raw_input = raw_text
 
-        #self.tab_widget.setuptab.raw_serial_monitor.append(raw_text)
+        self.tab_widget.setuptab.raw_serial_monitor.append(str(raw_text))
 
-        #self.buffer.raw_input = raw_text
+        if self.buffer.full:
+            self.data_packager.parse(self.buffer.raw_output)#self.buffer.raw_input = raw_text
 
-        for d in self.buffer.datapackets:
-            self.tab_widget.setuptab.data_monitor.append(d)
-
-        self.data_package.parse_packets(self.buffer.datapackets)
+        #self.data_packet = self.data_packager.data_packet
 
         
-        if (self.data_package.complete_new_packet_flag):
-            self.updating()
-        else: 
-            #print(f"NOT READY: {self.data_package}")
-            pass
-            
+
 
     def updating(self):
         '''this is where you update everything'''

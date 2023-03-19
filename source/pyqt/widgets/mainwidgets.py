@@ -54,8 +54,9 @@ class App(QtWidgets.QMainWindow):
             print(f"Successfully connected to serial port {self.tab_widget.setuptab.cbox.currentText()}")
             self.serial = serial
 
-            
-            serial.readyRead.connect(self.buffering)
+            serial.readyRead.connect(self.serial_buffering)
+            self.buffer.set_serial(self.serial)
+
         else:
             serial.close()
 
@@ -70,10 +71,8 @@ class App(QtWidgets.QMainWindow):
 
         parser.encode_content()
 
-    def buffering(self):
+    def serial_buffering(self):
         #print("readyRead Called")
-
-        self.buffer.set_serial(self.serial)
 
         raw_text = self.serial.readAll()
 

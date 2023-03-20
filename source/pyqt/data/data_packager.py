@@ -1,6 +1,6 @@
-from data.general_data_class import GeneralData, SuspensionData, GPSData, RPMData
+import struct
 
-import re
+from data.general_data_class import GeneralData, SuspensionData, GPSData, RPMData
 
 class DataPackager():
     specialByte = 252
@@ -20,11 +20,11 @@ class DataPackager():
 
         byte_config = self.choose_byte_config(byte_config_selector)
 
-        self.data_packet.suspension.front_right = byte_config
-        
-    def choose_byte_config(self, config_num) -> None:
 
-        pass
+    def choose_byte_config(self, config_num) -> dict:
+        bc = ByteConfiguration(self.data_packet)
+
+        return bc.match_config(config_num)
 
     def delete_esc_bytes(self, byteArr) -> list:
         r_bytes = []
@@ -48,18 +48,6 @@ class DataPackager():
 
         return r_bytes
 
-class ByteConfiguration():
-
-    def __init__(self) -> None:
-        self.config = {}
-
-        self.suspension = SuspensionData()
-        self.rpms = RPMData()
-        self.gps = GPSData()
-
-    def set_bytes():
-        pass
-
 class DataPacket():
 
     def __init__(self) -> None:
@@ -68,5 +56,49 @@ class DataPacket():
         self.gps = GPSData()
 
         self.rpm = RPMData()
+
+class ByteConfiguration():
+
+    def __init__(self, datapacket: DataPacket) -> None:
+        self.config = {}
+
+        self.datapacket = datapacket
+    
+
+    def config_1(self) -> list:
+        '''has all data in this byte config'''
+        s = ByteMap(self.datapacket.suspension, 1)
+        r = ByteMap(self.datapacket.rpm, s.endIndex + 1)
+        g = ByteMap(self.datapacket.rpm, r.endIndex + 1)
+
+        config_1 = [s, r, g]
+
+        return config_1
+    
+    def match_config(self, selection: int) -> dict:
+
+        if selection == 1:
+            return self.config_1()
+
+class ByteMap:
+
+    def __init__(self, datatype : GeneralData, startIndex: int) -> None:
+        self.datatype = datatype
+        self.startIndex = startIndex
+
+    @property
+    def endIndex(self):
+        if self.datatype == DataPacket().suspension:
+            return self.startIndex + 7
+        elif self.datatype == DataPacket().gps:
+            return self.startIndex + 11
+        elif self.datatype == DataPacket().rpm:
+            return self.startIndex + 5
+        
+    @property
+    def struct_format(self):
+        return self.datatype.struct_format
+
+
 
     

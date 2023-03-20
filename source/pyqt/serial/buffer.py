@@ -56,7 +56,7 @@ class Buffer():
             #print(f"IN BUFFER: {self._buffer} NO START AND STOP FOUND")
             return
 
-        #print(f"START INDEX IS {startIndex}, END INDEX IS {endIndex}")
+        print(f"START INDEX IS {startIndex}, END INDEX IS {endIndex}")
         
         self.raw_output = [b for b in self._buffer[startIndex + 1:endIndex]]
         

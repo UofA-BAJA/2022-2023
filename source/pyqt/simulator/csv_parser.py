@@ -32,27 +32,27 @@ class CSVParser:
     def encode_content(self):
         '''ARDUINO IS LITTLE ENDIAN'''
         for row in self.csv_as_real_numbers:
-            empty_row = []
-
-            datatype = struct.pack("<b", int(row[0]))
-
-            empty_row.append(datatype)
+            emt = []
+            emt.append(struct.pack("B", 250))
+            emt.append(struct.pack("b", int(row[0])))
 
             for index in range(1, 8):
-                temp = bytearray(int(row[index]).to_bytes(2, 'little'))
+                temp = struct.pack("<h", int(row[index]))
                 
-                empty_row.append(hex(temp[0]))
-                empty_row.append(hex(temp[1]))
+                for b in temp: emt.append(chr(b))
+
 
             for index in range(8,11):
-                temp = struct.pack("<f", float(row[index]))
+                temp =  bytearray(struct.pack("<f", float(row[index])))
 
-                for singleByte in temp: empty_row.append(hex(singleByte))
+                for b in temp: emt.append(chr(b))
 
-            self.encoded_data.append(empty_row)
+            emt.append(struct.pack("B", 251))
+
+            self.encoded_data.append(emt)
 
     def get_line(self) -> list:
-        
+        print(f"NEW DATALINE IS {self.encoded_data[self.line_counter]}")
         if (self.line_counter > len(self.encoded_data)):
             self.line_counter = 0
         

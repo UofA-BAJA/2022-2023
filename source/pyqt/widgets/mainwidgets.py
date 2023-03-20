@@ -19,6 +19,8 @@ from simulator.csv_parser import CSVParser
 
 SCREEN_SCALAR = 2
 
+FAKE_DATA_TIME_PER_READING = 1000
+
 # Creating the main window
 class App(QtWidgets.QMainWindow):
     
@@ -37,10 +39,12 @@ class App(QtWidgets.QMainWindow):
 
         self.parser = CSVParser()
 
+        self.timer = QtCore.QTimer()
+        self.timer.timeout.connect(self.fake_data_buffering)
 
         self.tab_widget.setuptab.serial_attempt.connect(self.setupSerial)
 
-        self.tab_widget.setuptab.open_file_attempt.connect(self.fake_serial)
+        self.tab_widget.setuptab.open_file_attempt.connect(self.setup_fake_data)
 
         self.new_time = time.time()
 
@@ -65,27 +69,39 @@ class App(QtWidgets.QMainWindow):
         # for each_tab in self.tab_widget.all_tabs:
         #     self.tab_widget.setupSerial(each_tab, self.serial_port)
 
-    def fake_serial(self):
+    def setup_fake_data(self):
 
         self.parser.open_file(self.tab_widget.setuptab.file_cbox.currentText())
 
         self.parser.encode_content()
+
+        print("TIMER STARTED")
+
+        self.__start_timer()
+
+    def fake_data_buffering(self):
+
+        self.general_buffer(self.parser.get_line())
+
+        self.__start_timer()
 
     def serial_buffering(self):
         #print("readyRead Called")
 
         raw_text = self.serial.readAll()
 
-        self.buffer.raw_input = raw_text
-
-        self.tab_widget.setuptab.raw_serial_monitor.append(str(raw_text))
-
-        if self.buffer.full:
-            self.data_packager.parse(self.buffer.raw_output)#self.buffer.raw_input = raw_text
+        self.general_buffer(raw_text)
 
         #self.data_packet = self.data_packager.data_packet
 
-        
+    def general_buffer(self, input):
+
+        self.buffer.raw_input = input
+
+        self.tab_widget.setuptab.raw_serial_monitor.append(str(input))
+
+        if self.buffer.full:
+            self.data_packager.parse(self.buffer.raw_output)#self.buffer.raw_input = raw_text
 
 
     def updating(self):
@@ -103,7 +119,8 @@ class App(QtWidgets.QMainWindow):
         self.tab_widget.gpstab.update()
 
         
-
+    def __start_timer(self):
+        self.timer.start(FAKE_DATA_TIME_PER_READING)
 
 
   

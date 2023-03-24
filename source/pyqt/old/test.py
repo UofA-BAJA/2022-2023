@@ -1,6 +1,6 @@
 
 import re
-
+import struct
 import os
 s = '''<440,307,669,406>
 <461,567,539,334>
@@ -77,7 +77,12 @@ b.load
 
 x = [1,2,3,4,5,6]
 
-print(x)
+z =  ['\x0f', '\x00']
 
-del x[0:6]
-print(x)
+t = [print(type(temp)) for temp in z]
+
+
+
+#h = struct.unpack("h", b"".join(z))
+h = bytes("".join(z), "utf-8")
+print(h)

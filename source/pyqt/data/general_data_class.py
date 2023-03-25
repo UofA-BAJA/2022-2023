@@ -3,10 +3,6 @@ class GeneralData():
     def __init__(self) -> None:
         self.struct_format = ""
 
-        self.order = []
-
-        self.data_num = -1
-
         self.name = ""
 
         self.real_value = 0
@@ -39,6 +35,9 @@ class FrontRightSuspension(SuspensionData):
 
         self.name = "front_right_suspension"
 
+        self.exists
+        
+
 class FrontLeftSuspension(SuspensionData):
 
     def __init__(self) -> None:
@@ -66,13 +65,8 @@ class GPSData(GeneralData):
 
     def __init__(self) -> None:
         super().__init__()
-
-        self.longitude = 0
-        self.speed = 0
         
         self.struct_format = "f"
-
-        self.data_num = 1
 
 class Latitude(GPSData):
 

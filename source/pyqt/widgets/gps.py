@@ -38,13 +38,10 @@ class GPSWidget(GeneralTab):
                 c.append(random.randint(0,self.height()))
             
             self.master.append(c)
-        
-       
-    
+
     
     def paintEvent(self, event):
-        self.updateData()
-        
+        self.updateData()    
     
     def updateData(self) -> None:
      

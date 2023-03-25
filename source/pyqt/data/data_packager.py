@@ -175,9 +175,4 @@ class DataPackager():
             r_bytes.append(byte)
 
         return r_bytes
-
-
-
-
-
     

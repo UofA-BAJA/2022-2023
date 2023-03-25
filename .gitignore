@@ -49,3 +49,4 @@ source/pyqt/widgets/__pycache__/setup.cpython-39.pyc
 source/pyqt/widgets/__pycache__/suspension.cpython-39.pyc
 source/pyqt/widgets/__pycache__/tab.cpython-39.pyc
 source/pyqt/simulator/__pycache__/csv_parser.cpython-311.pyc
+source/pyqt/simulator/__pycache__/__init__.cpython-311.pyc

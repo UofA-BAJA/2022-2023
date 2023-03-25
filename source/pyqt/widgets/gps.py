@@ -5,6 +5,8 @@ from PyQt5 import QtWidgets, QtGui, QtCore
 from widgets.graph import GraphWidget
 from widgets.tab import GeneralTab
 
+from data.data_packager import DataPacket
+
 class GPSWidget(GeneralTab):
     def __init__(self):
         super().__init__()
@@ -36,13 +38,10 @@ class GPSWidget(GeneralTab):
                 c.append(random.randint(0,self.height()))
             
             self.master.append(c)
-        
-       
-    
+
     
     def paintEvent(self, event):
-        self.updateData()
-        
+        self.updateData()    
     
     def updateData(self) -> None:
      

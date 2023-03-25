@@ -4,7 +4,7 @@ from widgets.tab import GeneralTab
 
 from widgets.graph import GraphWidget, DataLine
 
-from data import data_packager
+from data.data_packager import DataPacket
 
 
 class SuspensionWidget(GeneralTab):
@@ -49,24 +49,6 @@ class SuspensionWidget(GeneralTab):
         self.min = make_nice_textbox("MIN")
         self.avg = make_nice_textbox("AVG")
 
-        summary_box.addWidget(self.max, 1, 0, alignment=QtCore.Qt.AlignmentFlag.AlignVCenter)
-        summary_box.addWidget(self.min, 2, 0, alignment=QtCore.Qt.AlignmentFlag.AlignVCenter)
-        summary_box.addWidget(self.avg, 3, 0, alignment=QtCore.Qt.AlignmentFlag.AlignVCenter)
-        
-        self.max_list = []
-        
-        for index, title in enumerate(title_boxes):
-            self.MAXlist = make_nice_textbox("Max " + title_boxes[index])
-            self.max_list.append(self.MAXlist)
-            summary_box.addWidget(self.max_list[index], 1, (index + 1) * 2, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
-        
-        self.min_list = []
-        
-        for index, title in enumerate(title_boxes):
-            MINlist = make_nice_textbox("Min " + title_boxes[index])
-            self.min_list.append(MINlist)
-            summary_box.addWidget(self.min_list[index], 2, (index + 1) * 2, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
-
         spacer_height = 20
         spacer_width = round(self.width() / 3)
 
@@ -110,7 +92,7 @@ class SuspensionWidget(GeneralTab):
 
         self.layout.addWidget(self.suspension_graph)
 
-    def updateData(self, data: data_packager):
+    def updateData(self, data: DataPacket):
         self.box_front_right_data = data.suspension.front_right
         self.box_front_left_data = data.suspension.front_left
         self.box_back_right_data = data.suspension.back_right

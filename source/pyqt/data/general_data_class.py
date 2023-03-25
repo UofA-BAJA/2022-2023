@@ -1,118 +1,120 @@
 class GeneralData():
 
     def __init__(self) -> None:
-        self.data_list = {}
+        self.struct_format = ""
 
-        self.delimiting_letter = ""
+        self.name = ""
 
-        self.empty = True
+        self.real_value = 0
 
-    def organize_split(self, l : list) -> None:
-        pass
-
-    def update_regex(self):
-        self.regex_match = f"(?<={self.delimiting_letter})(.*)(?={self.delimiting_letter})"
-
-    def clear(self):
-        for item in self.data_list:
-            self.data_list[item] = -1
+    @property
+    def byte_length(self):
+        if (self.struct_format == "h"):
+            return 2
+        elif (self.struct_format == "f"):
+            return 4
+        else:
+            return -1
+    
+    @property
+    def exists(self):
+        return bool(self.real_value)
 
 
 class SuspensionData(GeneralData):
 
     def __init__(self) -> None:
         super().__init__()
-        
-        self.delimiting_letter = "S"
 
-        self.data_list = {
-            "front_right" : 0,
-            "front_left" : 0,
-            "back_right" : 0,
-            "back_left" : 0,
-        }
+        self.struct_format = "h"
 
-        self.update_regex()
-
-
-    def organize_split(self, l : list) -> None:
-        for idx, val in enumerate(self.data_list):
-            self.data_list[val] = int(l[idx])
-
-    @property
-    def front_right(self):
-        return self.data_list["front_right"]
-    
-    @property
-    def front_left(self):
-        return self.data_list["front_left"]
-    
-    @property
-    def back_right(self):
-        return self.data_list["back_right"]
-    
-    @property
-    def back_left(self):
-        return self.data_list["back_left"]
-
-
-class GPSData(GeneralData):
+class FrontRightSuspension(SuspensionData):
 
     def __init__(self) -> None:
         super().__init__()
 
-        self.delimiting_letter = "G"
+        self.name = "front_right_suspension"
 
-        self.data_list = {
-            "latitude" : 0,
-            "longitude" : 0
-        }
+        self.exists
+        
 
-        self.update_regex()
+class FrontLeftSuspension(SuspensionData):
 
-    def organize_split(self, l : list) -> None:
-        for idx, val in enumerate(self.data_list):
-            self.data_list[val] = float(l[idx])
+    def __init__(self) -> None:
+        super().__init__()
 
-    @property
-    def latitude(self):
-        return self.data_list["latitude"]
-    
-    @property
-    def longitude(self):
-        return self.data_list["longitude"]
+        self.name = "front_left_suspension"
+
+class RearRightSuspension(SuspensionData):
+
+    def __init__(self) -> None:
+        super().__init__()
+
+        self.name = "rear_right_suspension"
+
+class RearLeftSuspension(SuspensionData):
+
+    def __init__(self) -> None:
+        super().__init__()
+
+        self.name = "rear_left_suspension"
+
+        
+        
+class GPSData(GeneralData):
+
+    def __init__(self) -> None:
+        super().__init__()
+        
+        self.struct_format = "f"
+
+class Latitude(GPSData):
+
+    def __init__(self) -> None:
+        super().__init__()
+
+        self.name = "latitude"
+
+class Longitude(GPSData):
+
+    def __init__(self) -> None:
+        super().__init__()
+
+        self.name = "longitude"
+
+class Speed(GPSData):
+
+    def __init__(self) -> None:
+        super().__init__()
+
+        self.name = "speed"
 
 
 class RPMData(GeneralData):
 
     def __init__(self) -> None:
         super().__init__()
+        
+        self.struct_format = "h"
 
-        self.delimiting_letter = "R"
+class FrontLeftRPM(RPMData):
 
-        self.data_list = {
-            "front_right" : 0,
-            "front_left" : 0,
-            "back" : 0,
-        }
+    def __init__(self) -> None:
+        super().__init__()
 
-        self.update_regex()
+        self.name = "front_left_rpm"
 
-    def organize_split(self, l : list) -> None:
+class FrontRightRPM(RPMData):
 
-        for idx, val in enumerate(self.data_list):
-            self.data_list[val] = float(l[idx])
+    def __init__(self) -> None:
+        super().__init__()
 
-    @property
-    def front_right(self):
-        return self.data_list["front_right"]
-    
-    @property
-    def front_left(self):
-        return self.data_list["front_left"]
-    
-    @property
-    def back(self):
-        return self.data_list["back"]
+        self.name = "front_right_rpm"
 
-    
+
+class RearRPM(RPMData):
+
+    def __init__(self) -> None:
+        super().__init__()
+
+        self.name = "rear_rpm"

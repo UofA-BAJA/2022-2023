@@ -1,3 +1,5 @@
+import os
+
 from PyQt5 import QtWidgets, QtCore, QtSerialPort
 
 from widgets.graph import GraphWidget, DataLine
@@ -7,8 +9,10 @@ MAX_SERIAL_TEXTBOX__CHAR_LENGTH = 10000
 
 class SetupWidget(GeneralTab):
     serial_attempt = QtCore.pyqtSignal()
+    open_file_attempt = QtCore.pyqtSignal()
 
     max_textbox_length = MAX_SERIAL_TEXTBOX__CHAR_LENGTH
+    
     def __init__(self):
         super(QtWidgets.QWidget, self).__init__()
 
@@ -23,9 +27,16 @@ class SetupWidget(GeneralTab):
         self.hertz_graph.add_dataline(self.hertz_data)
         self.hertz_graph.setup()
 
+        top_tab = QtWidgets.QTabWidget()
         self.setup_serial_configure()
+        self.setup_open_file()
+        top_tab.addTab(self.serial_select_tab, "SERIAL")
+        top_tab.addTab(self.file_select_tab, "FILE")
+        self.layout.addWidget(top_tab)
+
         self.setup_text_monitors()
 
+        
         self.layout.addWidget(self.hertz_graph)
 
     def setup_text_monitors(self) -> None:
@@ -48,7 +59,9 @@ class SetupWidget(GeneralTab):
 
     def setup_serial_configure(self) -> None:
 
-        self.config_layout = QtWidgets.QHBoxLayout()
+        self.serial_select_tab = QtWidgets.QWidget()
+
+        self.serial_select_layout = QtWidgets.QHBoxLayout()
 
         self.button = QtWidgets.QPushButton(
             text="Connect", 
@@ -62,11 +75,35 @@ class SetupWidget(GeneralTab):
         for s in QtSerialPort.QSerialPortInfo().availablePorts():
             self.cbox.addItem(s.portName())
 
-        self.config_layout.addWidget(self.button)
-        self.config_layout.addWidget(self.cbox)
+        self.serial_select_layout.addWidget(self.button)
+        self.serial_select_layout.addWidget(self.cbox)
+
+        self.serial_select_tab.setLayout(self.serial_select_layout)
+
+    def setup_open_file(self) -> None:
+
+        self.file_select_tab = QtWidgets.QWidget()
+
+        self.file_select_layout = QtWidgets.QHBoxLayout()
+
+        self.open_file_button = QtWidgets.QPushButton(
+            text="Open File", 
+        )
+
+        self.open_file_button.clicked.connect(self.open_file_attempt)
+
+        self.file_cbox = QtWidgets.QComboBox()
+
+        csv_path = os.path.abspath(os.getcwd()) + "\source\pyqt\simulator\csvs"
+        for csv in os.listdir(csv_path):
+            self.file_cbox.addItem(csv)
+
+        self.file_select_layout.addWidget(self.open_file_button)
+        self.file_select_layout.addWidget(self.file_cbox)
+
+        self.file_select_tab.setLayout(self.file_select_layout)
 
 
-        self.layout.addLayout(self.config_layout)
 
     @QtCore.pyqtSlot()
     def check_rawserial_box_length(self):

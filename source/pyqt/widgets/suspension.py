@@ -49,6 +49,20 @@ class SuspensionWidget(GeneralTab):
         self.min = make_nice_textbox("MIN")
         self.avg = make_nice_textbox("AVG")
 
+        self.max_list = []
+
+        for index, title in enumerate(title_boxes):
+            self.MAXlist = make_nice_textbox("Max " + title_boxes[index])
+            self.max_list.append(self.MAXlist)
+            summary_box.addWidget(self.max_list[index], 1, (index + 1) * 2, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
+
+        self.min_list = []
+
+        for index, title in enumerate(title_boxes):
+            MINlist = make_nice_textbox("Min " + title_boxes[index])
+            self.min_list.append(MINlist)
+            summary_box.addWidget(self.min_list[index], 2, (index + 1) * 2, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
+
         spacer_height = 20
         spacer_width = round(self.width() / 3)
 
@@ -93,15 +107,15 @@ class SuspensionWidget(GeneralTab):
         self.layout.addWidget(self.suspension_graph)
 
     def updateData(self, data: DataPacket):
-        self.box_front_right_data = data.suspension.front_right
-        self.box_front_left_data = data.suspension.front_left
-        self.box_back_right_data = data.suspension.back_right
-        self.box_back_left_data = data.suspension.back_left
+        self.box_front_right_data = data.front_right_suspension
+        self.box_front_left_data = data.front_left_suspension
+        self.box_back_right_data = data.rear_right_suspension
+        self.box_back_left_data = data.rear_left_suspension
         
-        self.front_right.update(data.suspension.front_right)
-        self.front_left.update(data.suspension.front_left)
-        self.back_right.update(data.suspension.back_right)
-        self.back_left.update(data.suspension.back_left)
+        self.front_right.update(data.front_right_suspension)
+        self.front_left.update(data.front_left_suspension)
+        self.back_right.updated(data.rear_right_suspension)
+        self.back_left.update(data.rear_left_suspension)
         
         self.add_Data_to_summary_Box()
 

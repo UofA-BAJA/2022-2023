@@ -86,3 +86,4 @@ t = [print(type(temp)) for temp in z]
 #h = struct.unpack("h", b"".join(z))
 h = bytes("".join(z), "utf-8")
 print(h)
+print(bool(3))

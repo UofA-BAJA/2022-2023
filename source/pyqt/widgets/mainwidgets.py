@@ -13,7 +13,7 @@ from widgets.analysis import AnalysisWidget
 from serial.port import Port
 from serial.buffer import Buffer
 
-from data.data_packager import DataPackager
+from data.data_packager import DataPackager, DataPacket
 
 from simulator.csv_parser import CSVParser
 
@@ -101,10 +101,11 @@ class App(QtWidgets.QMainWindow):
         self.tab_widget.setuptab.raw_serial_monitor.append(str(input))
 
         if self.buffer.full:
-            self.data_packager.parse(self.buffer.raw_output)#self.buffer.raw_input = raw_text
+            data = self.data_packager.parse(self.buffer.raw_output)#self.buffer.raw_input = raw_text
 
+        self.update_with_new_data(data)
 
-    def updating(self):
+    def update_with_new_data(self, data: DataPacket):
         '''this is where you update everything'''
         n = time.time()
         diff = n - self.new_time

@@ -38,14 +38,13 @@ class CSVParser:
 
             for index in range(1, 8):
                 temp = struct.pack("<h", int(row[index]))
-                
-                for b in temp: emt.append(chr(b))
+                for b in temp: emt.append(bytes([b]))
 
 
             for index in range(8,11):
-                temp =  bytearray(struct.pack("<f", float(row[index])))
-
-                for b in temp: emt.append(chr(b))
+                temp =  struct.pack("<f", float(row[index]))
+                #print(temp)
+                for b in temp: emt.append(bytes([b]))
 
             emt.append(struct.pack("B", 251))
 

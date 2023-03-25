@@ -9,7 +9,7 @@ class GeneralData():
 
         self.name = ""
 
-        self.value_as_real_num = 0
+        self.real_value = 0
 
     @property
     def byte_length(self):
@@ -19,6 +19,10 @@ class GeneralData():
             return 4
         else:
             return -1
+    
+    @property
+    def exists(self):
+        return bool(self.real_value)
 
 
 class SuspensionData(GeneralData):

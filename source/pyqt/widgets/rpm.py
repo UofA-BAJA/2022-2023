@@ -1,8 +1,9 @@
 from PyQt5 import QtWidgets
 
 from widgets.tab import GeneralTab
-
 from widgets.graph import GraphWidget, DataLine
+
+from data.data_packager import DataPacket
 
 
 class RPMWidget(GeneralTab):
@@ -38,8 +39,8 @@ class RPMWidget(GeneralTab):
         self.layout.addWidget(self.rpmGrapgh)
 
 
-    def updateData(self, data) -> None:
-        self.rpmData_right.update(data.rpm.front_right)
-        self.rpmData_left.update(data.rpm.front_left)
-        self.rpmData_back.update(data.rpm.back)
+    def updateData(self, data: DataPacket) -> None:
+        self.rpmData_right.update(data.front_right_rpm)
+        self.rpmData_left.update(data.front_left_rpm)
+        self.rpmData_back.update(data.rear_rpm)
         

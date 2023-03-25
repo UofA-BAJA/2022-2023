@@ -140,7 +140,7 @@ class DataPackager():
         
         bytes_index = self.b.byte_map[datatype]
 
-        print(f"LENGTH IS {len(in_bytes[bytes_index[0]: bytes_index[1] + 1])}")
+        #print(f"LENGTH IS {len(in_bytes[bytes_index[0]: bytes_index[1] + 1])}")
 
         temp_bytes = None
         for i in range(bytes_index[0], bytes_index[1] + 1 ):

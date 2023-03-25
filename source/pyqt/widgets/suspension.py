@@ -4,7 +4,7 @@ from widgets.tab import GeneralTab
 
 from widgets.graph import GraphWidget, DataLine
 
-from data import data_packager
+from data.data_packager import DataPacket
 
 
 class SuspensionWidget(GeneralTab):
@@ -95,8 +95,8 @@ class SuspensionWidget(GeneralTab):
 
         self.layout.addWidget(self.suspension_graph)
 
-    def updateData(self, data: data_packager):
-        self.front_right.update(data.suspension.front_right)
-        self.front_left.update(data.suspension.front_left)
-        self.back_right.update(data.suspension.back_right)
-        self.back_left.update(data.suspension.back_left)
+    def updateData(self, data: DataPacket):
+        self.front_right.update(data.front_right_suspension)
+        self.front_left.update(data.front_left_suspension)
+        self.back_right.update(data.rear_right_suspension)
+        self.back_left.update(data.rear_left_suspension)

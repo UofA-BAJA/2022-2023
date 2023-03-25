@@ -19,7 +19,7 @@ from simulator.csv_parser import CSVParser
 
 SCREEN_SCALAR = 2
 
-FAKE_DATA_TIME_PER_READING = 1000
+FAKE_DATA_TIME_PER_READING = 100
 
 # Creating the main window
 class App(QtWidgets.QMainWindow):
@@ -115,8 +115,8 @@ class App(QtWidgets.QMainWindow):
         #print(f"READY: {self.data_package}")
         #print(1 / diff)
         self.tab_widget.setuptab.updateData(diff)
-        self.tab_widget.suspensiontab.updateData(self.data_package)
-        self.tab_widget.rpmstab.updateData(self.data_package)
+        self.tab_widget.suspensiontab.updateData(data)
+        self.tab_widget.rpmstab.updateData(data)
         self.tab_widget.gpstab.update()
 
         

@@ -51,7 +51,7 @@ class CSVParser:
             self.encoded_data.append(emt)
 
     def get_line(self) -> list:
-        print(f"NEW DATALINE IS {self.encoded_data[self.line_counter]}")
+        #print(f"NEW DATALINE IS {self.encoded_data[self.line_counter]}")
         if (self.line_counter > len(self.encoded_data)):
             self.line_counter = 0
         

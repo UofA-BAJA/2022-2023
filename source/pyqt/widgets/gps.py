@@ -5,6 +5,8 @@ from PyQt5 import QtWidgets, QtGui, QtCore
 from widgets.graph import GraphWidget
 from widgets.tab import GeneralTab
 
+from data.data_packager import DataPacket
+
 class GPSWidget(GeneralTab):
     def __init__(self):
         super().__init__()

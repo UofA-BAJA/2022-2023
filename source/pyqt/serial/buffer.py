@@ -1,20 +1,33 @@
 import re
 from data.data_packager import DataPackager
+from PyQt5 import QtSerialPort
 
 class Buffer():
+    startMarker = 250
+    endMarker = 251
+
 
     def __init__(self) -> None:
         self._raw_input = ""
 
-        self._buffer = ""
+        self._buffer = []
 
-        self.start_char = "<"
-
-        self.end_char = ">"
+        self.raw_output = []
 
         self.datapackets = []
 
-        self.dp = DataPackager()
+        self.raw_bytes_rcvd = 0
+
+        self.full = False
+
+    def fill(self) -> None:
+        x = "z"
+
+        print(self.serial.readAll())
+             
+
+    def set_serial(self, serial: QtSerialPort) -> None:
+        self.serial = serial
 
     @property
     def raw_input(self): 
@@ -24,50 +37,31 @@ class Buffer():
     def raw_input(self, new):
         self._raw_input = new
 
+        self.full = False
         
         self._buffer += new
-        #print(f"\n\nBUFFER UPDATE :{self._buffer}")
 
-        self.process_buffer()
+        startIndex = endIndex = 0
 
+        for byteIndex, byte in enumerate(self._buffer):
 
-    def process_buffer(self):
-        self.datapackets = []
+            if ord(byte) == self.startMarker:
+                startIndex = byteIndex
 
-        pattern=r"(?<=\<)(.*?)(?=\>)"
+            if ord(byte) == self.endMarker and byteIndex > startIndex:
+                endIndex = byteIndex
+                break
 
-        string=self._buffer
+        if not endIndex:
+            #print(f"IN BUFFER: {self._buffer} NO START AND STOP FOUND")
+            return
 
-        datapackets_flag = re.search(pattern=pattern, string=string)
-       
-        datapackets = re.finditer(pattern=pattern, string=string)
-
-        if datapackets_flag is not None:
-            
-            self.add_to_datapacket(datapackets)
-
-            self.clear_buffer()
-
-            #print(f"DATAPACKETS :{self.datapackets}")
-            #print(f"PROCEESSED BUFFER :{self._buffer}")
-
+        #print(f"START INDEX IS {startIndex}, END INDEX IS {endIndex}")
         
-        else: 
-            #print(f"NO DATAPACKETS FOUND: {self._buffer}")
-            pass
-
-    def clear_buffer(self) -> None:
-
-        for data in self.datapackets:
-
-            self._buffer = self._buffer.replace(data, "")
-
-        self._buffer = self._buffer.replace("\n", "")
-
-    def add_to_datapacket(self, dp: re.finditer) -> None:
-
-        for data in dp:
-            temp = self.start_char + self._buffer[data.start(): data.end()] + self.end_char
+        self.raw_output = [b for b in self._buffer[startIndex + 1:endIndex]]
+        
+        del self._buffer[startIndex: endIndex + 1]
+        
+        self.full = True
+        #print(self.raw_output)
             
-            self.datapackets.append(temp)
-            #print(f"DATA IS: {self._buffer[data.start(): data.end()]}")

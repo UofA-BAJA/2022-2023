@@ -13,9 +13,13 @@ from widgets.analysis import AnalysisWidget
 from serial.port import Port
 from serial.buffer import Buffer
 
-from data.data_packager import DataPackager
+from data.data_packager import DataPackager, DataPacket
+
+from simulator.csv_parser import CSVParser
 
 SCREEN_SCALAR = 2
+
+FAKE_DATA_TIME_PER_READING = 100
 
 # Creating the main window
 class App(QtWidgets.QMainWindow):
@@ -33,13 +37,19 @@ class App(QtWidgets.QMainWindow):
 
         self.buffer = Buffer()
 
-        self.data_package = DataPackager()
+        self.data_packager = DataPackager()
+
+        self.parser = CSVParser()
+
+        self.timer = QtCore.QTimer()
+        self.timer.timeout.connect(self.fake_data_buffering)
 
         self.tab_widget.setuptab.serial_attempt.connect(self.setupSerial)
 
+        self.tab_widget.setuptab.open_file_attempt.connect(self.setup_fake_data)
+
         self.new_time = time.time()
 
-        
     def setupSerial(self):
         #print(self.tab_widget.setuptab.cbox.currentText())
         print("entered setupserial func")
@@ -51,8 +61,9 @@ class App(QtWidgets.QMainWindow):
             print(f"Successfully connected to serial port {self.tab_widget.setuptab.cbox.currentText()}")
             self.serial = serial
 
-            
-            serial.readyRead.connect(self.buffering)
+            serial.readyRead.connect(self.serial_buffering)
+            self.buffer.set_serial(self.serial)
+
         else:
             serial.close()
 
@@ -60,44 +71,59 @@ class App(QtWidgets.QMainWindow):
         # for each_tab in self.tab_widget.all_tabs:
         #     self.tab_widget.setupSerial(each_tab, self.serial_port)
 
-    def buffering(self):
+    def setup_fake_data(self):
+
+        self.parser.open_file(self.tab_widget.setuptab.file_cbox.currentText())
+
+        self.parser.encode_content()
+
+        print("TIMER STARTED")
+
+        self.__start_timer()
+
+    def fake_data_buffering(self):
+
+        self.general_buffer(self.parser.get_line())
+
+        self.__start_timer()
+
+    def serial_buffering(self):
         #print("readyRead Called")
 
-        raw_text = self.serial.readAll().data().decode()
+        raw_text = self.serial.readAll()
 
-        self.tab_widget.setuptab.raw_serial_monitor.append(raw_text)
+        self.general_buffer(raw_text)
 
-        self.buffer.raw_input = raw_text
+        #self.data_packet = self.data_packager.data_packet
 
-        for d in self.buffer.datapackets:
-            self.tab_widget.setuptab.data_monitor.append(d)
+    def general_buffer(self, input):
 
-        self.data_package.parse_packets(self.buffer.datapackets)
+        self.buffer.raw_input = input
 
-        
-        if (self.data_package.complete_new_packet_flag):
-            self.updating()
-        else: 
-            #print(f"NOT READY: {self.data_package}")
-            pass
-            
+        self.tab_widget.setuptab.raw_serial_monitor.append(str(input))
 
-    def updating(self):
+        if self.buffer.full:
+            data = self.data_packager.parse(self.buffer.raw_output)#self.buffer.raw_input = raw_text
+
+        self.update_with_new_data(data)
+
+    def update_with_new_data(self, data: DataPacket):
         '''this is where you update everything'''
         n = time.time()
         diff = n - self.new_time
 
         self.new_time = n
-
+        
         #print(f"READY: {self.data_package}")
         #print(1 / diff)
         self.tab_widget.setuptab.updateData(diff)
-        self.tab_widget.suspensiontab.updateData(self.data_package)
-        self.tab_widget.rpmstab.updateData(self.data_package)
+        self.tab_widget.suspensiontab.updateData(data)
+        self.tab_widget.rpmstab.updateData(data)
         self.tab_widget.gpstab.update()
 
         
-
+    def __start_timer(self):
+        self.timer.start(FAKE_DATA_TIME_PER_READING)
 
 
   
@@ -106,6 +132,7 @@ class App(QtWidgets.QMainWindow):
 class MyTabWidget(QtWidgets.QTabWidget):
     def __init__(self):
         super(QtWidgets.QWidget, self).__init__()
+        
         
         self.setuptab = SetupWidget()
         self.rpmstab = RPMWidget()

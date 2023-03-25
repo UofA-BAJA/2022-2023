@@ -1,5 +1,7 @@
 
 import re
+import struct
+import os
 s = '''<440,307,669,406>
 <461,567,539,334>
 <371,664,402,523>
@@ -73,3 +75,15 @@ b = bacteria()
 
 b.load
 
+x = [1,2,3,4,5,6]
+
+z =  ['\x0f', '\x00']
+
+t = [print(type(temp)) for temp in z]
+
+
+
+#h = struct.unpack("h", b"".join(z))
+h = bytes("".join(z), "utf-8")
+print(h)
+print(bool(3))

@@ -114,7 +114,7 @@ class SuspensionWidget(GeneralTab):
         
         self.front_right.update(data.front_right_suspension)
         self.front_left.update(data.front_left_suspension)
-        self.back_right.updated(data.rear_right_suspension)
+        self.back_right.update(data.rear_right_suspension)
         self.back_left.update(data.rear_left_suspension)
         
         self.add_Data_to_summary_Box()

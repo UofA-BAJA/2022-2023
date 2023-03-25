@@ -5,6 +5,8 @@ from widgets.graph import GraphWidget, DataLine
 
 from data.data_packager import DataPacket
 
+from widgets.graph import GraphWidget, DataLine
+
 
 class RPMWidget(GeneralTab):
     def __init__(self):

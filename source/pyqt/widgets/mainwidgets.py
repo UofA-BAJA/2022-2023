@@ -33,6 +33,8 @@ class App(QtWidgets.QMainWindow):
         self.tab_widget = MyTabWidget()
         self.setCentralWidget(self.tab_widget)
 
+        
+
         self.buffer = Buffer()
 
         self.data_packager = DataPackager()

@@ -92,7 +92,7 @@ class SuspensionWidget(GeneralTab):
 
         self.layout.addWidget(self.suspension_graph)
 
-    def updateData(self, data: data_packager):
+    def updateData(self, data: DataPacket):
         self.box_front_right_data = data.suspension.front_right
         self.box_front_left_data = data.suspension.front_left
         self.box_back_right_data = data.suspension.back_right

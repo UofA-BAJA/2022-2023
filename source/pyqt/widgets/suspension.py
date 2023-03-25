@@ -51,12 +51,6 @@ class SuspensionWidget(GeneralTab):
         summary_box.addWidget(min, 2, 0, alignment=QtCore.Qt.AlignmentFlag.AlignVCenter)
         summary_box.addWidget(avg, 3, 0, alignment=QtCore.Qt.AlignmentFlag.AlignVCenter)
 
-        
-        
-
-
-        
-
         spacer_height = 20
         spacer_width = round(self.width() / 3)
 

@@ -113,7 +113,7 @@ class App(QtWidgets.QMainWindow):
         diff = n - self.new_time
 
         self.new_time = n
-        print(data)
+        
         #print(f"READY: {self.data_package}")
         #print(1 / diff)
         self.tab_widget.setuptab.updateData(diff)

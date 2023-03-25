@@ -17,7 +17,9 @@ class SuspensionWidget(GeneralTab):
 
         self.configbox()
         self.setup_graph()
-
+        
+        self.max = [-1, -1, -1, -1]
+        self.min = [1000000, 1000000, 1000000, 1000000]
     def configbox(self):
 
         def make_nice_textbox(title) -> QtWidgets.QTextEdit:
@@ -43,13 +45,9 @@ class SuspensionWidget(GeneralTab):
 
             summary_box.addWidget(t, 0, (index + 1) * 2, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
 
-        max = make_nice_textbox("MAX")
-        min = make_nice_textbox("MIN")
-        avg = make_nice_textbox("AVG")
-
-        summary_box.addWidget(max, 1, 0, alignment=QtCore.Qt.AlignmentFlag.AlignVCenter)
-        summary_box.addWidget(min, 2, 0, alignment=QtCore.Qt.AlignmentFlag.AlignVCenter)
-        summary_box.addWidget(avg, 3, 0, alignment=QtCore.Qt.AlignmentFlag.AlignVCenter)
+        self.max = make_nice_textbox("MAX")
+        self.min = make_nice_textbox("MIN")
+        self.avg = make_nice_textbox("AVG")
 
         spacer_height = 20
         spacer_width = round(self.width() / 3)
@@ -68,6 +66,11 @@ class SuspensionWidget(GeneralTab):
 
     def setup_graph(self):
 
+        self.box_front_right_data = None
+        self.box_front_left_data = None
+        self.box_back_right_data = None
+        self.box_back_left_data = None
+        
         self.front_right = DataLine("front_right")
         self.front_right.setPenColor()
 
@@ -89,8 +92,44 @@ class SuspensionWidget(GeneralTab):
 
         self.layout.addWidget(self.suspension_graph)
 
-    def updateData(self, data: DataPacket):
-        self.front_right.update(data.front_right_suspension)
-        self.front_left.update(data.front_left_suspension)
-        self.back_right.update(data.rear_right_suspension)
-        self.back_left.update(data.rear_left_suspension)
+    def updateData(self, data: data_packager):
+        self.box_front_right_data = data.suspension.front_right
+        self.box_front_left_data = data.suspension.front_left
+        self.box_back_right_data = data.suspension.back_right
+        self.box_back_left_data = data.suspension.back_left
+        
+        self.front_right.update(data.suspension.front_right)
+        self.front_left.update(data.suspension.front_left)
+        self.back_right.update(data.suspension.back_right)
+        self.back_left.update(data.suspension.back_left)
+        
+        self.add_Data_to_summary_Box()
+
+    def add_Data_to_summary_Box(self):
+        if self.box_front_right_data > self.max[0]:
+            self.max[0] = self.box_front_right_data
+        if self.box_front_left_data > self.max[1]:
+            self.max[1] = self.box_front_left_data
+        if self.box_back_right_data > self.max[2]:
+            self.max[2] = self.box_back_right_data
+        if self.box_back_left_data > self.max[3]:
+            self.max[3] = self.box_back_left_data
+            
+        self.max_list[0].setText(str(self.max[0]))
+        self.max_list[1].setText(str(self.max[1]))
+        self.max_list[2].setText(str(self.max[2]))
+        self.max_list[3].setText(str(self.max[3]))
+        
+        if self.box_front_right_data < self.min[0]:
+            self.min[0] = self.box_front_right_data
+        if self.box_front_left_data < self.min[1]:
+            self.min[1] = self.box_front_left_data
+        if self.box_back_right_data < self.min[2]:
+            self.min[2] = self.box_back_right_data
+        if self.box_back_left_data < self.min[3]:
+            self.min[3] = self.box_back_left_data
+            
+        self.min_list[0].setText(str(self.min[0]))
+        self.min_list[1].setText(str(self.min[1]))
+        self.min_list[2].setText(str(self.min[2]))
+        self.min_list[3].setText(str(self.min[3]))

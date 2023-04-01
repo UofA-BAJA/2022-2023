@@ -63,5 +63,5 @@ class Buffer():
         del self._buffer[startIndex: endIndex + 1]
         
         self.full = True
-        #print(self.raw_output)
+        print(self.raw_output)
             

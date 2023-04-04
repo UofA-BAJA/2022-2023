@@ -4,9 +4,8 @@ This is the codebase for the University of Arizona BAJA Electrical Team, year 20
 For system diagrams: resources -> diagrams
 
 **This years officers and members include:**
-Quynn Bell (Webmaster),
-Michael Byerly (Electrical Lead),
-Alex Rolo (Father),
+Alex Romero (Electrical Lead),
+Michael Byerly (Father),
 Oliver Sjostrom,
 Alyssa Pomerleau,
 Henry Overbeck,
@@ -21,8 +20,7 @@ Juliana Levy
 
 **Languages include:**
 Python (Ground Station Systems),
-Python/C++ (Telemetry System),
-HTML5, CSS, PHP, Javascript (Web Design)
+C++ (Telemetry System),
 
 
 In order to make commits to the main branch, please get approval from Oliver or Alex first and they will review your code. If approved, your code will be reflected in the main branch of the codebase.

@@ -16,8 +16,8 @@ class GPSWidget(GeneralTab):
         self.counter = 0
         self.tab_name = "GPS"
         
-        
-        self.image_path = os.path.abspath(os.getcwd()) + r"\resources\gps\empty_Map.jpg"
+
+        self.image_path = os.path.abspath(os.getcwd()) + r"\res\empty_Map.jpg"
         self.image = QtGui.QPixmap(self.image_path)
 
         self.num_of_points = 30

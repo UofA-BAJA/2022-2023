@@ -12,7 +12,7 @@ class AnalysisWidget(GeneralTab):
         self.setLayout(self.layout)
 
         
-        self.tab_name = "Analysis"
+        self.tab_name = "Penis"
         
         self.l = QtWidgets.QLabel()
         self.l.setText(f"This is the {self.tab_name} tab")

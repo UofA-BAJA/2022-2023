@@ -15,7 +15,7 @@ class CSVParser:
         self.line_counter = 0
 
     def open_file(self, filepath): 
-        full_csv_path = os.path.abspath(os.getcwd()) + r"\source\pyqt\simulator\csvs" + "\\" + filepath
+        full_csv_path = os.path.abspath(os.getcwd()) + r"\src\Sensor Dashboard\simulator\csvs" + "\\" + filepath
         #print(full_csv_path)
         
         with open(full_csv_path, mode ='r')as file:

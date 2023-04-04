@@ -94,7 +94,7 @@ class SetupWidget(GeneralTab):
 
         self.file_cbox = QtWidgets.QComboBox()
 
-        csv_path = os.path.abspath(os.getcwd()) + "\source\pyqt\simulator\csvs"
+        csv_path = os.path.abspath(os.getcwd()) + "\src\Sensor Dashboard\simulator\csvs"
         for csv in os.listdir(csv_path):
             self.file_cbox.addItem(csv)
 

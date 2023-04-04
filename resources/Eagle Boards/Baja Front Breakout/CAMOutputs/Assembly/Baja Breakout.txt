@@ -1,7 +1,0 @@
-Partlist exported from C:/Users/Mike/Documents/EAGLE/projects/Baja Breakout/Baja Breakout.sch at 4/3/2023 13:00
-
-Qty Value         Device        Package Parts                                                                                      Description                                                                                                     POPULARITY PROD_ID    SF_ID     VALUE
-5                 CONN_03       1X03    HALL_EFFECT_1, HALL_EFFECT_2, PRESSURE_SENSOR_1, PRESSURE_SENSOR_2, STEERING_ANALOG_SENSOR Multi connection point. Often used as Generic Header-pin footprint for 0.1 inch spaced/style header connections                                      
-2                 CONN_04       1X04    LINEAR_ENCODER_1, LINEAR_ENCODER_2                                                         Multi connection point. Often used as Generic Header-pin footprint for 0.1 inch spaced/style header connections            CONN-09696                
-3   MOUNT-HOLE2.8 MOUNT-HOLE2.8 2,8     H1, H2, H4                                                                                 MOUNTING HOLE with drill center marker                                                                          15                                   
-2   RJ45          RJ45-8        RJ45-8  DATA, POWER                                                                                RJ45 Jack - 8 pin                                                                                                          CONN-08506 PRT-00643 RJ45 

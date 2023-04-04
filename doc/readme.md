@@ -7,6 +7,6 @@ To Get Setup
 4. Open Git Repository in VSCode from Github Desktop and sign into github on VSCode
 5. In terminal, execute the command "pip install PyQt5"
 6. In terminal, execute the command "pip install pyqtgraph"
-7. Go to src/Sensor Dashboard/__main__.py and run on VSCode
+7. Go to "src/Sensor Dashboard/__main__.py" and hit run on VSCode
 
 You are all setup!

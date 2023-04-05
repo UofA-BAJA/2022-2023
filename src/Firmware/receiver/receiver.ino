@@ -28,7 +28,7 @@
 #define LoraWan_RGB 0
 #endif
 
-#define RF_FREQUENCY                                868000000 // Hz
+#define RF_FREQUENCY                                915000000 // Hz
 
 #define TX_OUTPUT_POWER                             20        // dBm
 
@@ -47,7 +47,7 @@
 #define LORA_IQ_INVERSION_ON                        false
 
 
-#define RX_TIMEOUT_VALUE                            10000
+#define RX_TIMEOUT_VALUE                            1000
 #define BUFFER_SIZE                                 200 // Define the payload size here
 
 char txpacket[BUFFER_SIZE];
@@ -92,7 +92,9 @@ void setup() {
                                    LORA_CODINGRATE, 0, LORA_PREAMBLE_LENGTH,
                                    LORA_SYMBOL_TIMEOUT, LORA_FIX_LENGTH_PAYLOAD_ON,
                                    0, true, 0, 0, LORA_IQ_INVERSION_ON, true );
-    state=RX;
+    state=TX;
+
+    turnOnRGB(COLOR_SEND,0);
 }
 
 
@@ -114,6 +116,7 @@ void loop()
       break;
     case RX:
       //Serial.println("into RX mode");
+        turnOnRGB(COLOR_RECEIVED,0);
         Radio.Rx( 0 );
         state=LOWPOWER;
         break;
@@ -141,14 +144,17 @@ void OnTxTimeout( void )
 }
 void OnRxDone( uint8_t *payload, uint16_t size, int16_t rssi, int8_t snr )
 {
-    Rssi=rssi;
-    rxSize=size;
-    memcpy(rxpacket, payload, size );
-    rxpacket[size]='\0';
+    //Rssi=rssi;
+    //rxSize=size;
+    //memcpy(rxpacket, payload, size );
+    //rxpacket[size]='\0';
+    
     turnOnRGB(COLOR_RECEIVED,0);
     Radio.Sleep( );
 
-    Serial.printf("%s",rxpacket);
+    for (int i = 0; i < size; i++) {
+      Serial.write(payload[i]);
+      }
 
     state=TX;
 }

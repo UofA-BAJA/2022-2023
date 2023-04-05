@@ -28,7 +28,7 @@
 #define LoraWan_RGB 0
 #endif
 
-#define RF_FREQUENCY                                868000000 // Hz
+#define RF_FREQUENCY                                915000000 // Hz
 
 #define TX_OUTPUT_POWER                             20        // dBm
 
@@ -48,7 +48,9 @@
 
 
 #define RX_TIMEOUT_VALUE                            1000
-#define BUFFER_SIZE                                 30 // Define the payload size here
+#define BUFFER_SIZE                                 200 // Define the payload size here
+
+#define BUSY_PIN 7
 
 char txpacket[BUFFER_SIZE];
 char rxpacket[BUFFER_SIZE];
@@ -90,8 +92,8 @@ void recvBytesWithStartEndMarkers();
 
 void setup() {
     Serial1.begin(57600);//serial port
-    pinMode(7, OUTPUT);
-    digitalWrite(7, HIGH);
+    pinMode(BUSY_PIN, OUTPUT);
+    digitalWrite(BUSY_PIN, LOW);
     
     Serial.begin(115200);
 
@@ -113,7 +115,7 @@ void setup() {
                                    LORA_CODINGRATE, 0, LORA_PREAMBLE_LENGTH,
                                    LORA_SYMBOL_TIMEOUT, LORA_FIX_LENGTH_PAYLOAD_ON,
                                    0, true, 0, 0, LORA_IQ_INVERSION_ON, true );
-    state=TX;
+    state=RX;
 }
 
 
@@ -124,14 +126,18 @@ void loop()
   {
     case TX:
       turnOnRGB(COLOR_SEND,0);
+ 
       delay(1);
       
       bytesRecvd = 0;
-      digitalWrite(7, LOW); 
+      digitalWrite(BUSY_PIN, HIGH);
+      turnOnRGB(COLOR_JOINED,0); 
       while (bytesRecvd <= 9) {
         Serial.printf("\r\nentering serial function");
         recvBytesWithStartEndMarkers();
         }
+      digitalWrite(BUSY_PIN, LOW);
+
       Serial.printf("\r\nread in %d bytes", bytesRecvd);
       turnOnRGB(COLOR_SEND,0);
 
@@ -142,6 +148,7 @@ void loop()
       break;
     case RX:
       Serial.println("into RX mode");
+      turnOnRGB(COLOR_RECEIVED,0);
         Radio.Rx( 0 );
         state=LOWPOWER;
         break;
@@ -219,5 +226,4 @@ void recvBytesWithStartEndMarkers() {
       }
      }
     }
-  digitalWrite(7, HIGH);
 } 

@@ -1,11 +1,11 @@
 class GeneralData():
 
-    def __init__(self) -> None:
+    def __init__(self, name, byte_length, units) -> None:
         self.struct_format = ""
 
         self.name = ""
 
-        self.real_value = 0
+        self.value = 0
 
     @property
     def byte_length(self):

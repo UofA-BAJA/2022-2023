@@ -1,0 +1,87 @@
+{
+    "datatypes" : [
+        {
+            "sensor_name" : "front_right_suspension",
+            "byte_length" : 2,
+            "units" : "in"
+        },
+        {
+            "sensor_name" : "front_left_suspension",
+            "byte_length" : 2,
+            "units" : "in"
+        },
+        {
+            "sensor_name" : "rear_right_suspension",
+            "byte_length" : 2,
+            "units" : "in"
+        },
+        {
+            "sensor_name" : "rear_left_suspension",
+            "byte_length" : 2,
+            "units" : "in"
+        },
+        {
+            "sensor_name" : "front_right_rpm",
+            "byte_length" : 2,
+            "units" : "rpm"
+        },
+        {
+            "sensor_name" : "front_left_rpm",
+            "byte_length" : 2,
+            "units" : "rpm"
+        },
+        {
+            "sensor_name" : "rear_rpm",
+            "byte_length" : 2,
+            "units" : "rpm"
+        },
+        {
+            "sensor_name" : "latitude",
+            "byte_length" : 4,
+            "units" : "degrees"
+        },
+        {
+            "sensor_name" : "longitude",
+            "byte_length" : 4,
+            "units" : "degrees"
+        },
+        {
+            "sensor_name" : "speed",
+            "byte_length" : 4,
+            "units" : "mph"
+        },
+        {
+            "sensor_name" : "front_brake_pressure",
+            "byte_length" : 2,
+            "units" : "psi"
+        },
+        {
+            "sensor_name" : "rear_brake_pressure",
+            "byte_length" : 2,
+            "units" : "psi"
+        },
+        {
+            "sensor_name" : "steering_angle",
+            "byte_length" : 2,
+            "units" : "degrees"
+        }
+    ],
+    "data_configurations" : [
+        {
+            "configuration_number" : 1,
+            "datatype_order" : [
+                "front_right_suspension",
+                "front_left_suspension",
+                "rear_right_suspension",
+                "rear_left_suspension",
+                "front_right_rpm",
+                "front_left_rpm",
+                "rear_rpm",
+                "latitude",
+                "longitude",
+                "speed"
+                ],
+            "description" : "all normal data types"
+        }
+    ]
+}

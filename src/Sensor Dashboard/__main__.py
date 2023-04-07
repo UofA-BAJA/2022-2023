@@ -1,5 +1,5 @@
 
-from data.database_wrapper_class import Database_Wrapper
+from db.database_wrapper_class import Database_Wrapper
 from serial.port import Port
 from widgets.mainwidgets import setupApp, showapp
 

@@ -1,18 +1,19 @@
-class GeneralData():
+class GeneralDatatype():
 
-    def __init__(self) -> None:
-        self.struct_format = ""
+    def __init__(self, name, byte_length, units) -> None:
 
-        self.name = ""
+        self.name = name
 
-        self.real_value = 0
+        self.byte_length = byte_length
+
+        self.units = units
 
     @property
-    def byte_length(self):
-        if (self.struct_format == "h"):
-            return 2
-        elif (self.struct_format == "f"):
-            return 4
+    def struct_format(self) -> str:
+        if (self.byte_length == 2):
+            return "h"
+        elif (self.byte_length == 4):
+            return "f"
         else:
             return -1
     
@@ -21,7 +22,7 @@ class GeneralData():
         return bool(self.real_value)
 
 
-class SuspensionData(GeneralData):
+class SuspensionData(GeneralDatatype):
 
     def __init__(self) -> None:
         super().__init__()
@@ -61,7 +62,7 @@ class RearLeftSuspension(SuspensionData):
 
         
         
-class GPSData(GeneralData):
+class GPSData(GeneralDatatype):
 
     def __init__(self) -> None:
         super().__init__()
@@ -90,7 +91,7 @@ class Speed(GPSData):
         self.name = "speed"
 
 
-class RPMData(GeneralData):
+class RPMData(GeneralDatatype):
 
     def __init__(self) -> None:
         super().__init__()

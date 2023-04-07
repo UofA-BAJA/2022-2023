@@ -9,6 +9,7 @@ class ByteMap():
 
     def __init__(self) -> None:
         self.byte_map = {}
+        self.config_number = 0
 
     def add_datatype(self, datatype: GeneralDatatype) -> None:
 
@@ -55,7 +56,7 @@ class DataPackager():
 
         for data_configuration in self.json_dict["data_configurations"]:
             empty = ByteMap()
-            
+
             data_configuration["configuration_number"]
 
     def parse(self, byteArr: list) -> DataPacket:

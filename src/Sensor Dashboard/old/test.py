@@ -82,7 +82,7 @@ z =  ['\x0f', '\x00']
 t = [print(type(temp)) for temp in z]
 
 
-
+print(x[1:])
 #h = struct.unpack("h", b"".join(z))
 h = bytes("".join(z), "utf-8")
 print(h)

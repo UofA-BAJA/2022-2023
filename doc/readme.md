@@ -11,3 +11,5 @@ To Get Setup
 7. Go to src/Sensor Dashboard/\_\_main\_\_.py and hit run on VSCode
 
 You are all setup!
+
+[System Design](https://miro.com/app/board/uXjVPmue7Ws=/?share_link_id=932758396569)

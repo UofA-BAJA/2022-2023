@@ -66,7 +66,7 @@
             "units" : "degrees"
         }
     ],
-    "data_configuration" : [
+    "data_configurations" : [
         {
             "configuration_number" : 1,
             "datatype_order" : [

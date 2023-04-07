@@ -1,101 +1,16 @@
 import struct
+import json
+import os
 
 from data.general_data_class import *
-
-class DataPacket():
-
-    def __init__(self, configuration: int) -> None:
-        self.datatypes = []
-
-        self.data = {}
-
-        self.fill_datatypes_list(configuration=configuration)
-
-    def fill_datatypes_list(self, configuration: int):
-
-        configs = {
-            1 : [
-                FrontRightSuspension(),
-                FrontLeftSuspension(),
-                RearRightSuspension(),
-                RearLeftSuspension(),
-                FrontLeftRPM(),
-                FrontRightRPM(),
-                RearRPM(),
-                Latitude(),
-                Longitude(),
-                Speed()
-                ]
-            }
-        
-        self.datatypes = configs[configuration]
-
-        def fill_dict(datatype: GeneralData):
-            self.data[datatype.name] = datatype
-
-        for datatype in self.datatypes:
-            fill_dict(datatype)
-
-    @property
-    def front_right_suspension(self):
-        return self.data[FrontRightSuspension().name].real_value
-
-    @property
-    def front_left_suspension(self):
-        return self.data[FrontLeftSuspension().name].real_value
-    
-    @property
-    def rear_right_suspension(self):
-        return self.data[RearRightSuspension().name].real_value
-    
-    @property
-    def rear_left_suspension(self):
-        return self.data[RearLeftSuspension().name].real_value
-    
-    @property
-    def front_right_rpm(self):
-        return self.data[FrontRightRPM().name].real_value
-
-    @property
-    def front_left_rpm(self):
-        return self.data[FrontLeftRPM().name].real_value
-    
-    @property
-    def rear_rpm(self):
-        return self.data[RearRPM().name].real_value
-    
-    @property
-    def latitude(self):
-        return self.data[Latitude().name].real_value
-    
-    @property
-    def longitude(self):
-        return self.data[Longitude().name].real_value
-    
-    @property
-    def speed(self):
-        return self.data[Speed().name].real_value
-    
-    def __repr__(self) -> str:
-        temp = ""
-
-        for datatype_name in self.data:
-            temp += f"\n{datatype_name}: {self.data[datatype_name].real_value}"
-
-        return temp
-    
-    @property
-    def length_in_bytes(self):
-        "TODO: ITERATE THROUGH DATATYPES.BYTES LENGTH AND ADD THEM UP"
-        pass
-        
+from data.datapacket import DataPacket
 
 class ByteMap():
 
     def __init__(self) -> None:
         self.byte_map = {}
 
-    def add_datatype(self, datatype: GeneralData) -> None:
+    def add_datatype(self, datatype: GeneralDatatype) -> None:
 
         if not self.byte_map:
             self.byte_map[datatype] = [1, datatype.byte_length]
@@ -115,7 +30,33 @@ class DataPackager():
     specialByte = 252
     "GETS A SINGLE LINE FROM BUFFER AND THEN MAKES IT EASY FOR THE PROGRAMMER TO GET IT"
     def __init__(self) -> None:
-        pass
+        
+        json_data_path = os.path.abspath(os.getcwd()) + "\.config\data.json"
+
+        self.json_dict = json.load(open(json_data_path))
+        
+        self.all_datatypes = self.create_all_datatypes()
+
+        self.create_all_byte_maps()
+
+        print(self.all_datatypes)
+
+    def create_all_datatypes(self) -> list:
+
+        all_datatypes = []
+
+        for datatype in self.json_dict["datatypes"]:
+            all_datatypes.append(GeneralDatatype(datatype["sensor_name"], datatype["byte_length"], datatype["units"]))
+
+        return all_datatypes
+    
+    def create_all_byte_maps(self):
+        all_byte_maps = []
+
+        for data_configuration in self.json_dict["data_configurations"]:
+            empty = ByteMap()
+            
+            data_configuration["configuration_number"]
 
     def parse(self, byteArr: list) -> DataPacket:
         self.b = ByteMap()
@@ -136,7 +77,7 @@ class DataPackager():
         
         
 
-    def fill_datapacket(self, datatype: GeneralData, in_bytes: list):
+    def fill_datapacket(self, datatype: GeneralDatatype, in_bytes: list):
         
         bytes_index = self.b.byte_map[datatype]
 

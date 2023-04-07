@@ -1,4 +1,4 @@
-this folder is for documenation
+[System Design](https://miro.com/app/board/uXjVPmue7Ws=/?share_link_id=932758396569)
 
 To Get Setup for Sensor Dashboard Development
 1. Install [Python](https://www.python.org/downloads/) if not installed
@@ -23,4 +23,4 @@ To Get Setup for CAD
 
 You are all setup!
 
-[System Design](https://miro.com/app/board/uXjVPmue7Ws=/?share_link_id=932758396569)
+

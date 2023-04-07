@@ -129,7 +129,9 @@ class DataPackager():
         for datatype in datapacket.datatypes:
             self.b.add_datatype(datatype)
 
+        print(f"length of input bytes {len(just_data_bytes)}")
         for datatype in datapacket.datatypes:
+            
             self.fill_datapacket(datatype, just_data_bytes)
 
         return datapacket
@@ -141,6 +143,7 @@ class DataPackager():
         bytes_index = self.b.byte_map[datatype]
 
         #print(f"LENGTH IS {len(in_bytes[bytes_index[0]: bytes_index[1] + 1])}")
+        
 
         temp_bytes = None
         for i in range(bytes_index[0], bytes_index[1] + 1 ):

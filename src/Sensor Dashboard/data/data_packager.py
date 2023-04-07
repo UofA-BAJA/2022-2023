@@ -13,7 +13,7 @@ class DataPacket():
 
     def fill_datatypes_list(self, configuration: int):
 
-        configs = {
+        self.configs = {
             1 : [
                 FrontRightSuspension(),
                 FrontLeftSuspension(),
@@ -28,13 +28,20 @@ class DataPacket():
                 ]
             }
         
-        self.datatypes = configs[configuration]
+        self.datatypes = self.configs[configuration]
 
         def fill_dict(datatype: GeneralData):
             self.data[datatype.name] = datatype
 
         for datatype in self.datatypes:
             fill_dict(datatype)
+
+    def get_all_valid_configurations(self) -> list:
+        
+        config_selection_keys = [config_num for config_num, config in self.configs]
+
+        return config_selection_keys
+
 
     @property
     def front_right_suspension(self):
@@ -136,26 +143,24 @@ class DataPackager():
 
         return datapacket
         
-        
 
     def fill_datapacket(self, datatype: GeneralData, in_bytes: list):
         
-        bytes_index = self.b.byte_map[datatype]
+        bytes_index_list = self.b.byte_map[datatype]
 
-        #print(f"LENGTH IS {len(in_bytes[bytes_index[0]: bytes_index[1] + 1])}")
-        
+        #print(f"FOR {datatype} BYTE INDEX IS {bytes_index_list} and CONVERTED {in_bytes[bytes_index_list[0]: bytes_index_list[1] + 1]} to {temp_bytes}")
+        #print(f"THIS MIGHT WORK {b''.join(in_bytes[bytes_index_list[0]: bytes_index_list[1] + 1])}")
 
-        temp_bytes = None
-        for i in range(bytes_index[0], bytes_index[1] + 1 ):
-            if i == bytes_index[0]:
-                temp_bytes = in_bytes[i]
-            else:
-                temp_bytes += in_bytes[i]
+        matched_bytes_hex = in_bytes[bytes_index_list[0]: bytes_index_list[1] + 1] #gets the appropiate datatype byte indecies from in bytes
 
-        #print(f"FOR {datatype} BYTE INDEX IS {bytes_index}")
-        #print(f"CONVERTED {in_bytes[bytes_index[0]: bytes_index[1] + 1]} to {temp_bytes}")
-        datatype.real_value = struct.unpack(datatype.struct_format, temp_bytes )[0]
-
+        match_bytes_bytearray = bytearray([ord(x) for x in matched_bytes_hex]) 
+       
+        #print(f"diff is old: {type(temp_bytes)} and new:{type(new_temp)} maybe this {bytearray(t)}")
+        try:
+            datatype.real_value = struct.unpack(datatype.struct_format, match_bytes_bytearray )[0]
+        except struct.error:
+            print(f"FAILED ON {match_bytes_bytearray} trying to match to {datatype.name}")
+            print(f"LEN of inbytes is {len(in_bytes)}")
 
     def delete_esc_bytes(self, byteArr) -> list:
         r_bytes = []
@@ -179,3 +184,15 @@ class DataPackager():
 
         return r_bytes
     
+    def validate_data(self, byteArr: list) -> bool:
+        '''True means data is good
+        False means data is no good'''
+        b = DataPacket(1)
+
+        config_select_byte = byteArr[0]
+        
+        if ord(config_select_byte) not in b.configs.keys():
+            print(f"BAD CONFIG KEY {config_select_byte}")
+            return False
+        
+        return True

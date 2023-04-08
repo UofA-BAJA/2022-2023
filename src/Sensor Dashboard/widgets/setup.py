@@ -110,6 +110,8 @@ class SetupWidget(GeneralTab):
         
         if self.check_max_length(self.raw_serial_monitor.toPlainText()):
             self.raw_serial_monitor.clear()
+            self.data_monitor.clear()
+
             print("Serial Cleared")
 
     def check_max_length(self, text: str) -> bool:

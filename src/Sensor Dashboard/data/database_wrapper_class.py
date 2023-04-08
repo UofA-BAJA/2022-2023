@@ -39,7 +39,7 @@ class Database_Wrapper():
 
         working_directory_path = os.path.abspath(os.getcwd())
 
-        db_path = working_directory_path + f"\source\pyqt\db\{table_name}.db"
+        db_path = working_directory_path + f"src\Sensor Dashboard\db\test.db"
         #print(db_path)
 
         sql_create_data_table = """ CREATE TABLE IF NOT EXISTS projects (

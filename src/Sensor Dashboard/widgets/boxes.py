@@ -47,15 +47,3 @@ class Boxes():
 
         #print(temp)
         return big_str
-
-        
-b = Boxes()
-
-
-for i in range(20):
-    print(b.all_boxes)
-    b.update_box("".join([str(i) for x in range(20)]))
-    print(b.compress())
-
-print(b.compress())
-

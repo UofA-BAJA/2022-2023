@@ -108,8 +108,6 @@ class App(QtWidgets.QMainWindow):
 
         self.tab_widget.setuptab.raw_serial_monitor.setText(self.box.compress())
 
-        self.tab_widget.setuptab.raw_serial_monitor.setText("asdasd")
-
         if self.buffer.full:
 
             if self.data_packager.validate_data(self.buffer.raw_output):

@@ -103,11 +103,14 @@ class App(QtWidgets.QMainWindow):
         self.tab_widget.setuptab.raw_serial_monitor.append(str(input))
 
         if self.buffer.full:
-            data = self.data_packager.parse(self.buffer.raw_output)#self.buffer.raw_input = raw_text
 
-            self.tab_widget.setuptab.data_monitor.append(str(self.buffer.raw_output))
+            if self.data_packager.validate_configuration(self.buffer.raw_output):
+                
+                data = self.data_packager.parse(self.buffer.raw_output)#self.buffer.raw_input = raw_text
 
-            self.update_with_new_data(data)
+                self.tab_widget.setuptab.data_monitor.append(str(self.buffer.raw_output))
+
+                self.update_with_new_data(data)
 
     def update_with_new_data(self, data: DataPacket):
         '''this is where you update everything'''

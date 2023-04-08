@@ -75,21 +75,8 @@ class DataPackager():
         #print(all_byte_maps)
 
     def parse(self, byteArr: list) -> DataPacket:
-        self.b = ByteMap()
-        
-        just_data_bytes = self.delete_esc_bytes(byteArr)
-
-        byte_config_selector = ord(just_data_bytes[0])
-
-        datapacket = DataPacket(byte_config_selector)
-
-        for datatype in datapacket.datatypes:
-            self.b.add_datatype(datatype)
-
-        for datatype in datapacket.datatypes:
-            self.fill_datapacket(datatype, just_data_bytes)
-
-        return datapacket
+        '''converts the bytes in to the datapacket'''
+        pass
         
         
 
@@ -133,7 +120,7 @@ class DataPackager():
 
         return r_bytes
     
-    def validate_datapacket(self, input_bytes) -> bool:
+    def validate_configuration(self, input_bytes) -> bool:
         '''if datapacket has a valid configuration number
         return true'''
         self.new_datapacket = DataPacket()
@@ -145,7 +132,7 @@ class DataPackager():
         for bytemap in self.all_byte_maps:
 
             if bytemap.config_number == configuration_number:
-                matching_byte_map = bytemap
+                self.new_datapacket.datatypes.append(bytemap.byte_map.keys())
                 break
                 for datatype in bytemap.byte_map.keys():
                     self.new_datapacket.datatypes.append(datatype)

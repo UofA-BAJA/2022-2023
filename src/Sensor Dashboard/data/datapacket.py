@@ -5,6 +5,8 @@ class DataPacket():
     def __init__(self) -> None:
         self.datatypes = []
 
+        
+
 
     @property
     def all_new_data(self) -> dict:

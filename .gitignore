@@ -3,3 +3,19 @@ src/Sensor Dashboard/serial/__pycache__
 src/Sensor Dashboard/simulator/__pycache__
 src/Sensor Dashboard/widgets/__pycache__
 .vscode/settings.json
+source/pyqt/__pycache__/database_wrapper_class.cpython-311.pyc
+source/pyqt/data/__pycache__/__init__.cpython-311.pyc
+source/pyqt/data/__pycache__/data_packager.cpython-311.pyc
+source/pyqt/data/__pycache__/general_data_class.cpython-311.pyc
+source/pyqt/serial/__pycache__/__init__.cpython-311.pyc
+source/pyqt/serial/__pycache__/buffer.cpython-311.pyc
+source/pyqt/serial/__pycache__/port.cpython-311.pyc
+source/pyqt/widgets/__pycache__/__init__.cpython-311.pyc
+source/pyqt/widgets/__pycache__/analysis.cpython-311.pyc
+source/pyqt/widgets/__pycache__/gps.cpython-311.pyc
+source/pyqt/widgets/__pycache__/graph.cpython-311.pyc
+source/pyqt/widgets/__pycache__/mainwidgets.cpython-311.pyc
+source/pyqt/widgets/__pycache__/rpm.cpython-311.pyc
+source/pyqt/widgets/__pycache__/setup.cpython-311.pyc
+source/pyqt/widgets/__pycache__/suspension.cpython-311.pyc
+source/pyqt/widgets/__pycache__/tab.cpython-311.pyc

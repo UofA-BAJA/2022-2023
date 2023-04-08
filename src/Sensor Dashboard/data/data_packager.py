@@ -43,7 +43,7 @@ class DataPackager():
 
         self.all_byte_maps = self.create_all_byte_maps()
 
-        #print(self.all_datatypes)
+        print(self.all_byte_maps)
 
     def create_all_datatypes(self) -> list[GeneralDatatype]:
 
@@ -72,30 +72,31 @@ class DataPackager():
 
             all_byte_maps.append(empty)
 
-        #print(all_byte_maps)
+        return all_byte_maps
 
-    def parse(self, byteArr: list) -> DataPacket:
+    def parse(self, byte_array: list) -> DataPacket:
         '''converts the bytes in to the datapacket'''
-        pass
+
+        escaped_byte_array = self.delete_esc_bytes(byte_array)
+      
+        for datatype, byte_indice in self.new_datapacket.__byte_map.byte_map.items():
+            
+            temp_bytes = None
+
+            for i in range(byte_indice[0], byte_indice[1] + 1 ):
+                if i == byte_indice[0]:
+
+                    temp_bytes = byte_array[i]
+                else:
+                    
+                    temp_bytes += byte_array[i]
+
+            if len(temp_bytes) == datatype.byte_length:
+
+                datatype.value = struct.unpack(datatype.struct_format, temp_bytes )[0]
+
+            else: print("FAILED")
         
-        
-
-    def fill_datapacket(self, datatype: GeneralDatatype, in_bytes: list):
-        
-        bytes_index = self.b.byte_map[datatype]
-
-        #print(f"LENGTH IS {len(in_bytes[bytes_index[0]: bytes_index[1] + 1])}")
-
-        temp_bytes = None
-        for i in range(bytes_index[0], bytes_index[1] + 1 ):
-            if i == bytes_index[0]:
-                temp_bytes = in_bytes[i]
-            else:
-                temp_bytes += in_bytes[i]
-
-        #print(f"FOR {datatype} BYTE INDEX IS {bytes_index}")
-        #print(f"CONVERTED {in_bytes[bytes_index[0]: bytes_index[1] + 1]} to {temp_bytes}")
-        datatype.real_value = struct.unpack(datatype.struct_format, temp_bytes )[0]
 
 
     def delete_esc_bytes(self, byteArr) -> list:
@@ -125,19 +126,16 @@ class DataPackager():
         return true'''
         self.new_datapacket = DataPacket()
 
-        configuration_number = input_bytes[0]
+        configuration_number = ord(input_bytes[0])
 
-        matching_byte_map = None
-
+        
         for bytemap in self.all_byte_maps:
 
             if bytemap.config_number == configuration_number:
-                self.new_datapacket.datatypes.append(bytemap.byte_map.keys())
-                break
-                for datatype in bytemap.byte_map.keys():
-                    self.new_datapacket.datatypes.append(datatype)
+                self.new_datapacket.__byte_map = bytemap
+                return True
+                
 
-        if matching_byte_map is None:
-            print(f"No byte map for config {configuration_number}")
-            return False
-        else: return True
+        print(f"No byte map for config {configuration_number}")
+        return False
+         

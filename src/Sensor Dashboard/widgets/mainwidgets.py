@@ -105,7 +105,7 @@ class App(QtWidgets.QMainWindow):
         if self.buffer.full:
 
             if self.data_packager.validate_configuration(self.buffer.raw_output):
-                
+
                 data = self.data_packager.parse(self.buffer.raw_output)#self.buffer.raw_input = raw_text
 
                 self.tab_widget.setuptab.data_monitor.append(str(self.buffer.raw_output))
@@ -121,7 +121,7 @@ class App(QtWidgets.QMainWindow):
         
         #print(f"READY: {self.data_package}")
         #print(1 / diff)
-        print(data.front_right_rpm)
+        #print(data.front_right_rpm)
         self.tab_widget.setuptab.updateData(diff)
         self.tab_widget.suspensiontab.updateData(data)
         self.tab_widget.rpmstab.updateData(data)

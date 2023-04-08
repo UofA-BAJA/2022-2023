@@ -1,12 +1,13 @@
+import struct
+
 from data.general_data_class import *
+
 
 class DataPacket():
 
     def __init__(self) -> None:
         self.datatypes = []
-
-        
-
+        self.__byte_map = None
 
     @property
     def all_new_data(self) -> dict:
@@ -22,6 +23,9 @@ class DataPacket():
             if datatype.is_new:
 
                 new_data[datatype.name] = datatype
+
+
+
 
         
     

@@ -45,8 +45,6 @@ class FrontRightSuspension(SuspensionData):
         super().__init__()
 
         self.name = "front_right_suspension"
-
-        self.exists
         
 
 class FrontLeftSuspension(SuspensionData):

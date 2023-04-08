@@ -63,13 +63,11 @@ class SuspensionWidget(GeneralTab):
             self.min_list.append(MINlist)
             summary_box.addWidget(self.min_list[index], 2, (index + 1) * 2, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
 
-        spacer_height = 20
-        spacer_width = round(self.width() / 3)
-
-        verticalSpacerTop = QtWidgets.QSpacerItem(spacer_width, spacer_height)
-
-        verticalSpacerBottom = QtWidgets.QSpacerItem(spacer_width, spacer_height)
-
+        self.reset_button = QtWidgets.QPushButton(text="Reset Data")
+        summary_box.addWidget(self.reset_button, 3, 2, alignment=QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.reset_button.clicked.connect(self.clear_data)
+        self.tare_vals = [0,0,0,0]
+        
         layout.addLayout(summary_box)
         #layout.addSpacerItem(verticalSpacerTop)
         
@@ -120,30 +118,24 @@ class SuspensionWidget(GeneralTab):
         self.add_Data_to_summary_Box()
 
     def add_Data_to_summary_Box(self):
-        if self.box_front_right_data > self.max[0]:
-            self.max[0] = self.box_front_right_data
-        if self.box_front_left_data > self.max[1]:
-            self.max[1] = self.box_front_left_data
-        if self.box_back_right_data > self.max[2]:
-            self.max[2] = self.box_back_right_data
-        if self.box_back_left_data > self.max[3]:
-            self.max[3] = self.box_back_left_data
-            
-        self.max_list[0].setText(str(self.max[0]))
-        self.max_list[1].setText(str(self.max[1]))
-        self.max_list[2].setText(str(self.max[2]))
-        self.max_list[3].setText(str(self.max[3]))
         
-        if self.box_front_right_data < self.min[0]:
-            self.min[0] = self.box_front_right_data
-        if self.box_front_left_data < self.min[1]:
-            self.min[1] = self.box_front_left_data
-        if self.box_back_right_data < self.min[2]:
-            self.min[2] = self.box_back_right_data
-        if self.box_back_left_data < self.min[3]:
-            self.min[3] = self.box_back_left_data
-            
-        self.min_list[0].setText(str(self.min[0]))
-        self.min_list[1].setText(str(self.min[1]))
-        self.min_list[2].setText(str(self.min[2]))
-        self.min_list[3].setText(str(self.min[3]))
+        box_data = [self.box_front_right_data, self.box_front_left_data, self.box_back_right_data, self.box_back_left_data]
+        
+        for data_index, obj in enumerate(box_data):
+            new_point = obj - self.tare_vals[data_index]
+            box_data[data_index] = new_point
+        
+        for i in range(4):
+            if box_data[i] > self.max[i]:
+                self.max[i] = box_data[i]
+                self.max_list[i].setText(str(self.max[i]))
+                
+                
+            if box_data[i] < self.min[i]:
+                self.min[i] = box_data[i]
+                self.min_list[i].setText(str(self.min[i]))
+    
+    def clear_data(self):
+        self.tare_vals = [self.box_front_right_data, self.box_front_left_data, self.box_back_right_data, self.box_back_left_data]
+        self.max = self.tare_vals
+        self.min = self.tare_vals

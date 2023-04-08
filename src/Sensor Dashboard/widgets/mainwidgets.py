@@ -20,7 +20,7 @@ from simulator.csv_parser import CSVParser
 
 SCREEN_SCALAR = 2
 
-FAKE_DATA_TIME_PER_READING = 10
+FAKE_DATA_TIME_PER_READING = 500
 
 # Creating the main window
 class App(QtWidgets.QMainWindow):

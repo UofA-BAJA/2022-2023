@@ -184,6 +184,7 @@ def showapp(ex: App, app: QtWidgets.QApplication):
     ex.show()
 
     sys.exit(app.exec_())
-
-
-
+    
+    
+    
+    

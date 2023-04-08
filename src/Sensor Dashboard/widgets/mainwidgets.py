@@ -19,7 +19,7 @@ from simulator.csv_parser import CSVParser
 
 SCREEN_SCALAR = 2
 
-FAKE_DATA_TIME_PER_READING = 100
+FAKE_DATA_TIME_PER_READING = 1
 
 # Creating the main window
 class App(QtWidgets.QMainWindow):
@@ -101,6 +101,8 @@ class App(QtWidgets.QMainWindow):
         self.buffer.raw_input = input
 
         self.tab_widget.setuptab.raw_serial_monitor.append(str(input))
+
+        self.tab_widget.setuptab.raw_serial_monitor.setText("asdasd")
 
         if self.buffer.full:
 

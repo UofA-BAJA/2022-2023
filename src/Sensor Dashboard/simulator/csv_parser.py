@@ -52,9 +52,9 @@ class CSVParser:
 
     def get_line(self) -> list:
         #print(f"NEW DATALINE IS {self.encoded_data[self.line_counter]}")
-        if (self.line_counter > len(self.encoded_data)):
+        if (self.line_counter >= len(self.encoded_data)):
             self.line_counter = 0
-        
+        print(f"{self.line_counter}")
         temp = self.encoded_data[self.line_counter]
 
         self.line_counter += 1

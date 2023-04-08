@@ -201,6 +201,7 @@ class DataPackager():
         
         if config_length+1 != len(byteArr):
             print(f"config length is {config_length} but data length is {len(byteArr)}")
+            print(f"input is {byteArr}")
 
             return False
         

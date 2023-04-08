@@ -2,3 +2,4 @@ src/Sensor Dashboard/data/__pycache__
 src/Sensor Dashboard/serial/__pycache__
 src/Sensor Dashboard/simulator/__pycache__
 src/Sensor Dashboard/widgets/__pycache__
+.vscode/settings.json

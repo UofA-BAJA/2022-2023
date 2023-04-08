@@ -9,6 +9,7 @@ from widgets.gps import GPSWidget
 from widgets.rpm import RPMWidget
 from widgets.suspension import SuspensionWidget
 from widgets.analysis import AnalysisWidget
+from widgets.boxes import Boxes
 
 from serial.port import Port
 from serial.buffer import Buffer
@@ -19,7 +20,7 @@ from simulator.csv_parser import CSVParser
 
 SCREEN_SCALAR = 2
 
-FAKE_DATA_TIME_PER_READING = 100
+FAKE_DATA_TIME_PER_READING = 10
 
 # Creating the main window
 class App(QtWidgets.QMainWindow):
@@ -38,6 +39,8 @@ class App(QtWidgets.QMainWindow):
         self.buffer = Buffer()
 
         self.data_packager = DataPackager()
+
+        self.box = Boxes()
 
         self.parser = CSVParser()
 
@@ -100,7 +103,10 @@ class App(QtWidgets.QMainWindow):
         #print(input)
         self.buffer.raw_input = input
 
-        self.tab_widget.setuptab.raw_serial_monitor.append(str(input))
+        self.box.update_box(str(input))
+        #self.tab_widget.setuptab.raw_serial_monitor.append(str(input))
+
+        self.tab_widget.setuptab.raw_serial_monitor.setText(self.box.compress())
 
         if self.buffer.full:
 

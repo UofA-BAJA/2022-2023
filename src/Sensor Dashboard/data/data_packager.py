@@ -136,7 +136,7 @@ class DataPackager():
         for datatype in datapacket.datatypes:
             self.b.add_datatype(datatype)
 
-        print(f"length of input bytes {len(just_data_bytes)}")
+        #print(f"length of input bytes {len(just_data_bytes)}")
         for datatype in datapacket.datatypes:
             
             self.fill_datapacket(datatype, just_data_bytes)
@@ -194,5 +194,15 @@ class DataPackager():
         if ord(config_select_byte) not in b.configs.keys():
             print(f"BAD CONFIG KEY {config_select_byte}")
             return False
+        
+        config_length = 0
+        for datatype in b.datatypes:
+            config_length += datatype.byte_length
+        
+        if config_length+1 != len(byteArr):
+            print(f"config length is {config_length} but data length is {len(byteArr)}")
+
+            return False
+        
         
         return True

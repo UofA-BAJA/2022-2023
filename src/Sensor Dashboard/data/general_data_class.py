@@ -8,6 +8,10 @@ class GeneralDatatype():
 
         self.units = units
 
+        self.__value = None
+
+        self.is_new = False
+
     @property
     def struct_format(self) -> str:
         if (self.byte_length == 2):
@@ -18,8 +22,14 @@ class GeneralDatatype():
             return -1
     
     @property
-    def exists(self):
-        return bool(self.real_value)
+    def value(self):
+        return self.__value
+    
+    @value.setter
+    def value(self, new_value):
+        self.__value = new_value
+
+        self.is_new = True
 
 
 class SuspensionData(GeneralDatatype):

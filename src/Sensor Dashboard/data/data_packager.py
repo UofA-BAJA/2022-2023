@@ -25,6 +25,9 @@ class ByteMap():
 
             self.byte_map[datatype] = [curr_max_index + 1, (curr_max_index + 1) + datatype.byte_length-1]
 
+    def create_byte_map(self, datatypes :list[GeneralDatatype]) -> dict[GeneralDatatype: [int, int]]:
+        pass
+
             
 
 class DataPackager():
@@ -38,11 +41,11 @@ class DataPackager():
         
         self.all_datatypes = self.create_all_datatypes()
 
-        self.create_all_byte_maps()
+        self.all_byte_maps = self.create_all_byte_maps()
 
-        print(self.all_datatypes)
+        #print(self.all_datatypes)
 
-    def create_all_datatypes(self) -> list:
+    def create_all_datatypes(self) -> list[GeneralDatatype]:
 
         all_datatypes = []
 
@@ -51,13 +54,25 @@ class DataPackager():
 
         return all_datatypes
     
-    def create_all_byte_maps(self):
+    def create_all_byte_maps(self) -> list[ByteMap]:
         all_byte_maps = []
 
         for data_configuration in self.json_dict["data_configurations"]:
             empty = ByteMap()
 
-            data_configuration["configuration_number"]
+            empty.config_number =  data_configuration["configuration_number"]
+
+            for datatype_name in data_configuration["datatype_order"]:
+                
+                for datatype in self.all_datatypes:
+                    #print(datatype_name)
+                    if datatype.name == datatype_name:
+                        empty.add_datatype(datatype)
+                        break
+
+            all_byte_maps.append(empty)
+
+        #print(all_byte_maps)
 
     def parse(self, byteArr: list) -> DataPacket:
         self.b = ByteMap()
@@ -118,3 +133,24 @@ class DataPackager():
 
         return r_bytes
     
+    def validate_datapacket(self, input_bytes) -> bool:
+        '''if datapacket has a valid configuration number
+        return true'''
+        self.new_datapacket = DataPacket()
+
+        configuration_number = input_bytes[0]
+
+        matching_byte_map = None
+
+        for bytemap in self.all_byte_maps:
+
+            if bytemap.config_number == configuration_number:
+                matching_byte_map = bytemap
+                break
+                for datatype in bytemap.byte_map.keys():
+                    self.new_datapacket.datatypes.append(datatype)
+
+        if matching_byte_map is None:
+            print(f"No byte map for config {configuration_number}")
+            return False
+        else: return True

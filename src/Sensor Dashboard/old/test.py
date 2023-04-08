@@ -87,3 +87,6 @@ t = [print(type(temp)) for temp in z]
 h = bytes("".join(z), "utf-8")
 print(h)
 print(bool(3))
+
+def j(i) -> dict[str: list[int, int]]:
+    return {str(i): [1, 2]}

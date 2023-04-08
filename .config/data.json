@@ -82,6 +82,19 @@
                 "speed"
                 ],
             "description" : "all normal data types"
+        },
+        {
+            "configuration_number" : 2,
+            "datatype_order" : [
+                "front_right_suspension",
+                "front_left_suspension",
+                "rear_right_suspension",
+                "rear_left_suspension",
+                "front_right_rpm",
+                "front_left_rpm",
+                "rear_rpm"
+                ],
+            "description" : "just adc and digital"
         }
     ]
 }

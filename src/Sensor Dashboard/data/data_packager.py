@@ -158,10 +158,17 @@ class DataPackager():
         #print(f"for {datatype.name}: raw bytes: {match_bytes_bytearray}")
         
         try:
-            datatype.real_value = struct.unpack(datatype.struct_format, match_bytes_bytearray )[0]
+            sensor_value = struct.unpack(datatype.struct_format, match_bytes_bytearray )[0]
+
+            if datatype.value_in_range(sensor_value):
+                datatype.real_value = sensor_value
+            else:
+                print(f"tried to assign {datatype.name} to value {sensor_value}")
             #print(f"sucesssfully converted to {datatype.real_value}")
         except struct.error:
-            print(f"failed to convert {match_bytes_bytearray} to a number")
+            print(f"failed to convert {match_bytes_bytearray} to a number, previous value is {datatype.previous_value}")
+
+            datatype.real_value = datatype.previous_value
         #print()
 
     def delete_esc_bytes(self, byteArr) -> list:

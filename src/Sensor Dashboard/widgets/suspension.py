@@ -111,6 +111,9 @@ class SuspensionWidget(GeneralTab):
         self.box_front_left_data = data.front_left_suspension
         self.box_back_right_data = data.rear_right_suspension
         self.box_back_left_data = data.rear_left_suspension
+
+        if data.front_right_suspension > 1024 or data.front_right_suspension < 0:
+            print(f"full datapcket is {data}")
         
         self.front_right.update(data.front_right_suspension)
         self.front_left.update(data.front_left_suspension)

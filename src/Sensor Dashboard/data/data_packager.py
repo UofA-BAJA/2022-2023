@@ -161,7 +161,7 @@ class DataPackager():
             datatype.real_value = struct.unpack(datatype.struct_format, match_bytes_bytearray )[0]
             #print(f"sucesssfully converted to {datatype.real_value}")
         except struct.error:
-            #print(f"failed to convert {match_bytes_bytearray} to a number")
+            print(f"failed to convert {match_bytes_bytearray} to a number")
         #print()
 
     def delete_esc_bytes(self, byteArr) -> list:

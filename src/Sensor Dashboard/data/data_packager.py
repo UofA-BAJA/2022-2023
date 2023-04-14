@@ -126,6 +126,7 @@ class DataPackager():
 
     def parse(self, byteArr: list) -> DataPacket:
         self.b = ByteMap()
+        print(byteArr)
         
         just_data_bytes = self.delete_esc_bytes(byteArr)
 
@@ -151,14 +152,17 @@ class DataPackager():
 
         matched_bytes_hex = in_bytes[bytes_index_list[0]: bytes_index_list[1] + 1] #gets the appropiate datatype byte indecies from in bytes
 
-        match_bytes_bytearray = bytearray([ord(x) for x in matched_bytes_hex]) 
-       
-        #print(f"diff is old: {type(temp_bytes)} and new:{type(new_temp)} maybe this {bytearray(t)}")
+        match_bytes_bytearray = bytearray([ord(x) for x in matched_bytes_hex])
+
+        #print()
+        #print(f"for {datatype.name}: raw bytes: {match_bytes_bytearray}")
+        
         try:
             datatype.real_value = struct.unpack(datatype.struct_format, match_bytes_bytearray )[0]
+            #print(f"sucesssfully converted to {datatype.real_value}")
         except struct.error:
-            print(f"FAILED ON {match_bytes_bytearray} trying to match to {datatype.name}")
-            print(f"LEN of inbytes is {len(in_bytes)}")
+            #print(f"failed to convert {match_bytes_bytearray} to a number")
+        #print()
 
     def delete_esc_bytes(self, byteArr) -> list:
         r_bytes = []

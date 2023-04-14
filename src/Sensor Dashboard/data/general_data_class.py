@@ -57,9 +57,7 @@ class RearLeftSuspension(SuspensionData):
     def __init__(self) -> None:
         super().__init__()
 
-        self.name = "rear_left_suspension"
-
-        
+        self.name = "rear_left_suspension"      
         
 class GPSData(GeneralData):
 

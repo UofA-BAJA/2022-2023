@@ -147,7 +147,7 @@ void setup() {
 }
 
 void loop() {
-  delay(5);
+  delay(analogRead(A14));
   
   switch(state) {
     case(COLLECT_DATA):

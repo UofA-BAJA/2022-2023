@@ -1,6 +1,6 @@
 class GeneralDatatype():
 
-    def __init__(self, name, byte_length, units) -> None:
+    def __init__(self, name, byte_length, units, value_range) -> None:
 
         self.name = name
 
@@ -11,6 +11,10 @@ class GeneralDatatype():
         self.__value = None
 
         self.is_new = False
+
+        self.maximum_value = value_range[1]
+
+        self.minimum_value = value_range[0]
 
     @property
     def struct_format(self) -> str:

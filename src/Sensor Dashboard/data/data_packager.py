@@ -52,7 +52,10 @@ class DataPackager():
         all_datatypes = []
 
         for datatype in self.json_dict["datatypes"]:
-            all_datatypes.append(GeneralDatatype(datatype["sensor_name"], datatype["byte_length"], datatype["units"]))
+            all_datatypes.append(GeneralDatatype(datatype["sensor_name"],
+                                                  datatype["byte_length"],
+                                                    datatype["units"],
+                                                    datatype["value_range"]))
 
         return all_datatypes
     
@@ -106,7 +109,12 @@ class DataPackager():
                 try:
                     sensor_value = struct.unpack(datatype.struct_format, temp_bytes )[0]
 
-                    self.datapacket.fill_data(datatype.name, sensor_value)
+                    if sensor_value >= datatype.minimum_value and sensor_value <= datatype.maximum_value:
+
+                        self.datapacket.fill_data(datatype.name, sensor_value)
+
+                    else: self.datapacket.fill_data(datatype.name, self.datapacket.data[datatype.name])
+
 
                 except struct.error:
 

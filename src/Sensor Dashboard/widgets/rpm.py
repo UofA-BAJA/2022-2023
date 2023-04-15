@@ -42,7 +42,7 @@ class RPMWidget(GeneralTab):
 
 
     def updateData(self, data: DataPacket) -> None:
-        self.rpmData_right.update(data.front_right_rpm)
-        self.rpmData_left.update(data.front_left_rpm)
-        self.rpmData_back.update(data.rear_rpm)
+        self.rpmData_right.update(data["front_right_rpm"])
+        self.rpmData_left.update(data["front_left_rpm"])
+        self.rpmData_back.update(data["rear_rpm"])
         

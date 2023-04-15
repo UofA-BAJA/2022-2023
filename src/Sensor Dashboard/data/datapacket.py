@@ -6,23 +6,17 @@ from data.general_data_class import *
 class DataPacket():
 
     def __init__(self) -> None:
-        self.datatypes = []
         self.__byte_map = None
 
-    @property
-    def all_new_data(self) -> dict:
-        '''returns a dict that is 
-        {
-            "sensor_name" : sensor_obj
-        }'''
+        self.data = {}
 
-        new_data = {}
 
-        for datatype in self.datatypes:
 
-            if datatype.is_new:
+    def fill_data(self, datatype_name, value):
 
-                new_data[datatype.name] = datatype
+        self.data[datatype_name] = value
+
+    
 
 
 

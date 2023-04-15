@@ -110,7 +110,7 @@ class App(QtWidgets.QMainWindow):
 
                 self.tab_widget.setuptab.data_monitor.append(str(self.buffer.raw_output))
 
-                self.update_with_new_data(data)
+                self.update_with_new_data(data.data)
 
     def update_with_new_data(self, data: DataPacket):
         '''this is where you update everything'''

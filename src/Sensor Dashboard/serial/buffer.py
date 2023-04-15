@@ -19,11 +19,6 @@ class Buffer():
         self.raw_bytes_rcvd = 0
 
         self.full = False
-
-    def fill(self) -> None:
-        x = "z"
-
-        print(self.serial.readAll())
              
 
     def set_serial(self, serial: QtSerialPort) -> None:
@@ -63,5 +58,5 @@ class Buffer():
         del self._buffer[startIndex: endIndex + 1]
         
         self.full = True
-        print(self.raw_output)
+        #print(self.raw_output)
             

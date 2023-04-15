@@ -107,15 +107,15 @@ class SuspensionWidget(GeneralTab):
         self.layout.addWidget(self.suspension_graph)
 
     def updateData(self, data: DataPacket):
-        self.box_front_right_data = data.front_right_suspension
-        self.box_front_left_data = data.front_left_suspension
-        self.box_back_right_data = data.rear_right_suspension
-        self.box_back_left_data = data.rear_left_suspension
+        self.box_front_right_data = data["front_right_suspension"]
+        self.box_front_left_data = data["front_left_suspension"]
+        self.box_back_right_data = data["rear_right_suspension"]
+        self.box_back_left_data = data["rear_left_suspension"]
         
-        self.front_right.update(data.front_right_suspension)
-        self.front_left.update(data.front_left_suspension)
-        self.back_right.update(data.rear_right_suspension)
-        self.back_left.update(data.rear_left_suspension)
+        self.front_right.update(data["front_right_suspension"])
+        self.front_left.update(data["front_left_suspension"])
+        self.back_right.update(data["rear_right_suspension"])
+        self.back_left.update(data["rear_left_suspension"])
         
         self.add_Data_to_summary_Box()
 

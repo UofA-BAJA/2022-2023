@@ -43,6 +43,8 @@ class DataPackager():
 
         self.all_byte_maps = self.create_all_byte_maps()
 
+        self.datapacket = DataPacket()
+
         print(self.all_byte_maps)
 
     def create_all_datatypes(self) -> list[GeneralDatatype]:
@@ -78,25 +80,44 @@ class DataPackager():
         '''converts the bytes in to the datapacket'''
 
         escaped_byte_array = self.delete_esc_bytes(byte_array)
+
+        data_bytes_exist_flag = True
       
         for datatype, byte_indice in self.new_datapacket.__byte_map.byte_map.items():
             
             temp_bytes = None
 
             for i in range(byte_indice[0], byte_indice[1] + 1 ):
+
+                try:
+                    t = escaped_byte_array[i]
+                except IndexError:
+                    data_bytes_exist_flag = False
+                    break
+
                 if i == byte_indice[0]:
 
-                    temp_bytes = byte_array[i]
+                    temp_bytes = escaped_byte_array[i]
                 else:
                     
-                    temp_bytes += byte_array[i]
+                    temp_bytes += escaped_byte_array[i]
 
-            if len(temp_bytes) == datatype.byte_length:
+            if data_bytes_exist_flag:
+                try:
+                    sensor_value = struct.unpack(datatype.struct_format, temp_bytes )[0]
 
-                datatype.value = struct.unpack(datatype.struct_format, temp_bytes )[0]
+                    self.datapacket.fill_data(datatype.name, sensor_value)
 
-            else: print("FAILED")
+                except struct.error:
+
+                    self.datapacket.fill_data(datatype.name, self.datapacket.data[datatype.name])
+
+
+            
+
         
+        
+        return self.datapacket
 
 
     def delete_esc_bytes(self, byteArr) -> list:

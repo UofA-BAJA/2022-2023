@@ -37,6 +37,11 @@ class GraphWidget(pg.PlotWidget):
         super(GraphWidget, self).__init__()
 
         self.datalines = {}
+        pg.setConfigOption('background', 'w')
+        
+        self.addLegend()
+
+      
 
     def add_dataline(self, d: DataLine):
         self.datalines[d.dataline_name] = d
@@ -47,4 +52,5 @@ class GraphWidget(pg.PlotWidget):
 
         for dataline_obj in self.datalines.values():
             dateline_curve_obj = self.plot(dataline_obj.x, dataline_obj.y, pen = dataline_obj.pen)
+            
             dataline_obj.curveline(dateline_curve_obj)

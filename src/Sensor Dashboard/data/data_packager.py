@@ -126,7 +126,7 @@ class DataPackager():
 
     def parse(self, byteArr: list) -> DataPacket:
         self.b = ByteMap()
-        print(byteArr)
+        #print(byteArr)
         
         just_data_bytes = self.delete_esc_bytes(byteArr)
 

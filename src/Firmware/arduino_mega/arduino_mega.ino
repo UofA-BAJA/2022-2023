@@ -6,7 +6,7 @@
 
 //---------------------------------
 //pins
-#define BUSY_PIN 8
+#define BUSY_PIN 11
 
 #define REAR_PIN 2
 #define FRONT_LEFT_PIN 3
@@ -147,7 +147,7 @@ void setup() {
 }
 
 void loop() {
-  delay(analogRead(A14));
+  delay(50);
   
   switch(state) {
     case(COLLECT_DATA):

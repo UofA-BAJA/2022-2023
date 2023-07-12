@@ -3,6 +3,7 @@ src/Sensor Dashboard/serial/__pycache__
 src/Sensor Dashboard/simulator/__pycache__
 src/Sensor Dashboard/widgets/__pycache__
 .vscode/settings.json
+/.VSCodeCounter
 source/pyqt/__pycache__/database_wrapper_class.cpython-311.pyc
 source/pyqt/data/__pycache__/__init__.cpython-311.pyc
 source/pyqt/data/__pycache__/data_packager.cpython-311.pyc
